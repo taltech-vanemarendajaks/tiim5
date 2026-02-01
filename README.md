@@ -20,9 +20,9 @@ Branches:
 Commit messages should include the task nr or id and shortly mention the changes made. 
 
 All Pull Requests must have a description of:
-- **what** is done
-- **why** is it done
-- **how** is it done. 
+- **What** is done
+- **Why** is it done
+- **How** is it done
 
 If there are design changes then please also include a picture. 
 
