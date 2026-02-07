@@ -1,11 +1,11 @@
 
 ## Project overview
-StudyPlanner is a full-stack web application built for creating a study plan that aligns with the students' curriculum. The technical stack contains of Angular for frontend and Java Springboot for backend.
+StudyPlanner is a full-stack web application built for creating a study plan that aligns with the students' curriculum. The technical stack contains of Angular for frontend and Java Spring Boot for backend.
 
 
 ## Architecture
 
-* **Backend**: Spring Boot with Java 21, PostgreSQL database
+* **Backend**: Spring Boot with Java 25, PostgreSQL database
 * **Frontend**:Angular
 * **Database**: PostgreSQL with Liquibase migrations
 * **Containerization**: Docker for development environment
@@ -29,3 +29,7 @@ If there are design changes then please also include a picture.
 The whole team is assigned for review, need **at least two approvals** in order to merge the changes. 
 
 
+### Commands
+
+For running backend:
+**./gradlew bootrun**
