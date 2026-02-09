@@ -1,8 +1,8 @@
 plugins {
-	java
-	id("org.springframework.boot") version "3.5.1"
-	id("io.spring.dependency-management") version "1.1.7"
-	id("com.diffplug.spotless") version "8.2.1"
+    java
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.spotless)
 }
 
 group = "com.tiim5"
@@ -20,12 +20,12 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
-	
-	developmentOnly("org.springframework.boot:spring-boot-devtools")
+    implementation(libs.spring.boot.starter.web)
+    implementation(libs.springdoc.webmvc.ui)
 
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+    developmentOnly(libs.spring.boot.devtools)
+
+    testImplementation(libs.spring.boot.starter.test)
 }
 
 tasks.withType<Test> {
