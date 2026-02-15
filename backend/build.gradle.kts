@@ -20,12 +20,13 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.spring.boot.starter.web)
+    implementation(libs.spring.boot.starter.webmvc) 
     implementation(libs.springdoc.webmvc.ui)
 
     developmentOnly(libs.spring.boot.devtools)
 
     testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.spring.boot.starter.webmvc.test)
 }
 
 tasks.withType<Test> {

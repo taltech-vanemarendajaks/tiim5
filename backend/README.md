@@ -35,5 +35,5 @@ http://localhost:8080/docs
 
 For code formatting please run the command:
 ```
-.\gradlew.bat spotlessApply
+./gradlew.bat spotlessApply
 ```
