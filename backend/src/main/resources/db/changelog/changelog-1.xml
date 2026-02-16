@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="16.02.2026" author="kaisa.karjus">
+        <sql>
+            CREATE TABLE IF NOT EXISTS users
+            (
+                id SERIAL CONSTRAINT pk_user PRIMARY KEY,
+                name VARCHAR(225) NOT NULL
+                );
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
