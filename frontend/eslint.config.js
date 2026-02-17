@@ -4,6 +4,7 @@ const { defineConfig } = require("eslint/config");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
 const unusedImports = require("eslint-plugin-unused-imports");
+const eslintConfigPrettier = require("eslint-config-prettier");
 
 module.exports = defineConfig([
   {
@@ -13,6 +14,7 @@ module.exports = defineConfig([
       tseslint.configs.recommended,
       tseslint.configs.stylistic,
       angular.configs.tsRecommended,
+      eslintConfigPrettier
     ],
     processor: angular.processInlineTemplates,
     plugins: {
