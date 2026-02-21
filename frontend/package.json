@@ -10,18 +10,6 @@
     "serve:ssr:frontend": "node dist/frontend/server/server.mjs",
     "lint": "ng lint"
   },
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
-      }
-    ]
-  },
   "private": true,
   "packageManager": "npm@11.8.0",
   "dependencies": {
