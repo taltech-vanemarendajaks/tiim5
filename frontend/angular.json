@@ -10,7 +10,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "frontend": {
+    "studyplanner": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -65,10 +65,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "frontend:build:production"
+              "buildTarget": "studyplanner:build:production"
             },
             "development": {
-              "buildTarget": "frontend:build:development"
+              "buildTarget": "studyplanner:build:development"
             }
           },
           "defaultConfiguration": "development"

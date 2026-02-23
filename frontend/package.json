@@ -1,12 +1,12 @@
 {
-  "name": "frontend",
+  "name": "studyplanner",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "serve:ssr:frontend": "node dist/frontend/server/server.mjs",
+    "serve:ssr:studyplanner": "node dist/studyplanner/server/server.mjs",
     "lint": "ng lint",
     "prettier": "prettier --write \"src/**/*.{ts,js,css,html}\"",
     "prepare": "husky"
