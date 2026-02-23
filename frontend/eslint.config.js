@@ -51,6 +51,7 @@ module.exports = defineConfig([
       "@angular-eslint/prefer-standalone": "warn",
       "@angular-eslint/prefer-on-push-component-change-detection": "warn",
       "@angular-eslint/prefer-signals": "warn",
+      "eqeqeq": ["error", "smart"],
     },
   },
   {

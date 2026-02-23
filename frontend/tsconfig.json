@@ -16,7 +16,22 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
+    "strictStandalone": true,
+    "extendedDiagnostics": {
+      "checks": {
+        "invalidBananaInBox": "error",
+        "missingControlFlowDirective": "error",
+        "missingNgForOfLet": "error",
+        "controlFlowPreventingContentProjection": "error",
+        "unusedStandaloneImports": "warning",
+        "textAttributeNotBinding": "warning",
+        "suffixNotSupported": "warning",
+        "optionalChainNotNullable": "suppress",
+        "nullishCoalescingNotNullable": "suppress"
+      },
+      "defaultCategory": "error"
+    }
   },
   "files": [],
   "references": [
