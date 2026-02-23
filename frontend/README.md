@@ -1,59 +1,49 @@
-# Frontend
+### Frontend folder ###
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
+Angular 21 single-page application with server-side rendering support.
 
-## Development server
+### Prerequisites
 
-To start a local development server, run:
+- Node.js >= 20.0.0
+- npm 11.8+
 
-```bash
-ng serve
+### Running the frontend
+
+From the frontend directory:
+
+```
+npm install
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open http://localhost:4200 in your browser.
 
-## Code scaffolding
+### Running tests
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+**Unit tests:**
+```
+npm test
+```
+**E2E tests:**
+```
+npm run e2e
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Linting and formatting
 
-```bash
-ng generate --help
+ESLint and Prettier run automatically on staged files via Husky pre-commit hook. To run manually:
+
+```
+npm run lint
+npm run prettier
 ```
 
-## Building
+### Tech stack
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Angular 21 with SSR support
+- Tailwind CSS v4
+- Vitest for unit testing
+- Playwright for E2E testing
+- ESLint with angular-eslint
+- Prettier for formatting
+- Husky + lint-staged for pre-commit hooks
