@@ -5,7 +5,6 @@ Angular 21 single-page application with server-side rendering support.
 ### Prerequisites
 
 - Node.js >= 20.0.0
-- npm 11.8+
 
 ### Running the frontend
 
