@@ -8,13 +8,12 @@ spring:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
+    hikari:
+      schema: studyplanner
   liquibase:
     enabled: true
     change-log: classpath:/db/changelog/changelog.xml
     liquibase-schema: studyplanner
-  jpa:
-    hibernate:
-      ddl-auto: update
 
 springdoc:
   swagger-ui:

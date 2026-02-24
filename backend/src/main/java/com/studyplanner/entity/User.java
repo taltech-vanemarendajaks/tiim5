@@ -1,6 +1,7 @@
 package com.studyplanner.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,4 +16,7 @@ public class User extends BaseEntity {
 
   @Column(nullable = false)
   private String name;
+
+  @Column(nullable = false)
+  private LocalDateTime creationDate;
 }

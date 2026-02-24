@@ -1,6 +1,7 @@
 services:
   db:
-    image: postgres:16
+    build:
+      dockerfile: Dockerfile-db
     container_name: postgres_db
     restart: always
     environment:

@@ -14,6 +14,6 @@ public class UserService {
   private final UserRepository userRepository;
 
   public List<UserResponse> getAllUsers() {
-    return UserMapper.mapToUserResponseList(userRepository.findAll());
+    return UserMapper.mapToResponseList(userRepository.findAll());
   }
 }

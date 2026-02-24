@@ -3,7 +3,6 @@ spring-boot = "4.0.2"
 spring-dependency-management = "1.1.7"
 springdoc = "3.0.1"
 spotless = "8.2.1"
-liquibase = "5.0.1"
 postgresql = "42.7.2"
 lombok = "1.18.42"
 
@@ -16,7 +15,7 @@ spring-boot-starter-webmvc = { module = "org.springframework.boot:spring-boot-st
 spring-boot-starter-webmvc-test = { module = "org.springframework.boot:spring-boot-starter-webmvc-test", version.ref = "spring-boot" }
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "spring-boot" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
-liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
+liquibase = { module = "org.springframework.boot:spring-boot-starter-liquibase", version.ref = "spring-boot" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 
 [plugins]

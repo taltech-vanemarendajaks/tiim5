@@ -6,11 +6,15 @@ import java.util.List;
 
 public class UserMapper {
 
-  public static UserResponse mapToUserResponse(User user) {
-    return UserResponse.builder().externalId(user.getExternalId()).name(user.getName()).build();
+  public static UserResponse mapToResponse(User user) {
+    return UserResponse.builder()
+        .externalId(user.getExternalId())
+        .name(user.getName())
+        .creationDate(user.getCreationDate())
+        .build();
   }
 
-  public static List<UserResponse> mapToUserResponseList(List<User> users) {
-    return users.stream().map(UserMapper::mapToUserResponse).toList();
+  public static List<UserResponse> mapToResponseList(List<User> users) {
+    return users.stream().map(UserMapper::mapToResponse).toList();
   }
 }

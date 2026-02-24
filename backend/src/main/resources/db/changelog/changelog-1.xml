@@ -13,7 +13,8 @@
             (
                 id SERIAL CONSTRAINT pk_user PRIMARY KEY,
                 external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
-                name VARCHAR(225) NOT NULL
+                name VARCHAR(225) NOT NULL,
+                creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL
                 );
         </sql>
     </changeSet>

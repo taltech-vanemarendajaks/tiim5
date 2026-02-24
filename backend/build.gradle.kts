@@ -23,7 +23,7 @@ dependencies {
     implementation(libs.spring.boot.starter.webmvc) 
     implementation(libs.springdoc.webmvc.ui)
     implementation(libs.spring.boot.starter.data.jpa)
-    implementation(libs.liquibase.core)
+    implementation(libs.liquibase)
 
     developmentOnly(libs.spring.boot.devtools)
 
