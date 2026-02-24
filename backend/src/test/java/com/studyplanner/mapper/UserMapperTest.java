@@ -4,9 +4,8 @@ import static com.studyplanner.common.UnitTestFixtures.aUser;
 import static com.studyplanner.common.UnitTestFixtures.aUserResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Test;
-
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
 class UserMapperTest {
   @Test
@@ -19,13 +18,13 @@ class UserMapperTest {
     assertEquals(userResponse, actual);
   }
 
-    @Test
-    void mapToResponseListTest() {
-        var user = List.of(aUser());
-        var userResponse = List.of(aUserResponse());
+  @Test
+  void mapToResponseListTest() {
+    var user = List.of(aUser());
+    var userResponse = List.of(aUserResponse());
 
-        var actual = UserMapper.mapToResponseList(user);
+    var actual = UserMapper.mapToResponseList(user);
 
-        assertEquals(userResponse, actual);
-    }
+    assertEquals(userResponse, actual);
+  }
 }

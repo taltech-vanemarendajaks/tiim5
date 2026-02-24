@@ -7,15 +7,12 @@
 
     <changeSet id="16.02.2026" author="kaisa.karjus">
         <sql>
-            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
-            CREATE TABLE IF NOT EXISTS users
-            (
+            CREATE TABLE IF NOT EXISTS users (
                 id SERIAL CONSTRAINT pk_user PRIMARY KEY,
                 external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
                 name VARCHAR(225) NOT NULL,
                 creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL
-                );
+            );
         </sql>
     </changeSet>
 

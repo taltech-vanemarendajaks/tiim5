@@ -24,7 +24,7 @@ class UserServiceTest {
     var user = List.of(aUser());
     var userResponse = List.of(aUserResponse());
 
-    doReturn(user).when(userRepository).findAll();
+    when(userRepository.findAll()).thenReturn(user);
 
     var actual = userService.getAllUsers();
 
