@@ -1,9 +1,19 @@
 server: 
-  port:8080
+  port: 8080
 
 spring:
   application:
     name: study-planner
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    hikari:
+      schema: studyplanner
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/changelog.xml
+    liquibase-schema: studyplanner
 
 springdoc:
   swagger-ui:

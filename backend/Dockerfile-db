@@ -1,0 +1,8 @@
+FROM postgres:18
+
+ENV POSTGRES_PASSWORD ${POSTGRES_PASSWORD}
+ENV POSTGRES_USER ${POSTGRES_USER}
+
+COPY ./initialise.sql /docker-entrypoint-initdb.d/a_initialise.sql
+
+CMD ["postgres", "-c", "log_statement=all"]
