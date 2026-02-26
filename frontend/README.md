@@ -40,7 +40,6 @@ npm run prettier
 ### Tech stack
 
 - Angular 21 with SSR support
-- Tailwind CSS v4
 - Vitest for unit testing
 - Playwright for E2E testing
 - ESLint with angular-eslint
