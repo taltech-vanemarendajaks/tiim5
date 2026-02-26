@@ -1,0 +1,4 @@
+CREATE SCHEMA IF NOT EXISTS studyplanner;
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+ALTER EXTENSION "uuid-ossp" SET SCHEMA studyplanner;

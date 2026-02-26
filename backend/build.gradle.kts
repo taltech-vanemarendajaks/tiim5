@@ -22,11 +22,17 @@ repositories {
 dependencies {
     implementation(libs.spring.boot.starter.webmvc) 
     implementation(libs.springdoc.webmvc.ui)
+    implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.liquibase)
 
     developmentOnly(libs.spring.boot.devtools)
 
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.spring.boot.starter.webmvc.test)
+
+    runtimeOnly(libs.postgresql)
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
 }
 
 tasks.withType<Test> {
