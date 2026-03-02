@@ -1,0 +1,15 @@
+# Compiled output
+/dist
+
+# Node
+/node_modules
+
+# Angular
+/.angular
+
+# Test
+/coverage
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
