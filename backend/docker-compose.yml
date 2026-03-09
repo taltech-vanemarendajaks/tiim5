@@ -1,17 +1,40 @@
 services:
   db:
-    build:
-      dockerfile: Dockerfile-db
-    container_name: postgres_db
+    image: postgres:18
+    container_name: postgres_db_prod
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5432}:5432"
+    command: [ "postgres", "-c", "log_statement=all" ]
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - studyplanner_postgres_data:/var/lib/postgresql
+      - ./initialise.sql:/docker-entrypoint-initdb.d/a_initialise.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    container_name: backend_prod
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    env_file:
+      - .env.example
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    environment:
+      SPRINGDOC_API_DOCS_ENABLED: false
+      SPRINGDOC_SWAGGER_UI_ENABLED: false
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${POSTGRES_DB}
 
 volumes:
-  postgres_data:
+  studyplanner_postgres_data:

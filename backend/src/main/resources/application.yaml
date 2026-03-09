@@ -1,13 +1,13 @@
 server: 
-  port: 8080
+  port: ${BACKEND_PORT}
 
 spring:
   application:
     name: study-planner
   datasource:
     url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     hikari:
       schema: studyplanner
   liquibase:
