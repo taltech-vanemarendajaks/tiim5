@@ -1,0 +1,35 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="bootRun development" type="GradleRunConfiguration" factoryName="Gradle" activateToolWindowBeforeRun="false">
+    <ExternalSystemSettings>
+      <option name="env">
+        <map>
+          <entry key="BACKEND_PORT" value="8080" />
+          <entry key="DB_PORT" value="5432" />
+          <entry key="POSTGRES_DB" value="studyplanner" />
+          <entry key="POSTGRES_PASSWORD" value="password" />
+          <entry key="POSTGRES_USER" value="local" />
+          <entry key="SPRING_DATASOURCE_URL" value="jdbc:postgresql://localhost:5432/studyplanner" />
+        </map>
+      </option>
+      <option name="executionName" />
+      <option name="externalProjectPath" value="$PROJECT_DIR$/backend" />
+      <option name="externalSystemIdString" value="GRADLE" />
+      <option name="passParentEnvs" value="false" />
+      <option name="scriptParameters" value="" />
+      <option name="taskDescriptions">
+        <list />
+      </option>
+      <option name="taskNames">
+        <list>
+          <option value="bootRun" />
+        </list>
+      </option>
+      <option name="vmOptions" />
+    </ExternalSystemSettings>
+    <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+    <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+    <DebugAllEnabled>false</DebugAllEnabled>
+    <RunAsTest>false</RunAsTest>
+    <method v="2" />
+  </configuration>
+</component>
