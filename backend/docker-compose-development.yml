@@ -29,7 +29,7 @@ services:
         condition: service_healthy
         restart: true
     env_file:
-      - .env.example
+      - .env
     volumes:
       - .:/home/gradle/project
       - studyplanner_gradle_cache:/home/gradle/.gradle

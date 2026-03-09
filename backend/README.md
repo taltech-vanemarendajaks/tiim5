@@ -1,5 +1,7 @@
 ### Backend folder ###
 
+**copy .env.example values to your own .env file**
+
 ### Running the db
 
 Run via compose up db configuration or
