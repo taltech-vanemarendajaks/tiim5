@@ -53,6 +53,7 @@
                 study_level VARCHAR(50) NOT NULL,
                 credits INTEGER NOT NULL,
                 completed_credits INTEGER,
+                start_date TIMESTAMP WITHOUT TIME ZONE,
                 creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL
                 );
 

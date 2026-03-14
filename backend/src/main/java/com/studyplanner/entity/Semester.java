@@ -2,7 +2,6 @@ package com.studyplanner.entity;
 
 import jakarta.persistence.*;
 import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,16 +15,16 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Semester extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable = false)
-    private String name;
+  @Column(nullable = false)
+  private String name;
 
-    @Column(nullable = false)
-    private Boolean finished;
+  @Column(nullable = false)
+  private Boolean finished;
 
-    @OneToMany(mappedBy = "semester")
-    private List<PlannedCourse> plannedCourses;
+  @OneToMany(mappedBy = "semester")
+  private List<PlannedCourse> plannedCourses;
 }

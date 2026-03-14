@@ -3,7 +3,6 @@ package com.studyplanner.entity;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.UUID;
-
 import jdk.jfr.Description;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,23 +17,23 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Course extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable = false)
-    @Description("Course UUID from õis API")
-    private UUID courseExternalId;
+  @Column(nullable = false)
+  @Description("Course UUID from õis API")
+  private UUID courseExternalId;
 
-    @Column(nullable = false)
-    private String name;
+  @Column(nullable = false)
+  private String name;
 
-    @Column(nullable = false)
-    private Integer credits;
+  @Column(nullable = false)
+  private Integer credits;
 
-    @Column(nullable = false)
-    private StudySemester studySemester;
+  @Column(nullable = false)
+  private StudySemester studySemester;
 
-    @ManyToMany(mappedBy = "courses")
-    private List<Module> modules;
+  @ManyToMany(mappedBy = "courses")
+  private List<Module> modules;
 }

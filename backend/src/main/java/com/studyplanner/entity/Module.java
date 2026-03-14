@@ -3,7 +3,6 @@ package com.studyplanner.entity;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.UUID;
-
 import jdk.jfr.Description;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -15,31 +14,30 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Module extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable = false)
-    @Description("Module UUID from õis API")
-    private UUID moduleExternalId;
+  @Column(nullable = false)
+  @Description("Module UUID from õis API")
+  private UUID moduleExternalId;
 
-    @Column(nullable = false)
-    private String name;
+  @Column(nullable = false)
+  private String name;
 
-    @Column(nullable = false)
-    private Integer requiredCredits;
+  @Column(nullable = false)
+  private Integer requiredCredits;
 
-    @Column(nullable = false)
-    private Integer optionalCredits;
+  @Column(nullable = false)
+  private Integer optionalCredits;
 
-    @ManyToMany(mappedBy = "modules")
-    private List<Curriculum> curriculums;
+  @ManyToMany(mappedBy = "modules")
+  private List<Curriculum> curriculums;
 
-    @ManyToMany
-    @JoinTable(
-            name = "module_course",
-            joinColumns = @JoinColumn(name = "module_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id")
-    )
-    private List<Course> courses;
+  @ManyToMany
+  @JoinTable(
+      name = "module_course",
+      joinColumns = @JoinColumn(name = "module_id"),
+      inverseJoinColumns = @JoinColumn(name = "course_id"))
+  private List<Course> courses;
 }

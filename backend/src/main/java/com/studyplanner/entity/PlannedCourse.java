@@ -14,26 +14,26 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlannedCourse extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "study_plan_id")
-    private StudyPlan studyPlan;
+  @ManyToOne
+  @JoinColumn(name = "study_plan_id")
+  private StudyPlan studyPlan;
 
-    @OneToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
+  @OneToOne
+  @JoinColumn(name = "course_id")
+  private Course course;
 
-    @ManyToOne
-    @JoinColumn(name = "module_id")
-    private Module module;
+  @ManyToOne
+  @JoinColumn(name = "module_id")
+  private Module module;
 
-    @ManyToOne
-    @JoinColumn(name = "semester_id")
-    private Semester semester;
+  @ManyToOne
+  @JoinColumn(name = "semester_id")
+  private Semester semester;
 
-    @Enumerated(EnumType.STRING)
-    private CourseStatus status;
+  @Enumerated(EnumType.STRING)
+  private CourseStatus status;
 }
