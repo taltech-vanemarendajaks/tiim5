@@ -16,6 +16,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "courses")
 public class Course extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +33,7 @@ public class Course extends BaseEntity {
   private Integer credits;
 
   @Column(nullable = false)
+  @Enumerated(value = EnumType.STRING)
   private StudySemester studySemester;
 
   @ManyToMany(mappedBy = "courses")

@@ -17,6 +17,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "curriculums")
 public class Curriculum extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +31,7 @@ public class Curriculum extends BaseEntity {
   private String name;
 
   @Column(nullable = false)
+  @Enumerated(value = EnumType.STRING)
   private StudyLevel studyLevel;
 
   @Column(nullable = false)

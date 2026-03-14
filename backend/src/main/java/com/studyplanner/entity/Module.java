@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "modules")
 public class Module extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

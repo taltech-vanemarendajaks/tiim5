@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "planned_courses")
 public class PlannedCourse extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

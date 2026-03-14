@@ -14,6 +14,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "semesters")
 public class Semester extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
