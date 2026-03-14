@@ -1,7 +1,6 @@
 package com.studyplanner.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,6 +21,10 @@ public class User extends BaseEntity {
   @Column(nullable = false)
   private String name;
 
-  @Column(nullable = false)
-  private LocalDateTime creationDate;
+  @ManyToOne
+  @JoinColumn(name = "curriculum_id")
+  public Curriculum curriculum;
+
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+  private StudyPlan studyPlan;
 }
