@@ -27,4 +27,8 @@ public class Semester extends BaseEntity {
 
   @OneToMany(mappedBy = "semester")
   private List<PlannedCourse> plannedCourses;
+
+  @ManyToOne
+  @JoinColumn(name = "study_plan_id")
+  private StudyPlan studyPlan;
 }

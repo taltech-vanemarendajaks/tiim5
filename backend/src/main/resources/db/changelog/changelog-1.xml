@@ -18,14 +18,6 @@
 
     <changeSet id="10.03.2026" author="kaisa.karjus">
         <sql>
-            CREATE TABLE IF NOT EXISTS semesters (
-                id SERIAL CONSTRAINT pk_semester PRIMARY KEY,
-                external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
-                name VARCHAR(255) NOT NULL,
-                finished BOOLEAN NOT NULL,
-                creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL
-                );
-
             CREATE TABLE IF NOT EXISTS study_plans (
                 id SERIAL CONSTRAINT pk_study_plan PRIMARY KEY,
                 external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
@@ -33,6 +25,15 @@
                 user_id INTEGER UNIQUE NOT NULL CONSTRAINT fk_study_plan_user REFERENCES users,
                 creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL,
                 update_date TIMESTAMP WITHOUT TIME ZONE
+                );
+
+            CREATE TABLE IF NOT EXISTS semesters (
+                id SERIAL CONSTRAINT pk_semester PRIMARY KEY,
+                external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
+                name VARCHAR(255) NOT NULL,
+                finished BOOLEAN NOT NULL,
+                study_plan_id INTEGER NOT NULL CONSTRAINT fk_semester_study_plan REFERENCES study_plans,
+                creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL
                 );
 
             CREATE TABLE IF NOT EXISTS modules (

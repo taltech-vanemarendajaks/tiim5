@@ -30,5 +30,8 @@ public class StudyPlan extends BaseEntity {
   @OneToMany(mappedBy = "studyPlan", cascade = CascadeType.ALL)
   private List<PlannedCourse> plannedCourses;
 
+  @OneToMany(mappedBy = "studyPlan", cascade = CascadeType.ALL)
+  private List<Semester> semesters;
+
   @Column private LocalDateTime updateDate;
 }
