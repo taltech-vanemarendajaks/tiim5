@@ -37,9 +37,11 @@ public class Curriculum extends BaseEntity {
   @Column(nullable = false)
   private Integer credits;
 
-  @Column private Integer completedCredits;
+  @Column(nullable = false)
+  private Integer completedCredits = 0;
 
-  @Column private LocalDateTime startDate;
+  @Column(nullable = false)
+  private LocalDateTime startDate;
 
   @OneToMany(mappedBy = "curriculum")
   private List<User> users;

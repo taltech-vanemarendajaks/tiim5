@@ -1,7 +1,7 @@
 package com.studyplanner.entity;
 
-public enum StudySemester {
+public enum SemesterType {
   SPRING,
-  FALL,
+  AUTUMN,
   EITHER
 }

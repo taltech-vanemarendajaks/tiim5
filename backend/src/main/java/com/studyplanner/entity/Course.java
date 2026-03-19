@@ -27,6 +27,12 @@ public class Course extends BaseEntity {
   private UUID courseExternalId;
 
   @Column(nullable = false)
+  private String code;
+
+  @Column(nullable = false)
+  private String type;
+
+  @Column(nullable = false)
   private String name;
 
   @Column(nullable = false)
@@ -34,7 +40,7 @@ public class Course extends BaseEntity {
 
   @Column(nullable = false)
   @Enumerated(value = EnumType.STRING)
-  private StudySemester studySemester;
+  private SemesterType semesterType;
 
   @ManyToMany(mappedBy = "courses")
   private List<Module> modules;

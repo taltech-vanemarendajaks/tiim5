@@ -26,6 +26,10 @@ public class Semester extends BaseEntity {
   @Column(nullable = false)
   private Boolean finished;
 
+  @Column(nullable = false)
+  @Enumerated(value = EnumType.STRING)
+  private SemesterType semesterType;
+
   @OneToMany(mappedBy = "semester")
   private List<PlannedCourse> plannedCourses;
 
