@@ -34,9 +34,6 @@ public class Course extends BaseEntity {
   private String code;
 
   @Column(nullable = false)
-  private String type;
-
-  @Column(nullable = false)
   private String name;
 
   @Column(nullable = false)

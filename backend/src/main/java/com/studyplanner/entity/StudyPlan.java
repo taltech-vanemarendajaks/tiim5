@@ -21,8 +21,13 @@ public class StudyPlan extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column private String name;
+
   @Column(nullable = false)
-  private String name;
+  private Integer completedCredits = 0;
+
+  @Column(nullable = false)
+  private LocalDateTime startDate;
 
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)

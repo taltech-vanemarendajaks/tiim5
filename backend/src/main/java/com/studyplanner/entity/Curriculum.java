@@ -1,7 +1,6 @@
 package com.studyplanner.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import jdk.jfr.Description;
@@ -36,12 +35,6 @@ public class Curriculum extends BaseEntity {
 
   @Column(nullable = false)
   private Integer credits;
-
-  @Column(nullable = false)
-  private Integer completedCredits = 0;
-
-  @Column(nullable = false)
-  private LocalDateTime startDate;
 
   @OneToMany(mappedBy = "curriculum")
   private List<StudyPlan> studyPlans;
