@@ -1,6 +1,7 @@
 package com.studyplanner.entity;
 
 import jakarta.persistence.*;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,10 +23,6 @@ public class User extends BaseEntity {
   @Column(nullable = false)
   private String name;
 
-  @ManyToOne
-  @JoinColumn(name = "curriculum_id")
-  public Curriculum curriculum;
-
-  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-  private StudyPlan studyPlan;
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<StudyPlan> studyPlans;
 }

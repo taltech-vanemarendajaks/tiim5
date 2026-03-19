@@ -37,7 +37,7 @@ public class Module extends BaseEntity {
 
   @ManyToMany
   @JoinTable(
-      name = "module_course",
+      name = "module_courses",
       joinColumns = @JoinColumn(name = "module_id"),
       inverseJoinColumns = @JoinColumn(name = "course_id"))
   private List<Course> courses;

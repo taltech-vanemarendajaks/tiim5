@@ -27,6 +27,10 @@ public class Course extends BaseEntity {
   private UUID courseExternalId;
 
   @Column(nullable = false)
+  @Description("Course version UUID from õis API")
+  private UUID courseVersionExternalId;
+
+  @Column(nullable = false)
   private String code;
 
   @Column(nullable = false)

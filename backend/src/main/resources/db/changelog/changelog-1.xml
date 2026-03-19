@@ -18,13 +18,28 @@
 
     <changeSet id="10.03.2026" author="kaisa.karjus">
         <sql>
+            CREATE TABLE IF NOT EXISTS curriculums (
+                id SERIAL CONSTRAINT pk_curriculum PRIMARY KEY,
+                external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
+                curriculum_external_id UUID NOT NULL,
+                name VARCHAR(255) NOT NULL,
+                study_level VARCHAR(50) NOT NULL,
+                credits INTEGER NOT NULL,
+                completed_credits INTEGER NOT NULL DEFAULT 0,
+                start_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+                creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL
+            );
+
             CREATE TABLE IF NOT EXISTS study_plans (
                 id SERIAL CONSTRAINT pk_study_plan PRIMARY KEY,
                 external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
                 name VARCHAR(255) NOT NULL,
                 user_id INTEGER UNIQUE NOT NULL CONSTRAINT fk_study_plan_user REFERENCES users,
+                curriculum_id INTEGER NOT NULL CONSTRAINT fk_studyplan_curriculum REFERENCES curriculums,
                 creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL,
-                update_date TIMESTAMP WITHOUT TIME ZONE
+                update_date TIMESTAMP WITHOUT TIME ZONE,
+
+                CONSTRAINT unique_user_curriculum UNIQUE (user_id, curriculum_id)
             );
 
             CREATE TABLE IF NOT EXISTS semesters (
@@ -47,22 +62,11 @@
                 creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL
             );
 
-            CREATE TABLE IF NOT EXISTS curriculums (
-                id SERIAL CONSTRAINT pk_curriculum PRIMARY KEY,
-                external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
-                curriculum_external_id UUID NOT NULL,
-                name VARCHAR(255) NOT NULL,
-                study_level VARCHAR(50) NOT NULL,
-                credits INTEGER NOT NULL,
-                completed_credits INTEGER NOT NULL DEFAULT 0,
-                start_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-                creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL
-            );
-
             CREATE TABLE IF NOT EXISTS courses (
                 id SERIAL CONSTRAINT pk_course PRIMARY KEY,
                 external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
                 course_external_id UUID NOT NULL,
+                course_version_external_id UUID NOT NULL,
                 code VARCHAR(255) NOT NULL,
                 type VARCHAR(255) NOT NULL,
                 name VARCHAR(255) NOT NULL,
@@ -98,20 +102,7 @@
                 CONSTRAINT uq_plan_course UNIQUE (study_plan_id, course_id)
             );
 
-            ALTER TABLE users
-                ADD COLUMN curriculum_id INTEGER,
-                ADD CONSTRAINT fk_user_curriculum FOREIGN KEY (curriculum_id) REFERENCES curriculums;
-
         </sql>
     </changeSet>
-
-<changeSet id="14.03.2026-1" author="kaisa.karjus">
-    <sql>
-        INSERT INTO curriculums (curriculum_external_id, name, study_level, credits) VALUES
-            ('03421357-a6c2-da39-8f11-eb6b24c5d0e8', 'Füüsika', 'MASTER', 120);
-
-        INSERT INTO users (name, curriculum_id) VALUES ('Jane Doe', 1);
-    </sql>
-</changeSet>
 
 </databaseChangeLog>

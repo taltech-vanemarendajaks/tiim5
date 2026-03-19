@@ -44,11 +44,11 @@ public class Curriculum extends BaseEntity {
   private LocalDateTime startDate;
 
   @OneToMany(mappedBy = "curriculum")
-  private List<User> users;
+  private List<StudyPlan> studyPlans;
 
   @ManyToMany
   @JoinTable(
-      name = "curriculum_module",
+      name = "curriculum_modules",
       joinColumns = @JoinColumn(name = "curriculum_id"),
       inverseJoinColumns = @JoinColumn(name = "module_id"))
   private List<Module> modules;

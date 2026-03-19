@@ -24,9 +24,13 @@ public class StudyPlan extends BaseEntity {
   @Column(nullable = false)
   private String name;
 
-  @OneToOne
-  @JoinColumn(name = "user_id")
+  @ManyToOne
+  @JoinColumn(name = "user_id", nullable = false)
   private User user;
+
+  @ManyToOne
+  @JoinColumn(name = "curriculum_id", nullable = false)
+  private Curriculum curriculum;
 
   @OneToMany(mappedBy = "studyPlan", cascade = CascadeType.ALL)
   private List<PlannedCourse> plannedCourses;
