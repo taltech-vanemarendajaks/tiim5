@@ -27,7 +27,7 @@ public class Curriculum extends BaseEntity {
   private UUID curriculumExternalId;
 
   @Column(nullable = false)
-  private String name;
+  private String title;
 
   @Column(nullable = false)
   @Enumerated(value = EnumType.STRING)

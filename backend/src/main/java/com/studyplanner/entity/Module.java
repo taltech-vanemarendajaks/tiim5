@@ -24,7 +24,7 @@ public class Module extends BaseEntity {
   private UUID moduleExternalId;
 
   @Column(nullable = false)
-  private String name;
+  private String title;
 
   @Column(nullable = false)
   private Integer requiredCredits;

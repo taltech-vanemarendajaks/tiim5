@@ -22,7 +22,7 @@
                 id SERIAL CONSTRAINT pk_curriculum PRIMARY KEY,
                 external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
                 curriculum_external_id UUID NOT NULL,
-                name VARCHAR(255) NOT NULL,
+                title VARCHAR(255) NOT NULL,
                 study_level VARCHAR(50) NOT NULL,
                 credits INTEGER NOT NULL,
                 creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL
@@ -56,7 +56,7 @@
                 id SERIAL CONSTRAINT pk_module PRIMARY KEY,
                 external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
                 module_external_id UUID NOT NULL,
-                name VARCHAR(255) NOT NULL,
+                title VARCHAR(255) NOT NULL,
                 required_credits INTEGER NOT NULL,
                 optional_credits INTEGER NOT NULL,
                 creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL
@@ -68,8 +68,8 @@
                 course_external_id UUID NOT NULL,
                 course_version_external_id UUID NOT NULL,
                 code VARCHAR(255) NOT NULL,
-                name VARCHAR(255) NOT NULL,
-                credits INTEGER NOT NULL,
+                title VARCHAR(255) NOT NULL,
+                credits DOUBLE PRECISION NOT NULL,
                 semester_type VARCHAR(50) NOT NULL,
                 creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL
             );

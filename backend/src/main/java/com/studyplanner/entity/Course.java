@@ -34,10 +34,10 @@ public class Course extends BaseEntity {
   private String code;
 
   @Column(nullable = false)
-  private String name;
+  private String title;
 
   @Column(nullable = false)
-  private Integer credits;
+  private Double credits;
 
   @Column(nullable = false)
   @Enumerated(value = EnumType.STRING)
