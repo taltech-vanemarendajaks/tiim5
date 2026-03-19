@@ -14,6 +14,8 @@ spring:
     enabled: true
     change-log: classpath:/db/changelog/changelog.xml
     liquibase-schema: studyplanner
+  jpa:
+    show-sql: ${SQL_ENABLED}
 
 springdoc:
   swagger-ui:

@@ -14,8 +14,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
-public class User extends BaseEntity {
+@Table(name = "semesters")
+public class Semester extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -23,6 +23,17 @@ public class User extends BaseEntity {
   @Column(nullable = false)
   private String name;
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-  private List<StudyPlan> studyPlans;
+  @Column(nullable = false)
+  private Boolean finished;
+
+  @Column(nullable = false)
+  @Enumerated(value = EnumType.STRING)
+  private SemesterType semesterType;
+
+  @OneToMany(mappedBy = "semester")
+  private List<PlannedCourse> plannedCourses;
+
+  @ManyToOne
+  @JoinColumn(name = "study_plan_id")
+  private StudyPlan studyPlan;
 }
