@@ -10,11 +10,14 @@ import org.springframework.data.repository.query.Param;
 public interface SemesterRepository extends JpaRepository<Semester, Long> {
 
   @Query(
-      """
-            SELECT s
-            FROM Semester s
-            WHERE s.studyPlan.user.externalId = :externalId
-            ORDER BY s.id
-        """)
-  List<Semester> findAllByUserExternalId(@Param("externalId") UUID externalId);
+"""
+    SELECT s
+    FROM Semester s
+    WHERE s.studyPlan.user.externalId = :userExternalId
+      AND s.studyPlan.externalId = :studyPlanExternalId
+    ORDER BY s.id
+""")
+  List<Semester> findAllByUserAndStudyPlanExternalId(
+      @Param("userExternalId") UUID userExternalId,
+      @Param("studyPlanExternalId") UUID studyPlanExternalId);
 }

@@ -6,10 +6,7 @@ import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/semesters")
@@ -18,9 +15,9 @@ public class SemesterController {
 
   private final SemesterService semesterService;
 
-  @GetMapping("/{userExternalId}")
+  @GetMapping("/{userExternalId}/study-plan/{studyPlanExternalId}")
   public ResponseEntity<List<SemesterResponse>> getUserSemesters(
-      @PathVariable UUID userExternalId) {
-    return ResponseEntity.ok(semesterService.getUserSemesters(userExternalId));
+      @PathVariable UUID userExternalId, @PathVariable UUID studyPlanExternalId) {
+    return ResponseEntity.ok(semesterService.getUserSemesters(userExternalId, studyPlanExternalId));
   }
 }

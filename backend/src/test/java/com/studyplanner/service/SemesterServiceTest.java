@@ -23,9 +23,11 @@ class SemesterServiceTest {
     var semester = List.of(aSemester());
     var semesterResponse = List.of(aSemesterResponse());
 
-    when(semesterRepository.findAllByUserExternalId(A_USER_EXTERNAL_ID)).thenReturn(semester);
+    when(semesterRepository.findAllByUserAndStudyPlanExternalId(
+            A_USER_EXTERNAL_ID, A_STUDY_PLAN_EXTERNAL_ID))
+        .thenReturn(semester);
 
-    var actual = semesterService.getUserSemesters(A_USER_EXTERNAL_ID);
+    var actual = semesterService.getUserSemesters(A_USER_EXTERNAL_ID, A_STUDY_PLAN_EXTERNAL_ID);
 
     assertEquals(semesterResponse, actual);
   }

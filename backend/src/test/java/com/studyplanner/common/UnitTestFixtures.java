@@ -12,6 +12,8 @@ import java.util.UUID;
 public class UnitTestFixtures {
   public static final UUID A_USER_EXTERNAL_ID =
       UUID.fromString("669b65ca-34bf-4a29-9e5e-1daeedcd4d62");
+  public static final UUID A_STUDY_PLAN_EXTERNAL_ID =
+      UUID.fromString("02e0d994-905b-47b8-b58f-8f9dfe960816");
   public static final UUID AN_EXTERNAL_ID = UUID.fromString("147ffa4f-b56e-40f0-8ce0-266f77ff20c1");
   public static final LocalDateTime A_LOCAL_DATE_TIME = LocalDateTime.of(2024, 8, 13, 15, 30);
 

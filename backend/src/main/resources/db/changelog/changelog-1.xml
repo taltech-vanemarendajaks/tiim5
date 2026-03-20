@@ -103,4 +103,10 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20.03.2026" author="kaisa.karjus">
+        <sql>
+            ALTER TABLE study_plans DROP CONSTRAINT study_plans_user_id_key;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
