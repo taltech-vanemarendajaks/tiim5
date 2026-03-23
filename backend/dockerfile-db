@@ -1,0 +1,5 @@
+FROM postgres:18
+
+COPY ./initialise.sql /docker-entrypoint-initdb.d/a_initialise.sql
+
+CMD ["postgres", "-c", "log_statement=all"]

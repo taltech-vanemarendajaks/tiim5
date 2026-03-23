@@ -1,6 +1,7 @@
 services:
   db:
-    image: postgres:18
+    build:
+      dockerfile: dockerfile-db
     container_name: postgres_db_prod
     restart: always
     environment:
@@ -8,11 +9,9 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "${DB_PORT:-5432}:5432"
-    command: [ "postgres", "-c", "log_statement=all" ]
+      - "${DB_PORT}:5432"
     volumes:
       - studyplanner_postgres_data:/var/lib/postgresql
-      - ./initialise.sql:/docker-entrypoint-initdb.d/a_initialise.sql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB" ]
       interval: 5s
@@ -20,7 +19,10 @@ services:
       retries: 5
 
   backend:
-    build: .
+    build:
+      context: .
+      dockerfile: dockerfile-backend
+      target: production
     container_name: backend_prod
     depends_on:
       db:
@@ -29,11 +31,11 @@ services:
     env_file:
       - .env
     ports:
-      - "${BACKEND_PORT:-8080}:8080"
+      - "${BACKEND_PORT}:8080"
     environment:
-      SPRINGDOC_API_DOCS_ENABLED: false
-      SPRINGDOC_SWAGGER_UI_ENABLED: false
-      SPRING_PROFILES_ACTIVE: prod
+      SPRINGDOC_API_DOCS_ENABLED: ${SPRINGDOC_API_DOCS_ENABLED:-false}
+      SPRINGDOC_SWAGGER_UI_ENABLED: ${SPRINGDOC_SWAGGER_UI_ENABLED:-false}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${POSTGRES_DB}
 
 volumes:

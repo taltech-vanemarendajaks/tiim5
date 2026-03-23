@@ -1,6 +1,7 @@
 services:
   db:
-    image: postgres:18
+    build:
+      dockerfile: dockerfile-db
     container_name: postgres_db
     restart: always
     environment:
@@ -9,10 +10,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "${DB_PORT:-5432}:5432"
-    command: [ "postgres", "-c", "log_statement=all" ]
     volumes:
       - studyplanner_postgres_data:/var/lib/postgresql
-      - ./initialise.sql:/docker-entrypoint-initdb.d/a_initialise.sql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB" ]
       interval: 5s
