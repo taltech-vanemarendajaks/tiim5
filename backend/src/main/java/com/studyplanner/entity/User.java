@@ -23,6 +23,6 @@ public class User extends BaseEntity {
   @Column(nullable = false)
   private String name;
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<StudyPlan> studyPlans;
 }

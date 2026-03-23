@@ -103,9 +103,13 @@
         </sql>
     </changeSet>
 
-    <changeSet id="20.03.2026" author="kaisa.karjus">
+    <changeSet id="23.03.2026" author="kaisa.karjus">
         <sql>
             ALTER TABLE study_plans DROP CONSTRAINT study_plans_user_id_key;
+            ALTER TABLE planned_courses DROP CONSTRAINT uq_plan_course;
+            ALTER TABLE planned_courses DROP CONSTRAINT fk_planned_course_plan;
+            ALTER TABLE planned_courses DROP COLUMN study_plan_id;
+            ALTER TABLE planned_courses ADD CONSTRAINT uq_semester_course UNIQUE (semester_id, course_id);
         </sql>
     </changeSet>
 
