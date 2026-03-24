@@ -9,15 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/semesters")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class SemesterController {
 
   private final SemesterService semesterService;
 
-  @GetMapping("/{userExternalId}/study-plan/{studyPlanExternalId}")
+  @GetMapping("/study-plans/{studyPlanExternalId}/semesters")
   public ResponseEntity<List<SemesterResponse>> getUserSemesters(
-      @PathVariable UUID userExternalId, @PathVariable UUID studyPlanExternalId) {
-    return ResponseEntity.ok(semesterService.getUserSemesters(userExternalId, studyPlanExternalId));
+      @PathVariable UUID studyPlanExternalId) {
+    return ResponseEntity.ok(semesterService.getUserSemesters(studyPlanExternalId));
   }
 }

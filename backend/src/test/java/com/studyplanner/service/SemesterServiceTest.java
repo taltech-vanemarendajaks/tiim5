@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import com.studyplanner.repository.SemesterRepository;
+import com.studyplanner.utils.UserRequestContext;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,13 +23,18 @@ class SemesterServiceTest {
   void getUserSemestersTest() {
     var semester = List.of(aSemester());
     var semesterResponse = List.of(aSemesterResponse());
+    try (var mockedRequestContext = mockStatic(UserRequestContext.class)) {
+      mockedRequestContext
+          .when(UserRequestContext::getUserExternalId)
+          .thenReturn(A_USER_EXTERNAL_ID);
 
-    when(semesterRepository.findAllByUserAndStudyPlanExternalId(
-            A_USER_EXTERNAL_ID, A_STUDY_PLAN_EXTERNAL_ID))
-        .thenReturn(semester);
+      when(semesterRepository.findAllByUserAndStudyPlanExternalId(
+              A_USER_EXTERNAL_ID, A_STUDY_PLAN_EXTERNAL_ID))
+          .thenReturn(semester);
 
-    var actual = semesterService.getUserSemesters(A_USER_EXTERNAL_ID, A_STUDY_PLAN_EXTERNAL_ID);
+      var actual = semesterService.getUserSemesters(A_STUDY_PLAN_EXTERNAL_ID);
 
-    assertEquals(semesterResponse, actual);
+      assertEquals(semesterResponse, actual);
+    }
   }
 }
