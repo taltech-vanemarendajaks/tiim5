@@ -1,5 +1,13 @@
 ### Backend folder ###
 
+**copy .env.example values to your own .env file**
+
+### Running the db
+
+```sh
+  docker compose -f docker-compose-development.yml up db
+```
+
 ### Running the backend
 
 From the backend directory:
@@ -17,6 +25,13 @@ gradlew.bat bootRun
 When the backend is running, open:
 http://localhost:8080/docs
 
+### Running the backend via docker
+
+#### For development HMR environment
+
+```sh
+    docker compose -f docker-compose-development.yml up --watch
+```
 
 ### Running tests
 
