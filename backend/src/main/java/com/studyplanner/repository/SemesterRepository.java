@@ -13,13 +13,12 @@ public interface SemesterRepository extends JpaRepository<Semester, Long> {
 """
     SELECT s
     FROM Semester s
-    JOIN FETCH s.studyPlan sp
-    JOIN FETCH sp.user
-    LEFT JOIN FETCH s.plannedCourses pc
-    LEFT JOIN FETCH pc.course
+        JOIN FETCH s.studyPlan sp
+        JOIN FETCH sp.user
+        LEFT JOIN FETCH s.plannedCourses pc
+        LEFT JOIN FETCH pc.course
     WHERE sp.user.externalId = :userExternalId
       AND sp.externalId = :studyPlanExternalId
-    ORDER BY s.id
 """)
   List<Semester> findAllByUserAndStudyPlanExternalId(
       @Param("userExternalId") UUID userExternalId,
