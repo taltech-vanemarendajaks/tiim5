@@ -29,18 +29,15 @@ public class StudyPlan extends BaseEntity {
   @Column(nullable = false)
   private LocalDateTime startDate;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "curriculum_id", nullable = false)
   private Curriculum curriculum;
 
-  @OneToMany(mappedBy = "studyPlan", cascade = CascadeType.ALL)
-  private List<PlannedCourse> plannedCourses;
-
-  @OneToMany(mappedBy = "studyPlan", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "studyPlan", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Semester> semesters;
 
   @Column private LocalDateTime updateDate;

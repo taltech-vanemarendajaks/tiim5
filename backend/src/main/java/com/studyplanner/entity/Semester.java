@@ -21,7 +21,7 @@ public class Semester extends BaseEntity {
   private Long id;
 
   @Column(nullable = false)
-  private String name;
+  private Integer year;
 
   @Column(nullable = false)
   private Boolean finished;
@@ -30,10 +30,10 @@ public class Semester extends BaseEntity {
   @Enumerated(value = EnumType.STRING)
   private SemesterType semesterType;
 
-  @OneToMany(mappedBy = "semester")
+  @OneToMany(mappedBy = "semester", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<PlannedCourse> plannedCourses;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "study_plan_id")
   private StudyPlan studyPlan;
 }

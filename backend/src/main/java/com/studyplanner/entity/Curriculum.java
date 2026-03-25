@@ -36,7 +36,7 @@ public class Curriculum extends BaseEntity {
   @Column(nullable = false)
   private Integer credits;
 
-  @OneToMany(mappedBy = "curriculum")
+  @OneToMany(mappedBy = "curriculum", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<StudyPlan> studyPlans;
 
   @ManyToMany

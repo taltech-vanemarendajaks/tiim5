@@ -19,22 +19,19 @@ public class PlannedCourse extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "study_plan_id")
-  private StudyPlan studyPlan;
-
-  @OneToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "course_id")
   private Course course;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "module_id")
   private Module module;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "semester_id")
   private Semester semester;
 
+  @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   private CourseStatus status;
 }
