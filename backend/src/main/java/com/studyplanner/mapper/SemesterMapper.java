@@ -9,7 +9,7 @@ public class SemesterMapper {
   public static SemesterResponse mapToResponse(Semester semester) {
     return SemesterResponse.builder()
         .externalId(semester.getExternalId())
-        .name(semester.getName())
+        .year(semester.getYear())
         .finished(semester.getFinished())
         .plannedCourses(PlannedCourseMapper.mapToResponseList(semester.getPlannedCourses()))
         .creationDate(semester.getCreationDate())

@@ -36,7 +36,7 @@ public class UnitTestFixtures {
   public static SemesterResponse aSemesterResponse() {
     return SemesterResponse.builder()
         .externalId(AN_EXTERNAL_ID)
-        .name("Semester")
+        .year(2026)
         .finished(false)
         .plannedCourses(List.of())
         .creationDate(A_LOCAL_DATE_TIME)
@@ -46,7 +46,7 @@ public class UnitTestFixtures {
   public static Semester aSemester() {
     return Semester.builder()
         .externalId(AN_EXTERNAL_ID)
-        .name("Semester")
+        .year(2026)
         .finished(false)
         .plannedCourses(List.of())
         .creationDate(A_LOCAL_DATE_TIME)

@@ -110,6 +110,9 @@
             ALTER TABLE planned_courses DROP CONSTRAINT fk_planned_course_plan;
             ALTER TABLE planned_courses DROP COLUMN study_plan_id;
             ALTER TABLE planned_courses ADD CONSTRAINT uq_semester_course UNIQUE (semester_id, course_id);
+            ALTER TABLE semesters DROP COLUMN name;
+            ALTER TABLE semesters ADD COLUMN year INTEGER NOT NULL;
+            ALTER TABLE semesters ADD CONSTRAINT uq_semester_year_type_plan UNIQUE (year, semester_type, study_plan_id);
         </sql>
     </changeSet>
 

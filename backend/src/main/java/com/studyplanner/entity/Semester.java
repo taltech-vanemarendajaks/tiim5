@@ -21,7 +21,7 @@ public class Semester extends BaseEntity {
   private Long id;
 
   @Column(nullable = false)
-  private String name;
+  private Integer year;
 
   @Column(nullable = false)
   private Boolean finished;

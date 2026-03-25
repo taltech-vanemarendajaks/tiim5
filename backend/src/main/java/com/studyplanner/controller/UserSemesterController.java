@@ -9,13 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/users/me")
 @RequiredArgsConstructor
-public class SemesterController {
+public class UserSemesterController {
 
   private final SemesterService semesterService;
 
-  @GetMapping("/study-plans/{studyPlanExternalId}/semesters")
+  @GetMapping("/study-plan/{studyPlanExternalId}/semesters")
   public ResponseEntity<List<SemesterResponse>> getSemesters(
       @PathVariable UUID studyPlanExternalId) {
     return ResponseEntity.ok(semesterService.getSemesters(studyPlanExternalId));
