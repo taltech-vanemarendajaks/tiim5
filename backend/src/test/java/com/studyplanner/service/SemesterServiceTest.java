@@ -20,7 +20,7 @@ class SemesterServiceTest {
   @InjectMocks private SemesterService semesterService;
 
   @Test
-  void getUserSemestersTest() {
+  void getSemestersTest() {
     var semester = List.of(aSemester());
     var semesterResponse = List.of(aSemesterResponse());
     try (var mockedRequestContext = mockStatic(UserRequestContext.class)) {
@@ -32,7 +32,7 @@ class SemesterServiceTest {
               A_USER_EXTERNAL_ID, A_STUDY_PLAN_EXTERNAL_ID))
           .thenReturn(semester);
 
-      var actual = semesterService.getUserSemesters(A_STUDY_PLAN_EXTERNAL_ID);
+      var actual = semesterService.getSemesters(A_STUDY_PLAN_EXTERNAL_ID);
 
       assertEquals(semesterResponse, actual);
     }

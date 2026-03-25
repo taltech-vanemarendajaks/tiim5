@@ -15,8 +15,8 @@ public class SemesterService {
 
   private final SemesterRepository semesterRepository;
 
-  public List<SemesterResponse> getUserSemesters(UUID studyPlanExternalId) {
-    var userExternalId = UserRequestContext.getUserExternalId();
+  public List<SemesterResponse> getSemesters(UUID studyPlanExternalId) {
+    UUID userExternalId = UserRequestContext.getUserExternalId();
     return SemesterMapper.mapToResponseList(
         semesterRepository.findAllByUserAndStudyPlanExternalId(
             userExternalId, studyPlanExternalId));

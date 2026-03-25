@@ -16,8 +16,8 @@ public class SemesterController {
   private final SemesterService semesterService;
 
   @GetMapping("/study-plans/{studyPlanExternalId}/semesters")
-  public ResponseEntity<List<SemesterResponse>> getUserSemesters(
+  public ResponseEntity<List<SemesterResponse>> getSemesters(
       @PathVariable UUID studyPlanExternalId) {
-    return ResponseEntity.ok(semesterService.getUserSemesters(studyPlanExternalId));
+    return ResponseEntity.ok(semesterService.getSemesters(studyPlanExternalId));
   }
 }
