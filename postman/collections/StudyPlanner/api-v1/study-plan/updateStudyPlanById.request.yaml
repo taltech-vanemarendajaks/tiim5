@@ -1,0 +1,15 @@
+$kind: http-request
+name: updateStudyPlanById
+url: "{{host}}/study-plans/:studyPlanId"
+method: POST
+pathVariables:
+  studyPlanId: ""
+body:
+  type: formdata
+  content:
+    - type: text
+      key: StudyPlanBody
+      value: ""
+      description: ""
+      disabled: false
+order: 4030180281616548

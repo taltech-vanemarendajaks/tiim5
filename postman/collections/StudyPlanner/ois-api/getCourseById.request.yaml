@@ -1,0 +1,7 @@
+$kind: http-request
+name: getCourseById
+url: http://ois2.ut.ee/api/courses/:courseUuid
+method: GET
+pathVariables:
+  courseUuid: 68b1fb10-0844-b505-cd19-d9a94240bc6d
+order: 4501044922691334

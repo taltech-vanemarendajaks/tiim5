@@ -1,0 +1,8 @@
+$kind: http-request
+name: getCurriculumInfoWithModules
+url: http://ois2.ut.ee/api/curricula/curricula-version/:curriculumVersionUuid
+method: GET
+pathVariables:
+  curriculumVersionUuid: 728ecc80-d0f3-dd96-8252-230abd524485
+examples: .resources/getCurriculumInfoWithModules.resources/examples
+order: 4503454899436737

@@ -1,0 +1,5 @@
+$kind: http-request
+name: getAllCourses
+url: http://ois2.ut.ee/api/courses/
+method: GET
+order: 1774444086548

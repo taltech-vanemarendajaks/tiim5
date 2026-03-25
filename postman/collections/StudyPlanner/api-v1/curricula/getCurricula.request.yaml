@@ -1,0 +1,5 @@
+$kind: http-request
+name: getCurricula
+url: "{{host}}/curricula"
+method: GET
+order: 1000

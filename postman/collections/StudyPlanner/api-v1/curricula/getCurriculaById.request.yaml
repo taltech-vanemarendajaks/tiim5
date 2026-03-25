@@ -1,0 +1,7 @@
+$kind: http-request
+name: getCurriculaById
+url: "{{host}}/curricula/:curriculum_external_id"
+method: GET
+pathVariables:
+  curriculum_external_id: 03421357-a6c2-da39-8f11-eb6b24c5d0e8
+order: 2000
