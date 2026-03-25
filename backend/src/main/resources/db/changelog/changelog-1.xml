@@ -16,4 +16,91 @@
         </sql>
     </changeSet>
 
+    <changeSet id="10.03.2026" author="kaisa.karjus">
+        <sql>
+            CREATE TABLE IF NOT EXISTS curriculums (
+                id SERIAL CONSTRAINT pk_curriculum PRIMARY KEY,
+                external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
+                curriculum_external_id UUID NOT NULL,
+                title VARCHAR(255) NOT NULL,
+                study_level VARCHAR(50) NOT NULL,
+                credits INTEGER NOT NULL,
+                creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS study_plans (
+                id SERIAL CONSTRAINT pk_study_plan PRIMARY KEY,
+                external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
+                name VARCHAR(255),
+                completed_credits INTEGER NOT NULL DEFAULT 0,
+                start_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+                user_id INTEGER UNIQUE NOT NULL CONSTRAINT fk_study_plan_user REFERENCES users,
+                curriculum_id INTEGER NOT NULL CONSTRAINT fk_studyplan_curriculum REFERENCES curriculums,
+                creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL,
+                update_date TIMESTAMP WITHOUT TIME ZONE,
+
+                CONSTRAINT unique_user_curriculum UNIQUE (user_id, curriculum_id)
+            );
+
+            CREATE TABLE IF NOT EXISTS semesters (
+                id SERIAL CONSTRAINT pk_semester PRIMARY KEY,
+                external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
+                name VARCHAR(255) NOT NULL,
+                finished BOOLEAN NOT NULL,
+                semester_type VARCHAR(50) NOT NULL,
+                study_plan_id INTEGER NOT NULL CONSTRAINT fk_semester_study_plan REFERENCES study_plans,
+                creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS modules (
+                id SERIAL CONSTRAINT pk_module PRIMARY KEY,
+                external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
+                module_external_id UUID NOT NULL,
+                title VARCHAR(255) NOT NULL,
+                required_credits INTEGER NOT NULL,
+                optional_credits INTEGER NOT NULL,
+                creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS courses (
+                id SERIAL CONSTRAINT pk_course PRIMARY KEY,
+                external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
+                course_external_id UUID NOT NULL,
+                course_version_external_id UUID NOT NULL,
+                code VARCHAR(255) NOT NULL,
+                title VARCHAR(255) NOT NULL,
+                credits DOUBLE PRECISION NOT NULL,
+                semester_type VARCHAR(50) NOT NULL,
+                creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS curriculum_modules (
+                curriculum_id INTEGER NOT NULL CONSTRAINT fk_curriculum_module_curriculum REFERENCES curriculums,
+                module_id INTEGER NOT NULL CONSTRAINT fk_curriculum_module_module REFERENCES modules,
+
+                CONSTRAINT pk_curriculum_module PRIMARY KEY (curriculum_id, module_id)
+            );
+
+            CREATE TABLE IF NOT EXISTS module_courses (
+                module_id INTEGER NOT NULL CONSTRAINT fk_module_course_module REFERENCES modules,
+                course_id INTEGER NOT NULL CONSTRAINT fk_module_course_course REFERENCES courses,
+
+                CONSTRAINT pk_module_course PRIMARY KEY (module_id, course_id)
+            );
+
+            CREATE TABLE IF NOT EXISTS planned_courses (
+                id SERIAL CONSTRAINT pk_planned_course PRIMARY KEY,
+                external_id UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
+                study_plan_id INTEGER NOT NULL CONSTRAINT fk_planned_course_plan REFERENCES study_plans,
+                course_id INTEGER NOT NULL CONSTRAINT fk_planned_course_course REFERENCES courses,
+                module_id INTEGER NOT NULL CONSTRAINT fk_planned_course_module REFERENCES modules,
+                semester_id INTEGER NOT NULL CONSTRAINT fk_planned_course_semester REFERENCES semesters,
+                status VARCHAR(50) NOT NULL,
+                creation_date TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL,
+
+                CONSTRAINT uq_plan_course UNIQUE (study_plan_id, course_id)
+            );
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
