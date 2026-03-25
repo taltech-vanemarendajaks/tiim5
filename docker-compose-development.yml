@@ -1,12 +1,12 @@
 services:
   db:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile-db
     container_name: postgres_db
     restart: always
     env_file:
-      - .env
+      - ./backend/.env
     ports:
       - "${DB_PORT:-5432}:5432"
     volumes:
@@ -27,14 +27,14 @@ services:
         condition: service_healthy
         restart: true
     env_file:
-      - .env
+      - ./backend/.env
     volumes:
-      - .:/home/gradle/project
+      - ./backend:/home/gradle/project
       - studyplanner_gradle_cache:/home/gradle/.gradle
     develop:
       watch:
         - action: sync
-          path: .
+          path: ./backend
           target: /home/gradle/project
           ignore:
           - .gradle/
