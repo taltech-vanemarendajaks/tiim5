@@ -48,6 +48,28 @@ services:
       SPRINGDOC_SWAGGER_UI_ENABLED: true
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${POSTGRES_DB}
 
+  frontend:
+    build:
+      context: ./frontend
+      target: base
+    container_name: frontend-dev
+    env_file:
+      - ./frontend/.env
+    command: npm start -- --host 0.0.0.0
+    ports:
+      - ${FRONTEND_PORT:-4200}:4200
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend
+          target: /app
+          ignore:
+            - node_modules/
+            - dist/
+            - .angular/
+        - action: rebuild
+          path: ./frontend/package.json
+
 volumes:
   studyplanner_gradle_cache:
   studyplanner_postgres_data:
