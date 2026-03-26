@@ -1,0 +1,16 @@
+# Build output
+node_modules
+dist
+.angular
+
+# Testing
+test-results
+playwright-report
+e2e
+
+# Environment
+.env
+
+# Docker
+Dockerfile
+.dockerignore
