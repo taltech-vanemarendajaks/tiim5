@@ -4,9 +4,9 @@ services:
       context: ./frontend
     container_name: frontend-prod
     env_file:
-      - ./frontend/.env
+      - .env
     ports:
-      - ${FRONTEND_PORT}:4200
+      - ${FRONTEND_PORT}:4000
 
   backend:
     build:

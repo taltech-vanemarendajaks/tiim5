@@ -2,10 +2,10 @@ services:
   frontend:
     build:
       context: ./frontend
-      target: base
+      target: dev
     container_name: frontend-dev
     env_file:
-      - ./frontend/.env
+      - .env
     command: npm start -- --host 0.0.0.0
     ports:
       - ${FRONTEND_PORT:-4200}:4200
