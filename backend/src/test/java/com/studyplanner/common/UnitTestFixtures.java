@@ -1,6 +1,7 @@
 package com.studyplanner.common;
 
 import com.studyplanner.dto.CourseResponse;
+import com.studyplanner.dto.CourseVersionResponse;
 import com.studyplanner.dto.PlannedCourseResponse;
 import com.studyplanner.dto.SemesterResponse;
 import com.studyplanner.dto.UserResponse;
@@ -16,6 +17,7 @@ public class UnitTestFixtures {
       UUID.fromString("02e0d994-905b-47b8-b58f-8f9dfe960816");
   public static final UUID AN_EXTERNAL_ID = UUID.fromString("147ffa4f-b56e-40f0-8ce0-266f77ff20c1");
   public static final LocalDateTime A_LOCAL_DATE_TIME = LocalDateTime.of(2024, 8, 13, 15, 30);
+  public static final UUID A_COURSE_UUID = UUID.fromString("b99c0bb1-efd4-9b0a-857a-3dc7114e5c19");
 
   public static UserResponse aUserResponse() {
     return UserResponse.builder()
@@ -56,18 +58,21 @@ public class UnitTestFixtures {
   public static CourseResponse aCourseResponse() {
     return CourseResponse.builder()
         .externalId(AN_EXTERNAL_ID)
-        .title("Course")
+        .code("1")
+        .title(new CourseResponse.Title("Course", "Kursus"))
         .credits(6.0)
-        .semesterType(SemesterType.SPRING)
+        .semesters(List.of(SemesterType.SPRING))
         .build();
   }
 
   public static Course aCourse() {
     return Course.builder()
         .externalId(AN_EXTERNAL_ID)
-        .title("Course")
+        .code("1")
+        .titleEn("Course")
+        .titleEt("Kursus")
         .credits(6.0)
-        .semesterType(SemesterType.SPRING)
+        .semesterType(List.of(SemesterType.SPRING))
         .build();
   }
 
@@ -80,5 +85,13 @@ public class UnitTestFixtures {
 
   public static PlannedCourse aPlannedCourse() {
     return PlannedCourse.builder().externalId(AN_EXTERNAL_ID).course(aCourse()).build();
+  }
+
+  public static CourseVersionResponse aCourseVersionResponse() {
+    return CourseVersionResponse.builder()
+        .target(
+            new CourseVersionResponse.Target(
+                new CourseVersionResponse.Target.Semester("spring", "kevad", "spring")))
+        .build();
   }
 }

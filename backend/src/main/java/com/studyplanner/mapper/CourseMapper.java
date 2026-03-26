@@ -8,9 +8,9 @@ public class CourseMapper {
   public static CourseResponse mapToResponse(Course course) {
     return CourseResponse.builder()
         .externalId(course.getExternalId())
-        .title(course.getTitle())
+        .title(new CourseResponse.Title(course.getTitleEn(), course.getTitleEt()))
         .code(course.getCode())
-        .semesterType(course.getSemesterType())
+        .semesters(course.getSemesterType())
         .credits(course.getCredits())
         .build();
   }

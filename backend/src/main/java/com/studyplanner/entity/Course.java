@@ -34,14 +34,17 @@ public class Course extends BaseEntity {
   private String code;
 
   @Column(nullable = false)
-  private String title;
+  private String titleEn;
+
+  @Column(nullable = false)
+  private String titleEt;
 
   @Column(nullable = false)
   private Double credits;
 
   @Column(nullable = false)
   @Enumerated(value = EnumType.STRING)
-  private SemesterType semesterType;
+  private List<SemesterType> semesterType;
 
   @ManyToMany(mappedBy = "courses")
   private List<Module> modules;
