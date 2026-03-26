@@ -21,7 +21,6 @@ repositories {
 
 dependencies {
     implementation(libs.spring.boot.starter.webmvc) 
-    implementation(libs.spring.boot.starter.webflux)
     implementation(libs.springdoc.webmvc.ui)
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.liquibase)
