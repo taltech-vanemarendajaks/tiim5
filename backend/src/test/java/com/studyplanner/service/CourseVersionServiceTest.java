@@ -6,7 +6,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import com.studyplanner.client.ApiClient;
-import com.studyplanner.dto.CourseVersionResponse;
+import com.studyplanner.client.dto.CourseVersionResponse;
+
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

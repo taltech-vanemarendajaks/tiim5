@@ -1,7 +1,7 @@
 package com.studyplanner.service;
 
 import com.studyplanner.client.ApiClient;
-import com.studyplanner.dto.CourseResponse;
+import com.studyplanner.client.dto.CourseResponse;
 import com.studyplanner.entity.SemesterType;
 import java.util.List;
 import java.util.Objects;

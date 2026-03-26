@@ -1,11 +1,12 @@
 package com.studyplanner.client;
 
-import com.studyplanner.dto.CourseResponse;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+
+import com.studyplanner.client.dto.CourseResponse;
 
 @Component
 @RequiredArgsConstructor

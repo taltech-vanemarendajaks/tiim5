@@ -1,7 +1,8 @@
 package com.studyplanner.service;
 
 import com.studyplanner.client.ApiClient;
-import com.studyplanner.dto.CourseVersionResponse;
+import com.studyplanner.client.dto.CourseVersionResponse;
+
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

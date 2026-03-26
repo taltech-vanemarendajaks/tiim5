@@ -1,6 +1,6 @@
 package com.studyplanner.mapper;
 
-import com.studyplanner.dto.CourseResponse;
+import com.studyplanner.client.dto.CourseResponse;
 import com.studyplanner.entity.Course;
 
 public class CourseMapper {

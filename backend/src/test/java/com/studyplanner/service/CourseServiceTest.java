@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 import com.studyplanner.client.ApiClient;
-import com.studyplanner.dto.CourseResponse;
+import com.studyplanner.client.dto.CourseResponse;
 import com.studyplanner.entity.SemesterType;
 import java.util.List;
 import org.junit.jupiter.api.Test;

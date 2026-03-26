@@ -1,7 +1,8 @@
 package com.studyplanner.client;
 
-import com.studyplanner.dto.CourseResponse;
-import com.studyplanner.dto.CourseVersionResponse;
+import com.studyplanner.client.dto.CourseResponse;
+import com.studyplanner.client.dto.CourseVersionResponse;
+
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Component;

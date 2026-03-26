@@ -1,7 +1,7 @@
 package com.studyplanner.common;
 
-import com.studyplanner.dto.CourseResponse;
-import com.studyplanner.dto.CourseVersionResponse;
+import com.studyplanner.client.dto.CourseResponse;
+import com.studyplanner.client.dto.CourseVersionResponse;
 import com.studyplanner.dto.PlannedCourseResponse;
 import com.studyplanner.dto.SemesterResponse;
 import com.studyplanner.dto.UserResponse;
