@@ -6,7 +6,6 @@ dist
 # Testing
 test-results
 playwright-report
-e2e
 
 # Environment
 .env
@@ -14,3 +13,6 @@ e2e
 # Docker
 Dockerfile
 .dockerignore
+
+# Docs
+*.md

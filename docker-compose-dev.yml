@@ -4,11 +4,9 @@ services:
       context: ./frontend
       target: dev
     container_name: frontend-dev
-    env_file:
-      - .env
     command: npm start -- --host 0.0.0.0
     ports:
-      - ${FRONTEND_PORT:-4200}:4200
+      - 4200:4200
     develop:
       watch:
         - action: sync
@@ -22,54 +20,50 @@ services:
           path: ./frontend/package.json
 
   backend:
-    image: gradle:jdk25-corretto
+    build:
+      context: ./backend
+      dockerfile: Dockerfile-backend
+      target: dev
     container_name: backend-dev
-    working_dir: /home/gradle/project
-    user: gradle
     depends_on:
       db:
         condition: service_healthy
         restart: true
     env_file:
       - ./backend/.env
-    volumes:
-      - ./backend:/home/gradle/project
-      - studyplanner_gradle_cache:/home/gradle/.gradle
+    environment:
+      DB_HOST: db
+      SQL_ENABLED: true
+      SPRINGDOC_API_DOCS_ENABLED: true
+      SPRINGDOC_SWAGGER_UI_ENABLED: true
+    command: sh -c "gradle classes --continuous --no-daemon --watch-fs & gradle bootRun --no-daemon"
+    ports:
+      - 8080:8080
     develop:
       watch:
         - action: sync
-          path: ./backend
-          target: /home/gradle/project
-          ignore:
-          - .gradle/
-          - build/
-    command:
-      sh -c "chmod +x gradlew && (./gradlew classes --continuous --no-daemon --watch-fs & ./gradlew bootRun --no-daemon)"
-    ports:
-      - ${BACKEND_PORT:-8080}:8080
-    environment:
-      SPRINGDOC_API_DOCS_ENABLED: true
-      SPRINGDOC_SWAGGER_UI_ENABLED: true
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${POSTGRES_DB}
+          path: ./backend/src
+          target: /app/src
+        - action: rebuild
+          path: ./backend/build.gradle.kts
 
   db:
     build:
       context: ./backend
       dockerfile: Dockerfile-db
-    container_name: postgres_db
+    container_name: postgres-db-dev
     restart: always
     env_file:
       - ./backend/.env
     ports:
-      - ${DB_PORT:-5432}:5432
+      - 5432:5432
     volumes:
       - studyplanner_postgres_data:/var/lib/postgresql
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB" ]
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
       interval: 5s
       timeout: 5s
       retries: 5
 
 volumes:
-  studyplanner_gradle_cache:
   studyplanner_postgres_data:
