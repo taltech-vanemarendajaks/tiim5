@@ -1,0 +1,11 @@
+$kind: http-request
+name: getModulesFromCurricula
+description: |-
+  Probs not needed as a separate endpoint
+
+  as it would make sense the modules would be nested under curricula already.
+url: "{{host}}/curricula/:curriculum_external_id/modules"
+method: GET
+pathVariables:
+  curriculum_external_id: 03421357-a6c2-da39-8f11-eb6b24c5d0e8
+order: 1275186676499865

@@ -1,0 +1,5 @@
+$kind: http-request
+name: getAllCurricula
+url: http://ois2.ut.ee/api/curricula
+method: GET
+order: 4059538157713940

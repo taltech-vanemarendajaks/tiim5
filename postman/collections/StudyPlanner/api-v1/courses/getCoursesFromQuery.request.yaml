@@ -1,0 +1,16 @@
+$kind: http-request
+name: getCoursesFromQuery
+description: >-
+  I imagine the response from this should be paginated probs, as there maybe be
+  very many courses  
+
+  /courses
+url: "{{host}}/courses?course_external_id=&code=&title=&credits=&semester_type="
+method: GET
+queryParams:
+  course_external_id: ""
+  code: ""
+  title: ""
+  credits: ""
+  semester_type: ""
+order: 2893341130894932

@@ -1,0 +1,7 @@
+$kind: http-request
+name: getStudyPlanById
+url: "{{host}}/study-plans/:studyPlanId"
+method: GET
+pathVariables:
+  studyPlanId: ""
+order: 1774475351707
