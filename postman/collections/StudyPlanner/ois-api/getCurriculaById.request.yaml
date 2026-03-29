@@ -1,7 +1,0 @@
-$kind: http-request
-name: getCurriculaById
-url: http://ois2.ut.ee/api/curricula/:curriculaCode
-method: GET
-pathVariables:
-  curriculaCode: "2617"
-order: 4447290400764671

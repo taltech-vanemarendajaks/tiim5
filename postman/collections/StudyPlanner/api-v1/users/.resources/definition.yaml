@@ -1,6 +1,0 @@
-$kind: collection
-name: users
-description: |-
-  I saw some recommendations for using the pattern  
-  /users/me/my-resource
-order: 1000
