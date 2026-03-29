@@ -44,7 +44,7 @@ public class Course extends BaseEntity {
 
   @Column(nullable = false)
   @Enumerated(value = EnumType.STRING)
-  private List<SemesterType> semesterType;
+  private SemesterType semesterType;
 
   @ManyToMany(mappedBy = "courses")
   private List<Module> modules;

@@ -1,7 +1,8 @@
 package com.studyplanner.common;
 
-import com.studyplanner.client.dto.CourseResponse;
-import com.studyplanner.client.dto.CourseVersionResponse;
+import com.studyplanner.client.dto.ClientCourseResponse;
+import com.studyplanner.client.dto.ClientVersionResponse;
+import com.studyplanner.dto.CourseResponse;
 import com.studyplanner.dto.PlannedCourseResponse;
 import com.studyplanner.dto.SemesterResponse;
 import com.studyplanner.dto.UserResponse;
@@ -18,6 +19,8 @@ public class UnitTestFixtures {
   public static final UUID AN_EXTERNAL_ID = UUID.fromString("147ffa4f-b56e-40f0-8ce0-266f77ff20c1");
   public static final LocalDateTime A_LOCAL_DATE_TIME = LocalDateTime.of(2024, 8, 13, 15, 30);
   public static final UUID A_COURSE_UUID = UUID.fromString("b99c0bb1-efd4-9b0a-857a-3dc7114e5c19");
+  public static final UUID AN_LATEST_VERSION_UUID =
+      UUID.fromString("814c854e-0af7-fb0a-6c8c-5f255cc4e277");
 
   public static UserResponse aUserResponse() {
     return UserResponse.builder()
@@ -59,9 +62,10 @@ public class UnitTestFixtures {
     return CourseResponse.builder()
         .externalId(AN_EXTERNAL_ID)
         .code("1")
-        .title(new CourseResponse.Title("Course", "Kursus"))
+        .titleEn("Course")
+        .titleEt("Kursus")
         .credits(6.0)
-        .semesters(List.of(SemesterType.SPRING))
+        .semesterType(SemesterType.SPRING)
         .build();
   }
 
@@ -72,7 +76,7 @@ public class UnitTestFixtures {
         .titleEn("Course")
         .titleEt("Kursus")
         .credits(6.0)
-        .semesterType(List.of(SemesterType.SPRING))
+        .semesterType(SemesterType.SPRING)
         .build();
   }
 
@@ -87,11 +91,22 @@ public class UnitTestFixtures {
     return PlannedCourse.builder().externalId(AN_EXTERNAL_ID).course(aCourse()).build();
   }
 
-  public static CourseVersionResponse aCourseVersionResponse() {
-    return CourseVersionResponse.builder()
+  public static ClientVersionResponse aClientVersionResponse() {
+    return ClientVersionResponse.builder()
         .target(
-            new CourseVersionResponse.Target(
-                new CourseVersionResponse.Target.Semester("spring", "kevad", "spring")))
+            new ClientVersionResponse.Target(
+                new ClientVersionResponse.Target.Semester("spring", "kevad", "spring")))
+        .build();
+  }
+
+  public static ClientCourseResponse aClientCourseResponse() {
+    return ClientCourseResponse.builder()
+        .externalId(A_COURSE_UUID)
+        .code("1")
+        .title(new ClientCourseResponse.Title("Course", "Kursus"))
+        .credits(6.0)
+        .latestVersion(AN_LATEST_VERSION_UUID)
+        .semester(SemesterType.SPRING)
         .build();
   }
 }

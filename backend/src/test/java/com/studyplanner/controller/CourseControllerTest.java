@@ -30,6 +30,6 @@ public class CourseControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isArray())
         .andExpect(jsonPath("$[0].code").value("1"))
-        .andExpect(jsonPath("$[0].semesters[0]").value("SPRING"));
+        .andExpect(jsonPath("$[0].semesterType").value("SPRING"));
   }
 }

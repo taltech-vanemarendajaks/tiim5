@@ -1,6 +1,6 @@
 package com.studyplanner.controller;
 
-import com.studyplanner.client.dto.CourseResponse;
+import com.studyplanner.dto.CourseResponse;
 import com.studyplanner.service.CourseService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
