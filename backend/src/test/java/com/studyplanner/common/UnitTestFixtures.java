@@ -106,7 +106,6 @@ public class UnitTestFixtures {
         .title(new ClientCourseResponse.Title("Course", "Kursus"))
         .credits(6.0)
         .latestVersion(AN_LATEST_VERSION_UUID)
-        .semester(SemesterType.SPRING)
         .build();
   }
 }
