@@ -10,6 +10,8 @@ public class PlannedCourseMapper {
     return PlannedCourseResponse.builder()
         .externalId(course.getExternalId())
         .course(CourseMapper.mapToResponse(course.getCourse()))
+        .module(ModuleMapper.mapToResponse(course.getModule()))
+        .courseStatus(course.getStatus())
         .build();
   }
 

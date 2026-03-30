@@ -5,3 +5,16 @@ INSERT INTO users (name) VALUES ('Jane Doe');
 
 INSERT INTO study_plans (curriculum_id, user_id, start_date) VALUES
     (1, 1, '2025-09-01 00:00:00');
+
+INSERT INTO semesters(finished, semester_type, study_plan_id, year) VALUES
+    (false, 'AUTUMN', 1, 2026);
+
+INSERT INTO modules (module_external_id, title, required_credits, optional_credits) VALUES
+    ('49fa7f06-6752-6a70-134e-f6e2a869e2f6', 'Füüsika esimene suunamoodul', 24, 0);
+
+INSERT INTO courses (course_external_id, course_version_external_id, code, title, credits, semester_type) VALUES
+    ('c5633958-c5ae-f412-cc5f-258bb71b686f', '2507bbd2-0beb-b709-8c5d-b299e2694683', 'LOFY.01.009', 'Mikromaailma füüsika', 6, 'AUTUMN');
+
+INSERT INTO module_courses(module_id, course_id) VALUES (1, 1);
+
+INSERT INTO curriculum_modules (curriculum_id, module_id) VALUES (1,1);
