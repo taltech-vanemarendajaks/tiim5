@@ -7,5 +7,5 @@ import java.util.Map;
 import java.util.UUID;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record CourseVersionsResponse(
-    @JsonProperty("courses_versions") Map<UUID, List<ClientVersionResponse>> coursesVersions) {}
+public record OisCourseVersionsResponse(
+    @JsonProperty("courses_versions") Map<UUID, List<OisVersionResponse>> coursesVersions) {}

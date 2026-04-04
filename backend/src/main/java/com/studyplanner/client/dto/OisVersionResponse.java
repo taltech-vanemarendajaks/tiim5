@@ -7,11 +7,11 @@ import lombok.Builder;
 
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record ClientVersionResponse(@NotBlank UUID uuid, @NotBlank Target target) {
+public record OisVersionResponse(@NotBlank UUID uuid, @NotBlank Target target) {
 
   @JsonIgnoreProperties(ignoreUnknown = true)
   public record Target(Semester semester) {
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public record Semester(String code, String et, String en) {}
+    public record Semester(OisSemesterCode code, String et, String en) {}
   }
 }

@@ -1,8 +1,8 @@
 package com.studyplanner.service;
 
 import com.studyplanner.client.OisClient;
-import com.studyplanner.client.dto.ClientCourseResponse;
-import com.studyplanner.client.dto.ClientVersionResponse;
+import com.studyplanner.client.dto.OisCourseResponse;
+import com.studyplanner.client.dto.OisVersionResponse;
 import com.studyplanner.dto.CourseResponse;
 import com.studyplanner.mapper.CourseMapper;
 import java.util.List;
@@ -18,29 +18,42 @@ public class CourseService {
 
   private final OisClient oisClient;
 
-  public List<CourseResponse> getAllCourses() {
-    List<ClientCourseResponse> clientCourses = oisClient.getAllCourses();
+  public List<CourseResponse> getAllCourses(int start, int take, String title, String code) {
+    List<OisCourseResponse> oisCourses = oisClient.getAllCourses(start, take, title, code);
+    Map<UUID, List<OisVersionResponse>> versionsByCourseUuid = getVersionsByCourseUuid(oisCourses);
 
-    List<UUID> versionUuids =
-        clientCourses.stream()
-            .map(ClientCourseResponse::latestVersion)
-            .filter(Objects::nonNull)
-            .distinct()
-            .toList();
-
-    Map<UUID, List<ClientVersionResponse>> versionsByCourseUuid =
-        versionUuids.isEmpty() ? Map.of() : oisClient.getAllCourseVersions(versionUuids);
-
-    return clientCourses.stream()
-        .map(
-            course -> {
-              List<ClientVersionResponse> versions =
-                  versionsByCourseUuid.getOrDefault(course.externalId(), List.of());
-
-              ClientVersionResponse firstVersion = versions.isEmpty() ? null : versions.get(0);
-
-              return CourseMapper.mapClientToResponse(course, firstVersion);
-            })
+    return oisCourses.stream()
+        .map(course -> mapToCourseResponse(course, versionsByCourseUuid))
         .toList();
+  }
+
+  private Map<UUID, List<OisVersionResponse>> getVersionsByCourseUuid(
+      List<OisCourseResponse> oisCourses) {
+    List<UUID> versionUuids = extractVersionUuids(oisCourses);
+
+    if (versionUuids.isEmpty()) {
+      return Map.of();
+    }
+
+    return oisClient.getAllCourseVersions(versionUuids);
+  }
+
+  private List<UUID> extractVersionUuids(List<OisCourseResponse> oisCourses) {
+    return oisCourses.stream()
+        .map(OisCourseResponse::latestVersion)
+        .filter(Objects::nonNull)
+        .distinct()
+        .toList();
+  }
+
+  private CourseResponse mapToCourseResponse(
+      OisCourseResponse course, Map<UUID, List<OisVersionResponse>> versionsByCourseUuid) {
+
+    List<OisVersionResponse> versions =
+        versionsByCourseUuid.getOrDefault(course.externalId(), List.of());
+
+    OisVersionResponse firstVersion = versions.isEmpty() ? null : versions.get(0);
+
+    return CourseMapper.mapOisToResponse(course, firstVersion);
   }
 }

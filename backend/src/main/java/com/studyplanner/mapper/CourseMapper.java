@@ -1,7 +1,8 @@
 package com.studyplanner.mapper;
 
-import com.studyplanner.client.dto.ClientCourseResponse;
-import com.studyplanner.client.dto.ClientVersionResponse;
+import com.studyplanner.client.dto.OisCourseResponse;
+import com.studyplanner.client.dto.OisSemesterCode;
+import com.studyplanner.client.dto.OisVersionResponse;
 import com.studyplanner.dto.CourseResponse;
 import com.studyplanner.entity.Course;
 import com.studyplanner.entity.SemesterType;
@@ -19,8 +20,8 @@ public class CourseMapper {
         .build();
   }
 
-  public static CourseResponse mapClientToResponse(
-      ClientCourseResponse course, ClientVersionResponse version) {
+  public static CourseResponse mapOisToResponse(
+      OisCourseResponse course, OisVersionResponse version) {
 
     return CourseResponse.builder()
         .externalId(course.externalId())
@@ -32,17 +33,16 @@ public class CourseMapper {
         .build();
   }
 
-  private static SemesterType mapSemesterType(ClientVersionResponse version) {
+  private static SemesterType mapSemesterType(OisVersionResponse version) {
     if (version == null || version.target() == null || version.target().semester() == null) {
       return null;
     }
 
-    String code = version.target().semester().code();
+    OisSemesterCode code = version.target().semester().code();
 
     return switch (code) {
-      case "autumn" -> SemesterType.AUTUMN;
-      case "spring" -> SemesterType.SPRING;
-      default -> null;
+      case AUTUMN -> SemesterType.AUTUMN;
+      case SPRING -> SemesterType.SPRING;
     };
   }
 }
