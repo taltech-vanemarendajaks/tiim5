@@ -46,8 +46,8 @@ spotless {
     }
 }
 
-tasks.named("bootRun") {
-    dependsOn("spotlessCheck")
+tasks.named("compileJava") {
+    dependsOn("spotlessApply")
 }
 
 sourceSets {
