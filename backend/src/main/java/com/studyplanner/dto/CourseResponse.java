@@ -9,7 +9,8 @@ import lombok.Builder;
 @Builder
 public record CourseResponse(
     @NotNull UUID externalId,
-    @NotBlank String title,
+    @NotBlank String titleEn,
+    @NotBlank String titleEt,
     @NotBlank String code,
     @NotNull Double credits,
     @NotNull SemesterType semesterType) {}

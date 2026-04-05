@@ -14,6 +14,9 @@ spring:
   jpa:
     show-sql: ${SQL_ENABLED}
 
+ois:
+  base-url: "https://ois2.ut.ee/api"
+  
 springdoc:
   swagger-ui:
     path: /docs

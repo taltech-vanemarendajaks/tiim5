@@ -116,4 +116,12 @@
         </sql>
     </changeSet>
 
+    <changeSet id="29.03.2026" author="mari.piiriste">
+        <sql>
+            ALTER TABLE courses ADD COLUMN title_en VARCHAR(255);
+            ALTER TABLE courses ADD COLUMN title_et VARCHAR(255);
+            ALTER TABLE courses DROP COLUMN title;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
