@@ -30,7 +30,7 @@ public class CourseServiceTest {
         .thenReturn(Map.of(A_COURSE_UUID, List.of(aClientVersionResponse())));
 
     var actual = courseService.getAllCourses(1, 300, "Kursus", null);
-    CourseResponse first = actual.get(0);
+    var first = actual.get(0);
 
     assertAll(
         "course response",
