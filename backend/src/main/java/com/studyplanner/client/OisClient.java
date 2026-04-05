@@ -14,9 +14,9 @@ import org.springframework.web.client.RestClient;
 @Component
 public class OisClient {
 
-  private final RestClient restClient;
   private static final String COURSES_URI = "/courses";
   private static final String COURSES_VERSIONS_DETAILS_URI = "/courses/versions/details";
+  private final RestClient restClient;
 
   public OisClient(@Value("${ois.base-url}") String baseUrl) {
     this.restClient =

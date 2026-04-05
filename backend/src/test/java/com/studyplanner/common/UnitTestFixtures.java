@@ -3,7 +3,7 @@ package com.studyplanner.common;
 import com.studyplanner.client.dto.OisCourseResponse;
 import com.studyplanner.client.dto.OisSemesterCode;
 import com.studyplanner.client.dto.OisVersionResponse;
-import com.studyplanner.client.dto.common.Title;
+import com.studyplanner.client.dto.Title;
 import com.studyplanner.dto.CourseResponse;
 import com.studyplanner.dto.PlannedCourseResponse;
 import com.studyplanner.dto.SemesterResponse;
