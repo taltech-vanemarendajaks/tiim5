@@ -24,5 +24,5 @@ public interface SemesterRepository extends JpaRepository<Semester, Long> {
       @Param("userExternalId") UUID userExternalId,
       @Param("studyPlanExternalId") UUID studyPlanExternalId);
 
-  List<Semester> findAllByExternalIdIn(List<UUID> externalIds);
+  List<Semester> findAllByStudyPlanExternalId(UUID studyPlanExternalId);
 }

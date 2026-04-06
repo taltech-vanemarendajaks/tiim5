@@ -41,7 +41,7 @@ public class OisClient {
               return uriBuilder.build();
             })
         .retrieve()
-        .body(new ParameterizedTypeReference<List<OisCourseResponse>>() {});
+        .body(new ParameterizedTypeReference<>() {});
   }
 
   public Map<UUID, List<OisVersionResponse>> getAllCourseVersions(List<UUID> uuids) {
