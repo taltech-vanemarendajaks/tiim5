@@ -34,7 +34,10 @@ public class Course extends BaseEntity {
   private String code;
 
   @Column(nullable = false)
-  private String title;
+  private String titleEn;
+
+  @Column(nullable = false)
+  private String titleEt;
 
   @Column(nullable = false)
   private Double credits;

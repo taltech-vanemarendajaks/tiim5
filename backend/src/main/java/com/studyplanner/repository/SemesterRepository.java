@@ -9,7 +9,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface SemesterRepository extends JpaRepository<Semester, Long> {
 
-  @Query("""
+  @Query(
+      """
     SELECT s
     FROM Semester s
         JOIN FETCH s.studyPlan sp
