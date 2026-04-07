@@ -18,6 +18,8 @@ public class UnitTestFixtures {
       UUID.fromString("02e0d994-905b-47b8-b58f-8f9dfe960816");
   public static final UUID A_MODULE_EXTERNAL_ID =
       UUID.fromString("ee1a8984-3cff-4dc3-9290-458c308378b4");
+  public static final UUID A_SEMESTER_EXTERNAL_ID =
+      UUID.fromString("f61138b4-7cb9-4b32-bb88-3ea719ed4291");
   public static final UUID AN_EXTERNAL_ID = UUID.fromString("147ffa4f-b56e-40f0-8ce0-266f77ff20c1");
   public static final LocalDateTime A_LOCAL_DATE_TIME = LocalDateTime.of(2024, 8, 13, 15, 30);
   public static final UUID A_COURSE_UUID = UUID.fromString("b99c0bb1-efd4-9b0a-857a-3dc7114e5c19");
@@ -44,7 +46,7 @@ public class UnitTestFixtures {
 
   public static SemesterResponse aSemesterResponse() {
     return SemesterResponse.builder()
-        .externalId(AN_EXTERNAL_ID)
+        .externalId(A_SEMESTER_EXTERNAL_ID)
         .year(2026)
         .finished(false)
         .plannedCourses(List.of())
@@ -54,11 +56,12 @@ public class UnitTestFixtures {
 
   public static Semester aSemester() {
     return Semester.builder()
-        .externalId(AN_EXTERNAL_ID)
+        .externalId(A_SEMESTER_EXTERNAL_ID)
         .year(2026)
         .finished(false)
         .plannedCourses(List.of())
         .creationDate(A_LOCAL_DATE_TIME)
+        .studyPlan(aStudyPlan())
         .build();
   }
 
@@ -75,6 +78,7 @@ public class UnitTestFixtures {
 
   public static Course aCourse() {
     return Course.builder()
+        .id(1L)
         .externalId(AN_EXTERNAL_ID)
         .code("1")
         .titleEn(A_TITLE_EN)
@@ -118,6 +122,15 @@ public class UnitTestFixtures {
         .build();
   }
 
+  public static Curriculum aCurriculum() {
+    return Curriculum.builder()
+        .id(1L)
+        .externalId(AN_EXTERNAL_ID)
+        .title(A_TITLE_EN)
+        .credits(120)
+        .build();
+  }
+
   public static Module aModule() {
     return Module.builder()
         .externalId(AN_EXTERNAL_ID)
@@ -125,6 +138,7 @@ public class UnitTestFixtures {
         .title(A_TITLE_EN)
         .requiredCredits(12)
         .optionalCredits(0)
+        .curriculums(List.of(aCurriculum()))
         .build();
   }
 
@@ -134,6 +148,24 @@ public class UnitTestFixtures {
         .title(A_TITLE_EN)
         .requiredCredits(12)
         .optionalCredits(0)
+        .build();
+  }
+
+  public static PlannedCourseRequest aPlannedCourseRequest() {
+    return PlannedCourseRequest.builder()
+        .courseVersionExternalId(A_LATEST_VERSION_UUID)
+        .courseExternalId(A_COURSE_UUID)
+        .semesterExternalId(A_SEMESTER_EXTERNAL_ID)
+        .status(CourseStatus.PLANNED)
+        .build();
+  }
+
+  public static StudyPlan aStudyPlan() {
+    return StudyPlan.builder()
+        .externalId(AN_EXTERNAL_ID)
+        .completedCredits(36)
+        .user(aUser())
+        .curriculum(aCurriculum())
         .build();
   }
 }

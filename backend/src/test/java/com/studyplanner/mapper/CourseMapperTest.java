@@ -35,4 +35,13 @@ class CourseMapperTest {
         () -> assertThat(actual.credits()).isEqualTo(6.0),
         () -> assertThat(actual.semesterType()).isEqualTo(SemesterType.SPRING));
   }
+
+  @Test
+  void mapSemesterTypeTest() {
+    var version = aClientVersionResponse();
+
+    var actual = CourseMapper.mapSemesterType(version);
+
+    assertEquals(SemesterType.SPRING, actual);
+  }
 }
