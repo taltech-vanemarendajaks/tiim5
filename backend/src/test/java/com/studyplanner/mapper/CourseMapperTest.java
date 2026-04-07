@@ -30,8 +30,8 @@ class CourseMapperTest {
         "course mapping",
         () -> assertThat(actual.externalId()).isEqualTo(A_COURSE_UUID),
         () -> assertThat(actual.code()).isEqualTo("1"),
-        () -> assertThat(actual.titleEn()).isEqualTo(A_COURSE_TITLE_EN),
-        () -> assertThat(actual.titleEt()).isEqualTo(A_COURSE_TITLE_ET),
+        () -> assertThat(actual.titleEn()).isEqualTo(A_TITLE_EN),
+        () -> assertThat(actual.titleEt()).isEqualTo(A_TITLE_ET),
         () -> assertThat(actual.credits()).isEqualTo(6.0),
         () -> assertThat(actual.semesterType()).isEqualTo(SemesterType.SPRING));
   }
