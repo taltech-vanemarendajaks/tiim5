@@ -12,6 +12,8 @@ public class CourseMapper {
   public static CourseResponse mapToResponse(Course course) {
     return CourseResponse.builder()
         .externalId(course.getExternalId())
+        .oisExternalId(course.getCourseExternalId())
+        .versionExternalId(course.getCourseVersionExternalId())
         .titleEn(course.getTitleEn())
         .titleEt(course.getTitleEt())
         .code(course.getCode())
@@ -34,7 +36,7 @@ public class CourseMapper {
         .build();
   }
 
-  private static SemesterType mapSemesterType(OisVersionResponse version) {
+  public static SemesterType mapSemesterType(OisVersionResponse version) {
     if (version == null || version.target() == null || version.target().semester() == null) {
       return null;
     }

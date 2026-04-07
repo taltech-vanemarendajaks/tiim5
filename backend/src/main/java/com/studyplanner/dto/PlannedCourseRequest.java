@@ -9,5 +9,5 @@ import lombok.Builder;
 public record PlannedCourseRequest(
     @NotNull UUID semesterExternalId,
     @NotNull UUID courseVersionExternalId,
-    @NotNull String courseCode,
+    @NotNull UUID courseExternalId,
     CourseStatus status) {}

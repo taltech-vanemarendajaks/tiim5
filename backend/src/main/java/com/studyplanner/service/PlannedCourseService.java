@@ -1,12 +1,14 @@
 package com.studyplanner.service;
 
-import com.studyplanner.dto.CourseResponse;
+import com.studyplanner.client.OisClient;
+import com.studyplanner.client.dto.OisCourseFullResponse;
 import com.studyplanner.dto.PlannedCourseRequest;
 import com.studyplanner.dto.PlannedCourseResponse;
 import com.studyplanner.entity.*;
 import com.studyplanner.entity.Module;
 import com.studyplanner.exception.AccessDeniedException;
 import com.studyplanner.exception.ResourceNotFoundException;
+import com.studyplanner.mapper.CourseMapper;
 import com.studyplanner.mapper.PlannedCourseMapper;
 import com.studyplanner.repository.*;
 import com.studyplanner.utils.UserRequestContext;
@@ -26,11 +28,21 @@ public class PlannedCourseService {
   private final ModuleRepository moduleRepository;
   private final PlannedCourseRepository plannedCourseRepository;
   private final SemesterRepository semesterRepository;
-  private final CourseService courseService;
+  private final OisClient oisClient;
 
   @Transactional
   public List<PlannedCourseResponse> updatePlannedCourses(
       UUID studyPlanExternalId, List<PlannedCourseRequest> requests) {
+    List<PlannedCourseRequest> uniqueRequests =
+        requests.stream()
+            .collect(
+                Collectors.collectingAndThen(
+                    Collectors.toCollection(
+                        () ->
+                            new TreeSet<>(
+                                Comparator.comparing(PlannedCourseRequest::courseVersionExternalId)
+                                    .thenComparing(PlannedCourseRequest::semesterExternalId))),
+                    ArrayList::new));
 
     StudyPlan studyPlan =
         studyPlanRepository
@@ -47,9 +59,9 @@ public class PlannedCourseService {
 
     Map<UUID, Semester> semestersByExternalId =
         semesterRepository.findAllByStudyPlanExternalId(studyPlanExternalId).stream()
-            .collect(Collectors.toMap(Semester::getExternalId, s -> s));
+            .collect(Collectors.toMap(Semester::getExternalId, semester -> semester));
 
-    requests.forEach(
+    uniqueRequests.forEach(
         request -> {
           if (!semestersByExternalId.containsKey(request.semesterExternalId())) {
             throw new ResourceNotFoundException(
@@ -58,9 +70,9 @@ public class PlannedCourseService {
         });
 
     List<PlannedCourse> plannedCourses = new ArrayList<>();
-    for (PlannedCourseRequest request : requests) {
+    for (PlannedCourseRequest request : uniqueRequests) {
       Course course =
-          resolveCourse(request.courseVersionExternalId(), request.courseCode(), studyPlan);
+          resolveCourse(request.courseExternalId(), request.courseVersionExternalId(), studyPlan);
       Module module = resolveModule(course, studyPlan);
       Semester semester = semestersByExternalId.get(request.semesterExternalId());
 
@@ -81,24 +93,22 @@ public class PlannedCourseService {
   }
 
   private Course resolveCourse(
-      UUID courseVersionExternalId, String courseCode, StudyPlan studyPlan) {
+      UUID courseExternalId, UUID courseVersionExternalId, StudyPlan studyPlan) {
     return courseRepository
         .findByCourseVersionExternalId(courseVersionExternalId)
         .orElseGet(
             () -> {
-              CourseResponse response =
-                  courseService
-                      .getAllCourses(1, 1, null, courseCode)
-                      .getFirst(); // fetch by versionId instead
+              OisCourseFullResponse response =
+                  oisClient.getCourseByVersionExternalId(courseExternalId, courseVersionExternalId);
               Course course = new Course();
               course.setExternalId(UUID.randomUUID());
-              course.setCourseExternalId(response.externalId());
-              course.setCourseVersionExternalId(response.versionExternalId());
-              course.setTitleEn(response.titleEn());
-              course.setTitleEt(response.titleEt());
-              course.setCode(response.code());
-              course.setCredits(response.credits());
-              course.setSemesterType(response.semesterType());
+              course.setCourseExternalId(response.courseResponse().externalId());
+              course.setCourseVersionExternalId(response.courseResponse().latestVersion());
+              course.setTitleEn(response.courseResponse().title().en());
+              course.setTitleEt(response.courseResponse().title().et());
+              course.setCode(response.courseResponse().code());
+              course.setCredits(response.courseResponse().credits());
+              course.setSemesterType(CourseMapper.mapSemesterType(response.versionResponse()));
               course.setCreationDate(LocalDateTime.now());
               Course saved = courseRepository.save(course);
 
