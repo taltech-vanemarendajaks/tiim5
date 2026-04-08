@@ -28,7 +28,7 @@ class CourseMapperTest {
 
     assertAll(
         "course mapping",
-        () -> assertThat(actual.externalId()).isEqualTo(A_COURSE_UUID),
+        () -> assertThat(actual.oisExternalId()).isEqualTo(A_COURSE_UUID),
         () -> assertThat(actual.code()).isEqualTo("1"),
         () -> assertThat(actual.titleEn()).isEqualTo(A_TITLE_EN),
         () -> assertThat(actual.titleEt()).isEqualTo(A_TITLE_ET),
@@ -40,7 +40,7 @@ class CourseMapperTest {
   void mapSemesterTypeTest() {
     var version = aClientVersionResponse();
 
-    var actual = CourseMapper.mapSemesterType(version);
+    var actual = CourseMapper.mapSemesterType(version.target());
 
     assertEquals(SemesterType.SPRING, actual);
   }

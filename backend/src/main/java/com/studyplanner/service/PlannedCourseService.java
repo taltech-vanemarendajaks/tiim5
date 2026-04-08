@@ -31,7 +31,7 @@ public class PlannedCourseService {
   private final OisClient oisClient;
 
   @Transactional
-  public List<PlannedCourseResponse> updatePlannedCourses(
+  public List<PlannedCourseResponse> setPlannedCourses(
       UUID studyPlanExternalId, List<PlannedCourseRequest> requests) {
     List<PlannedCourseRequest> uniqueRequests =
         requests.stream()
@@ -69,11 +69,38 @@ public class PlannedCourseService {
           }
         });
 
+    List<UUID> versionIds =
+        uniqueRequests.stream().map(PlannedCourseRequest::courseVersionExternalId).toList();
+
+    Map<UUID, Course> coursesByVersionId =
+        courseRepository.findAllByCourseVersionExternalIdIn(versionIds).stream()
+            .collect(Collectors.toMap(Course::getCourseVersionExternalId, course -> course));
+
+    for (PlannedCourseRequest request : uniqueRequests) {
+      if (!coursesByVersionId.containsKey(request.courseVersionExternalId())) {
+        Course course = fetchAndSaveCourse(request);
+        coursesByVersionId.put(course.getCourseVersionExternalId(), course);
+      }
+    }
+
+    Module optionalSubjects = findOptionalSubjectsModule(studyPlan);
+    List<Long> courseIds = coursesByVersionId.values().stream().map(Course::getId).toList();
+    List<Module> modules = moduleRepository.findModulesWithCurriculums(courseIds);
+
+    Map<Long, List<Module>> modulesByCourseId =
+        modules.stream()
+            .flatMap(
+                module ->
+                    module.getCourses().stream().map(course -> Map.entry(course.getId(), module)))
+            .collect(
+                Collectors.groupingBy(
+                    Map.Entry::getKey,
+                    Collectors.mapping(Map.Entry::getValue, Collectors.toList())));
+
     List<PlannedCourse> plannedCourses = new ArrayList<>();
     for (PlannedCourseRequest request : uniqueRequests) {
-      Course course =
-          resolveCourse(request.courseExternalId(), request.courseVersionExternalId(), studyPlan);
-      Module module = resolveModule(course, studyPlan);
+      Course course = coursesByVersionId.get(request.courseVersionExternalId());
+      Module module = resolveModule(course, studyPlan, modulesByCourseId, optionalSubjects);
       Semester semester = semestersByExternalId.get(request.semesterExternalId());
 
       PlannedCourse plannedCourse = new PlannedCourse();
@@ -92,43 +119,45 @@ public class PlannedCourseService {
     return PlannedCourseMapper.mapToResponseList(plannedCourses);
   }
 
-  private Course resolveCourse(
-      UUID courseExternalId, UUID courseVersionExternalId, StudyPlan studyPlan) {
-    return courseRepository
-        .findByCourseVersionExternalId(courseVersionExternalId)
-        .orElseGet(
-            () -> {
-              OisCourseFullResponse response =
-                  oisClient.getCourseByVersionExternalId(courseExternalId, courseVersionExternalId);
-              Course course = new Course();
-              course.setExternalId(UUID.randomUUID());
-              course.setCourseExternalId(response.externalId());
-              course.setCourseVersionExternalId(response.latestVersion());
-              course.setTitleEn(response.title().en());
-              course.setTitleEt(response.title().et());
-              course.setCode(response.code());
-              course.setCredits(response.credits());
-              course.setSemesterType(CourseMapper.mapSemesterType(response.target()));
-              course.setCreationDate(LocalDateTime.now());
-              Course saved = courseRepository.save(course);
+  private Course fetchAndSaveCourse(PlannedCourseRequest request) {
+    OisCourseFullResponse response =
+        oisClient.getCourseByVersionExternalId(
+            request.courseExternalId(), request.courseVersionExternalId());
 
-              Module optionalSubjects = findOptionalSubjectsModule(studyPlan);
-              optionalSubjects.getCourses().add(saved);
-              moduleRepository.save(optionalSubjects);
+    Course course = new Course();
+    course.setExternalId(UUID.randomUUID());
+    course.setCourseExternalId(response.externalId());
+    course.setCourseVersionExternalId(response.latestVersion());
+    course.setTitleEn(response.title().en());
+    course.setTitleEt(response.title().et());
+    course.setCode(response.code());
+    course.setCredits(response.credits());
+    course.setSemesterType(CourseMapper.mapSemesterType(response.target()));
+    course.setCreationDate(LocalDateTime.now());
 
-              return saved;
-            });
+    return courseRepository.save(course);
   }
 
-  private Module resolveModule(Course course, StudyPlan studyPlan) {
-    return moduleRepository.findByCourseId(course.getId()).stream()
-        .filter(
-            module ->
-                module.getCurriculums().stream()
-                    .anyMatch(
-                        curriculum -> curriculum.getId().equals(studyPlan.getCurriculum().getId())))
-        .findFirst()
-        .orElseGet(() -> findOptionalSubjectsModule(studyPlan));
+  private Module resolveModule(
+      Course course,
+      StudyPlan studyPlan,
+      Map<Long, List<Module>> modulesByCourseId,
+      Module optionalSubjects) {
+
+    List<Module> modules = modulesByCourseId.get(course.getId());
+
+    if (modules != null) {
+      return modules.stream()
+          .filter(
+              module ->
+                  module.getCurriculums().stream()
+                      .anyMatch(
+                          curriculum ->
+                              curriculum.getId().equals(studyPlan.getCurriculum().getId())))
+          .findFirst()
+          .orElse(optionalSubjects);
+    }
+    return optionalSubjects;
   }
 
   private Module findOptionalSubjectsModule(StudyPlan studyPlan) {

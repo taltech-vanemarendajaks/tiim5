@@ -9,9 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 public interface PlannedCourseRepository extends JpaRepository<PlannedCourse, Long> {
   @Modifying
   @Query(
-"""
+      """
     DELETE FROM PlannedCourse pc
     WHERE pc.semester.studyPlan.externalId = :studyPlanExternalId
-""")
+    """)
   void deleteByStudyPlanExternalId(UUID studyPlanExternalId);
 }

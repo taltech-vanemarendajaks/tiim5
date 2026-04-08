@@ -1,9 +1,6 @@
 package com.studyplanner.common;
 
-import com.studyplanner.client.dto.OisCourseResponse;
-import com.studyplanner.client.dto.OisSemesterCode;
-import com.studyplanner.client.dto.OisVersionResponse;
-import com.studyplanner.client.dto.Title;
+import com.studyplanner.client.dto.*;
 import com.studyplanner.dto.*;
 import com.studyplanner.entity.*;
 import com.studyplanner.entity.Module;
@@ -68,6 +65,7 @@ public class UnitTestFixtures {
   public static CourseResponse aCourseResponse() {
     return CourseResponse.builder()
         .externalId(AN_EXTERNAL_ID)
+        .versionExternalId(A_LATEST_VERSION_UUID)
         .code("1")
         .titleEn(A_TITLE_EN)
         .titleEt(A_TITLE_ET)
@@ -80,6 +78,7 @@ public class UnitTestFixtures {
     return Course.builder()
         .id(1L)
         .externalId(AN_EXTERNAL_ID)
+        .courseVersionExternalId(A_LATEST_VERSION_UUID)
         .code("1")
         .titleEn(A_TITLE_EN)
         .titleEt(A_TITLE_ET)
@@ -138,6 +137,19 @@ public class UnitTestFixtures {
         .title(A_TITLE_EN)
         .requiredCredits(12)
         .optionalCredits(0)
+        .courses(List.of(aCourse()))
+        .curriculums(List.of(aCurriculum()))
+        .build();
+  }
+
+  public static Module aModule(String title) {
+    return Module.builder()
+        .externalId(A_MODULE_EXTERNAL_ID)
+        .moduleExternalId(AN_EXTERNAL_ID)
+        .title(title)
+        .requiredCredits(18)
+        .optionalCredits(0)
+        .courses(List.of(aCourse()))
         .curriculums(List.of(aCurriculum()))
         .build();
   }
@@ -166,6 +178,17 @@ public class UnitTestFixtures {
         .completedCredits(36)
         .user(aUser())
         .curriculum(aCurriculum())
+        .build();
+  }
+
+  public static OisCourseFullResponse aOisCourseFullResponse() {
+    return OisCourseFullResponse.builder()
+        .externalId(AN_EXTERNAL_ID)
+        .code("123")
+        .credits(6.0)
+        .title(new Title(A_TITLE_EN, A_TITLE_ET))
+        .latestVersion(A_LATEST_VERSION_UUID)
+        .target(aClientVersionResponse().target())
         .build();
   }
 }

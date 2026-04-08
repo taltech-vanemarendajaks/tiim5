@@ -31,7 +31,7 @@ public class CourseMapper {
         .titleEn(course.title().en())
         .titleEt(course.title().et())
         .credits(course.credits())
-        .semesterType(mapSemesterType(version.target()))
+        .semesterType(version != null ? mapSemesterType(version.target()) : null)
         .versionExternalId(version == null ? null : version.uuid())
         .build();
   }

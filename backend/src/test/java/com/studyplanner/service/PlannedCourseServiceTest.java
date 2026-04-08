@@ -5,12 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 import com.studyplanner.client.OisClient;
-import com.studyplanner.client.dto.OisCourseFullResponse;
-import com.studyplanner.entity.*;
-import com.studyplanner.entity.Module;
 import com.studyplanner.repository.*;
 import com.studyplanner.utils.UserRequestContext;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -31,141 +27,62 @@ class PlannedCourseServiceTest {
   @InjectMocks private PlannedCourseService plannedCourseService;
 
   @Test
-  void updatePlannedCoursesTest() {
-    var course = aCourse();
-    var request = List.of(aPlannedCourseRequest());
+  void setPlannedCoursesTest() {
     try (var mockedRequestContext = mockStatic(UserRequestContext.class)) {
       mockedRequestContext
           .when(UserRequestContext::getUserExternalId)
           .thenReturn(A_USER_EXTERNAL_ID);
 
       when(studyPlanRepository.findByExternalId(A_STUDY_PLAN_EXTERNAL_ID))
-          .thenReturn(Optional.ofNullable(aStudyPlan()));
+          .thenReturn(Optional.of(aStudyPlan()));
       when(semesterRepository.findAllByStudyPlanExternalId(A_STUDY_PLAN_EXTERNAL_ID))
           .thenReturn(List.of(aSemester()));
-      when(courseRepository.findByCourseVersionExternalId(A_LATEST_VERSION_UUID))
-          .thenReturn(Optional.of(course));
-      when(moduleRepository.findByCourseId(course.getId())).thenReturn(List.of(aModule()));
+      when(courseRepository.findAllByCourseVersionExternalIdIn(any()))
+          .thenReturn(List.of(aCourse()));
+      when(moduleRepository.findModulesWithCurriculums(any())).thenReturn(List.of(aModule()));
+      when(moduleRepository.findByTitleAndCurriculums_ExternalId(any(), any()))
+          .thenReturn(Optional.of(aModule("Vabaained")));
 
-      var actual = plannedCourseService.updatePlannedCourses(A_STUDY_PLAN_EXTERNAL_ID, request);
+      var actual =
+          plannedCourseService.setPlannedCourses(
+              A_STUDY_PLAN_EXTERNAL_ID, List.of(aPlannedCourseRequest()));
 
       assertThat(actual).hasSize(1);
+      verify(oisClient, never()).getCourseByVersionExternalId(any(), any());
       verify(plannedCourseRepository).deleteByStudyPlanExternalId(A_STUDY_PLAN_EXTERNAL_ID);
       verify(plannedCourseRepository).saveAll(anyList());
     }
   }
 
   @Test
-  void resolveCourse_courseExistsInDb_doesNotCallExternalApi() {
-    var request = List.of(aPlannedCourseRequest());
-    try (var mocked = mockStatic(UserRequestContext.class)) {
-      mocked.when(UserRequestContext::getUserExternalId).thenReturn(A_USER_EXTERNAL_ID);
+  void shouldFetchCourseWhenNotFoundLocally() {
+    var request = aPlannedCourseRequest();
+
+    try (var mockedRequestContext = mockStatic(UserRequestContext.class)) {
+      mockedRequestContext
+          .when(UserRequestContext::getUserExternalId)
+          .thenReturn(A_USER_EXTERNAL_ID);
 
       when(studyPlanRepository.findByExternalId(A_STUDY_PLAN_EXTERNAL_ID))
           .thenReturn(Optional.of(aStudyPlan()));
       when(semesterRepository.findAllByStudyPlanExternalId(A_STUDY_PLAN_EXTERNAL_ID))
           .thenReturn(List.of(aSemester()));
-      when(courseRepository.findByCourseVersionExternalId(A_LATEST_VERSION_UUID))
-          .thenReturn(Optional.of(aCourse()));
-      when(moduleRepository.findByCourseId(aCourse().getId())).thenReturn(List.of(aModule()));
+      when(courseRepository.findAllByCourseVersionExternalIdIn(any())).thenReturn(List.of());
+      when(oisClient.getCourseByVersionExternalId(any(), any()))
+          .thenReturn(aOisCourseFullResponse());
+      when(courseRepository.save(any())).thenReturn(aCourse());
+      when(moduleRepository.findModulesWithCurriculums(any())).thenReturn(List.of());
+      when(moduleRepository.findByTitleAndCurriculums_ExternalId(any(), any()))
+          .thenReturn(Optional.of(aModule("Vabaained")));
 
-      plannedCourseService.updatePlannedCourses(A_STUDY_PLAN_EXTERNAL_ID, request);
+      plannedCourseService.setPlannedCourses(A_STUDY_PLAN_EXTERNAL_ID, List.of(request));
 
-      verifyNoInteractions(oisClient);
-    }
-  }
-
-  @Test
-  void resolveCourse_courseNotInDb_fetchesFromExternalApiAndSavesToOptionalSubjects() {
-    var course = aCourse();
-    var optionalSubjectsModule =
-        Module.builder()
-            .id(99L)
-            .courses(new ArrayList<>())
-            .curriculums(List.of(aCurriculum()))
-            .build();
-
-    try (var mocked = mockStatic(UserRequestContext.class)) {
-      mocked.when(UserRequestContext::getUserExternalId).thenReturn(A_USER_EXTERNAL_ID);
-
-      when(studyPlanRepository.findByExternalId(A_STUDY_PLAN_EXTERNAL_ID))
-          .thenReturn(Optional.of(aStudyPlan()));
-      when(semesterRepository.findAllByStudyPlanExternalId(A_STUDY_PLAN_EXTERNAL_ID))
-          .thenReturn(List.of(aSemester()));
-      when(courseRepository.findByCourseVersionExternalId(A_LATEST_VERSION_UUID))
-          .thenReturn(Optional.empty());
-      when(oisClient.getCourseByVersionExternalId(A_COURSE_UUID, A_LATEST_VERSION_UUID))
-          .thenReturn(new OisCourseFullResponse(aClientCourseResponse(), aClientVersionResponse()));
-      when(courseRepository.save(any(Course.class))).thenReturn(course);
-      when(moduleRepository.findByTitleAndCurriculums_ExternalId(
-              "Vabaained", aCurriculum().getExternalId()))
-          .thenReturn(Optional.of(optionalSubjectsModule));
-      when(moduleRepository.findByCourseId(course.getId()))
-          .thenReturn(List.of(optionalSubjectsModule));
-
-      plannedCourseService.updatePlannedCourses(
-          A_STUDY_PLAN_EXTERNAL_ID, List.of(aPlannedCourseRequest()));
-
-      verify(oisClient).getCourseByVersionExternalId(A_COURSE_UUID, A_LATEST_VERSION_UUID);
-      verify(courseRepository).save(any(Course.class));
-      verify(moduleRepository).save(optionalSubjectsModule);
-      assertThat(optionalSubjectsModule.getCourses()).contains(course);
-    }
-  }
-
-  @Test
-  void resolveModule_courseHasModuleInCurriculum_doesNotFallBackToOptionalSubjects() {
-    var course = aCourse();
-    try (var mocked = mockStatic(UserRequestContext.class)) {
-      mocked.when(UserRequestContext::getUserExternalId).thenReturn(A_USER_EXTERNAL_ID);
-
-      when(studyPlanRepository.findByExternalId(A_STUDY_PLAN_EXTERNAL_ID))
-          .thenReturn(Optional.of(aStudyPlan()));
-      when(semesterRepository.findAllByStudyPlanExternalId(A_STUDY_PLAN_EXTERNAL_ID))
-          .thenReturn(List.of(aSemester()));
-      when(courseRepository.findByCourseVersionExternalId(A_LATEST_VERSION_UUID))
-          .thenReturn(Optional.of(course));
-      when(moduleRepository.findByCourseId(course.getId())).thenReturn(List.of(aModule()));
-
-      plannedCourseService.updatePlannedCourses(
-          A_STUDY_PLAN_EXTERNAL_ID, List.of(aPlannedCourseRequest()));
-
-      verify(moduleRepository, never()).findByTitleAndCurriculums_ExternalId(any(), any());
-    }
-  }
-
-  @Test
-  void resolveModule_courseHasNoModuleInCurriculum_fallsBackToOptionalSubjects() {
-    var curriculum = aCurriculum();
-    var course = aCourse();
-    var moduleFromDifferentCurriculum = Module.builder().id(2L).curriculums(List.of()).build();
-    var optionalSubjectsModule =
-        Module.builder()
-            .id(99L)
-            .curriculums(List.of(curriculum))
-            .courses(new ArrayList<>())
-            .build();
-
-    try (var mocked = mockStatic(UserRequestContext.class)) {
-      mocked.when(UserRequestContext::getUserExternalId).thenReturn(A_USER_EXTERNAL_ID);
-
-      when(studyPlanRepository.findByExternalId(A_STUDY_PLAN_EXTERNAL_ID))
-          .thenReturn(Optional.of(aStudyPlan()));
-      when(semesterRepository.findAllByStudyPlanExternalId(A_STUDY_PLAN_EXTERNAL_ID))
-          .thenReturn(List.of(aSemester()));
-      when(courseRepository.findByCourseVersionExternalId(A_LATEST_VERSION_UUID))
-          .thenReturn(Optional.of(course));
-      when(moduleRepository.findByCourseId(course.getId()))
-          .thenReturn(List.of(moduleFromDifferentCurriculum));
-      when(moduleRepository.findByTitleAndCurriculums_ExternalId(
-              "Vabaained", curriculum.getExternalId()))
-          .thenReturn(Optional.of(optionalSubjectsModule));
-
-      plannedCourseService.updatePlannedCourses(
-          A_STUDY_PLAN_EXTERNAL_ID, List.of(aPlannedCourseRequest()));
-
-      verify(moduleRepository)
-          .findByTitleAndCurriculums_ExternalId("Vabaained", curriculum.getExternalId());
+      verify(oisClient)
+          .getCourseByVersionExternalId(
+              request.courseExternalId(), request.courseVersionExternalId());
+      verify(courseRepository)
+          .save(
+              argThat(course -> course.getCourseVersionExternalId().equals(A_LATEST_VERSION_UUID)));
     }
   }
 }

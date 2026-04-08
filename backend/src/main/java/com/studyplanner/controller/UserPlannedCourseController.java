@@ -18,10 +18,9 @@ public class UserPlannedCourseController {
   private final PlannedCourseService plannedCourseService;
 
   @PutMapping("/study-plan/{studyPlanExternalId}")
-  public ResponseEntity<List<PlannedCourseResponse>> updatePlannedCourses(
+  public ResponseEntity<List<PlannedCourseResponse>> setPlannedCourses(
       @PathVariable UUID studyPlanExternalId,
       @RequestBody @Valid List<PlannedCourseRequest> request) {
-    return ResponseEntity.ok(
-        plannedCourseService.updatePlannedCourses(studyPlanExternalId, request));
+    return ResponseEntity.ok(plannedCourseService.setPlannedCourses(studyPlanExternalId, request));
   }
 }
