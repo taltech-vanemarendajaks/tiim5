@@ -102,13 +102,13 @@ public class PlannedCourseService {
                   oisClient.getCourseByVersionExternalId(courseExternalId, courseVersionExternalId);
               Course course = new Course();
               course.setExternalId(UUID.randomUUID());
-              course.setCourseExternalId(response.courseResponse().externalId());
-              course.setCourseVersionExternalId(response.courseResponse().latestVersion());
-              course.setTitleEn(response.courseResponse().title().en());
-              course.setTitleEt(response.courseResponse().title().et());
-              course.setCode(response.courseResponse().code());
-              course.setCredits(response.courseResponse().credits());
-              course.setSemesterType(CourseMapper.mapSemesterType(response.versionResponse()));
+              course.setCourseExternalId(response.externalId());
+              course.setCourseVersionExternalId(response.latestVersion());
+              course.setTitleEn(response.title().en());
+              course.setTitleEt(response.title().et());
+              course.setCode(response.code());
+              course.setCredits(response.credits());
+              course.setSemesterType(CourseMapper.mapSemesterType(response.target()));
               course.setCreationDate(LocalDateTime.now());
               Course saved = courseRepository.save(course);
 

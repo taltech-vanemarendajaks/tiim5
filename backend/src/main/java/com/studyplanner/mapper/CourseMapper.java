@@ -26,22 +26,22 @@ public class CourseMapper {
       OisCourseResponse course, OisVersionResponse version) {
 
     return CourseResponse.builder()
-        .externalId(course.externalId())
+        .oisExternalId(course.externalId())
         .code(course.code())
         .titleEn(course.title().en())
         .titleEt(course.title().et())
         .credits(course.credits())
-        .semesterType(mapSemesterType(version))
+        .semesterType(mapSemesterType(version.target()))
         .versionExternalId(version == null ? null : version.uuid())
         .build();
   }
 
-  public static SemesterType mapSemesterType(OisVersionResponse version) {
-    if (version == null || version.target() == null || version.target().semester() == null) {
+  public static SemesterType mapSemesterType(OisVersionResponse.Target target) {
+    if (target == null || target.semester() == null) {
       return null;
     }
 
-    OisSemesterCode code = version.target().semester().code();
+    OisSemesterCode code = target.semester().code();
 
     return switch (code) {
       case AUTUMN -> SemesterType.AUTUMN;
