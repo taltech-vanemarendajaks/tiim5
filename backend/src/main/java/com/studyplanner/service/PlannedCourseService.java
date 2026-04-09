@@ -33,69 +33,15 @@ public class PlannedCourseService {
   @Transactional
   public List<PlannedCourseResponse> setPlannedCourses(
       UUID studyPlanExternalId, List<PlannedCourseRequest> requests) {
-    List<PlannedCourseRequest> uniqueRequests =
-        requests.stream()
-            .collect(
-                Collectors.collectingAndThen(
-                    Collectors.toCollection(
-                        () ->
-                            new TreeSet<>(
-                                Comparator.comparing(PlannedCourseRequest::courseVersionExternalId)
-                                    .thenComparing(PlannedCourseRequest::semesterExternalId))),
-                    ArrayList::new));
-
-    StudyPlan studyPlan =
-        studyPlanRepository
-            .findByExternalId(studyPlanExternalId)
-            .orElseThrow(
-                () ->
-                    new ResourceNotFoundException(
-                        "No study plan found for external id " + studyPlanExternalId));
-
-    UUID userExternalId = UserRequestContext.getUserExternalId();
-    if (!studyPlan.getUser().getExternalId().equals(userExternalId)) {
-      throw new AccessDeniedException(userExternalId.toString());
-    }
+    List<PlannedCourseRequest> uniqueRequests = getUniqueRequests(requests);
+    StudyPlan studyPlan = getAuthorizedStudyPlan(studyPlanExternalId);
 
     Map<UUID, Semester> semestersByExternalId =
-        semesterRepository.findAllByStudyPlanExternalId(studyPlanExternalId).stream()
-            .collect(Collectors.toMap(Semester::getExternalId, semester -> semester));
-
-    uniqueRequests.forEach(
-        request -> {
-          if (!semestersByExternalId.containsKey(request.semesterExternalId())) {
-            throw new ResourceNotFoundException(
-                "Semester " + request.semesterExternalId() + " does not belong to this study plan");
-          }
-        });
-
-    List<UUID> versionIds =
-        uniqueRequests.stream().map(PlannedCourseRequest::courseVersionExternalId).toList();
-
-    Map<UUID, Course> coursesByVersionId =
-        courseRepository.findAllByCourseVersionExternalIdIn(versionIds).stream()
-            .collect(Collectors.toMap(Course::getCourseVersionExternalId, course -> course));
-
-    for (PlannedCourseRequest request : uniqueRequests) {
-      if (!coursesByVersionId.containsKey(request.courseVersionExternalId())) {
-        Course course = fetchAndSaveCourse(request);
-        coursesByVersionId.put(course.getCourseVersionExternalId(), course);
-      }
-    }
+        getAndValidateSemesters(studyPlanExternalId, uniqueRequests);
+    Map<UUID, Course> coursesByVersionId = getOrFetchCourses(uniqueRequests);
 
     Module optionalSubjects = findOptionalSubjectsModule(studyPlan);
-    List<Long> courseIds = coursesByVersionId.values().stream().map(Course::getId).toList();
-    List<Module> modules = moduleRepository.findModulesWithCurriculums(courseIds);
-
-    Map<Long, List<Module>> modulesByCourseId =
-        modules.stream()
-            .flatMap(
-                module ->
-                    module.getCourses().stream().map(course -> Map.entry(course.getId(), module)))
-            .collect(
-                Collectors.groupingBy(
-                    Map.Entry::getKey,
-                    Collectors.mapping(Map.Entry::getValue, Collectors.toList())));
+    Map<Long, List<Module>> modulesByCourseId = getModulesByCourseId(coursesByVersionId.values());
 
     List<PlannedCourse> plannedCourses = new ArrayList<>();
     for (PlannedCourseRequest request : uniqueRequests) {
@@ -119,23 +65,89 @@ public class PlannedCourseService {
     return PlannedCourseMapper.mapToResponseList(plannedCourses);
   }
 
+  private List<PlannedCourseRequest> getUniqueRequests(List<PlannedCourseRequest> requests) {
+    return requests.stream()
+        .collect(
+            Collectors.collectingAndThen(
+                Collectors.toCollection(
+                    () ->
+                        new TreeSet<>(
+                            Comparator.comparing(PlannedCourseRequest::courseVersionExternalId)
+                                .thenComparing(PlannedCourseRequest::semesterExternalId))),
+                ArrayList::new));
+  }
+
+  private StudyPlan getAuthorizedStudyPlan(UUID studyPlanExternalId) {
+    StudyPlan studyPlan =
+        studyPlanRepository
+            .findByExternalId(studyPlanExternalId)
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException(
+                        "No study plan found for external id " + studyPlanExternalId));
+
+    UUID userExternalId = UserRequestContext.getUserExternalId();
+    if (!studyPlan.getUser().getExternalId().equals(userExternalId)) {
+      throw new AccessDeniedException(userExternalId.toString());
+    }
+    return studyPlan;
+  }
+
+  private Map<UUID, Semester> getAndValidateSemesters(
+      UUID studyPlanExternalId, List<PlannedCourseRequest> requests) {
+
+    Map<UUID, Semester> semestersByExternalId =
+        semesterRepository.findAllByStudyPlanExternalId(studyPlanExternalId).stream()
+            .collect(Collectors.toMap(Semester::getExternalId, semester -> semester));
+
+    for (PlannedCourseRequest request : requests) {
+      if (!semestersByExternalId.containsKey(request.semesterExternalId())) {
+        throw new ResourceNotFoundException(
+            "Semester " + request.semesterExternalId() + " does not belong to this study plan");
+      }
+    }
+
+    return semestersByExternalId;
+  }
+
+  private Map<UUID, Course> getOrFetchCourses(List<PlannedCourseRequest> requests) {
+    List<UUID> versionIds =
+        requests.stream().map(PlannedCourseRequest::courseVersionExternalId).toList();
+
+    Map<UUID, Course> coursesByVersionId =
+        courseRepository.findAllByCourseVersionExternalIdIn(versionIds).stream()
+            .collect(Collectors.toMap(Course::getCourseVersionExternalId, course -> course));
+
+    for (PlannedCourseRequest request : requests) {
+      if (!coursesByVersionId.containsKey(request.courseVersionExternalId())) {
+        Course course = fetchAndSaveCourse(request);
+        coursesByVersionId.put(course.getCourseVersionExternalId(), course);
+      }
+    }
+
+    return coursesByVersionId;
+  }
+
   private Course fetchAndSaveCourse(PlannedCourseRequest request) {
     OisCourseFullResponse response =
         oisClient.getCourseByVersionExternalId(
             request.courseExternalId(), request.courseVersionExternalId());
 
-    Course course = new Course();
-    course.setExternalId(UUID.randomUUID());
-    course.setCourseExternalId(response.externalId());
-    course.setCourseVersionExternalId(response.latestVersion());
-    course.setTitleEn(response.title().en());
-    course.setTitleEt(response.title().et());
-    course.setCode(response.code());
-    course.setCredits(response.credits());
-    course.setSemesterType(CourseMapper.mapSemesterType(response.target()));
-    course.setCreationDate(LocalDateTime.now());
+    Course course = CourseMapper.mapToCourse(response);
 
     return courseRepository.save(course);
+  }
+
+  private Map<Long, List<Module>> getModulesByCourseId(Collection<Course> courses) {
+    List<Long> courseIds = courses.stream().map(Course::getId).toList();
+    List<Module> modules = moduleRepository.findModulesWithCurriculums(courseIds);
+
+    return modules.stream()
+        .flatMap(
+            module -> module.getCourses().stream().map(course -> Map.entry(course.getId(), module)))
+        .collect(
+            Collectors.groupingBy(
+                Map.Entry::getKey, Collectors.mapping(Map.Entry::getValue, Collectors.toList())));
   }
 
   private Module resolveModule(

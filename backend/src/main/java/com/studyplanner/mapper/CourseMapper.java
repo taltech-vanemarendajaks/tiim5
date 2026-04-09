@@ -1,11 +1,14 @@
 package com.studyplanner.mapper;
 
+import com.studyplanner.client.dto.OisCourseFullResponse;
 import com.studyplanner.client.dto.OisCourseResponse;
 import com.studyplanner.client.dto.OisSemesterCode;
 import com.studyplanner.client.dto.OisVersionResponse;
 import com.studyplanner.dto.CourseResponse;
 import com.studyplanner.entity.Course;
 import com.studyplanner.entity.SemesterType;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class CourseMapper {
 
@@ -36,7 +39,21 @@ public class CourseMapper {
         .build();
   }
 
-  public static SemesterType mapSemesterType(OisVersionResponse.Target target) {
+  public static Course mapToCourse(OisCourseFullResponse response) {
+    return Course.builder()
+        .externalId(UUID.randomUUID())
+        .courseExternalId(response.externalId())
+        .courseVersionExternalId(response.latestVersion())
+        .titleEn(response.title().en())
+        .titleEt(response.title().et())
+        .code(response.code())
+        .credits(response.credits())
+        .semesterType(mapSemesterType(response.target()))
+        .creationDate(LocalDateTime.now())
+        .build();
+  }
+
+  private static SemesterType mapSemesterType(OisVersionResponse.Target target) {
     if (target == null || target.semester() == null) {
       return null;
     }

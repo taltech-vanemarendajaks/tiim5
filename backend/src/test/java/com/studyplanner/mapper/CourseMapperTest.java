@@ -37,11 +37,16 @@ class CourseMapperTest {
   }
 
   @Test
-  void mapSemesterTypeTest() {
-    var version = aClientVersionResponse();
+  void mapToCourseTest() {
+    var oisResponse = aOisCourseFullResponse();
 
-    var actual = CourseMapper.mapSemesterType(version.target());
+    var actual = CourseMapper.mapToCourse(oisResponse);
 
-    assertEquals(SemesterType.SPRING, actual);
+    assertAll(
+        () -> assertThat(actual.getCourseVersionExternalId()).isEqualTo(A_LATEST_VERSION_UUID),
+        () -> assertThat(actual.getCode()).isEqualTo("123"),
+        () -> assertThat(actual.getTitleEn()).isEqualTo(A_TITLE_EN),
+        () -> assertThat(actual.getTitleEt()).isEqualTo(A_TITLE_ET),
+        () -> assertThat(actual.getSemesterType()).isEqualTo(SemesterType.SPRING));
   }
 }
