@@ -1,9 +1,6 @@
 package com.studyplanner.mapper;
 
-import com.studyplanner.client.dto.OisCourseFullResponse;
-import com.studyplanner.client.dto.OisCourseResponse;
-import com.studyplanner.client.dto.OisSemesterCode;
-import com.studyplanner.client.dto.OisVersionResponse;
+import com.studyplanner.client.dto.*;
 import com.studyplanner.dto.CourseResponse;
 import com.studyplanner.entity.Course;
 import com.studyplanner.entity.SemesterType;
@@ -53,7 +50,7 @@ public class CourseMapper {
         .build();
   }
 
-  private static SemesterType mapSemesterType(OisVersionResponse.Target target) {
+  private static SemesterType mapSemesterType(OisTargetResponse target) {
     if (target == null || target.semester() == null) {
       return null;
     }

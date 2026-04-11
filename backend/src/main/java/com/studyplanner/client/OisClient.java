@@ -17,7 +17,7 @@ public class OisClient {
 
   private static final String COURSES_URI = "/courses";
   private static final String COURSES_VERSIONS_DETAILS_URI = "/courses/versions/details";
-  private static final String COURSES_DETAILS_BY_VERSION_URI =
+  private static final String COURSE_DETAILS_BY_VERSION_URI =
       "/courses/{externalId}/versions/{versionExternalId}";
   private final RestClient restClient;
 
@@ -65,7 +65,7 @@ public class OisClient {
       UUID externalId, UUID versionExternalId) {
     return restClient
         .get()
-        .uri(COURSES_DETAILS_BY_VERSION_URI, externalId, versionExternalId)
+        .uri(COURSE_DETAILS_BY_VERSION_URI, externalId, versionExternalId)
         .retrieve()
         .body(OisCourseFullResponse.class);
   }

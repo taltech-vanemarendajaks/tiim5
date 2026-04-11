@@ -13,4 +13,4 @@ public record OisCourseFullResponse(
     Title title,
     Double credits,
     @JsonProperty("uuid") UUID latestVersion,
-    OisVersionResponse.Target target) {}
+    OisTargetResponse target) {}

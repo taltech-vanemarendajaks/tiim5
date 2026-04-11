@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.CreatedDate;
 
 @Data
 @AllArgsConstructor
@@ -18,5 +19,6 @@ public class BaseEntity implements Serializable {
   private UUID externalId;
 
   @Column(nullable = false)
+  @CreatedDate
   private LocalDateTime creationDate;
 }

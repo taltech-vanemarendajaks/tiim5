@@ -106,8 +106,8 @@ public class UnitTestFixtures {
   public static OisVersionResponse aClientVersionResponse() {
     return OisVersionResponse.builder()
         .target(
-            new OisVersionResponse.Target(
-                new OisVersionResponse.Target.Semester(OisSemesterCode.SPRING, "kevad", "spring")))
+            new OisTargetResponse(
+                new OisTargetResponse.Semester(OisSemesterCode.SPRING, "kevad", "spring")))
         .build();
   }
 

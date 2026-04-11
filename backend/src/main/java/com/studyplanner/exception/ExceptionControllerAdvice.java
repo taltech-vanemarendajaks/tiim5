@@ -11,7 +11,8 @@ public class ExceptionControllerAdvice {
       value = {
         RequestAttributesException.class,
         UUIDConversionException.class,
-        ResourceNotFoundException.class
+        ResourceNotFoundException.class,
+        IllegalArgumentException.class
       })
   protected ProblemDetail handleBadRequest(final RuntimeException ex) {
     return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
