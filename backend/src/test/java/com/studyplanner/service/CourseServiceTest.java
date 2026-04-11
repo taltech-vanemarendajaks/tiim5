@@ -3,10 +3,12 @@ package com.studyplanner.service;
 import static com.studyplanner.common.UnitTestFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import com.studyplanner.client.OisClient;
 import com.studyplanner.entity.SemesterType;
+import com.studyplanner.repository.CourseRepository;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -16,9 +18,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class CourseServiceTest {
+class CourseServiceTest {
 
   @Mock private OisClient oisClient;
+  @Mock private CourseRepository courseRepository;
   @InjectMocks private CourseService courseService;
 
   @Test
@@ -47,5 +50,29 @@ public class CourseServiceTest {
     var result = courseService.getAllCourses(1, 5, null, null);
 
     assertThat(result.getFirst().semesterType()).isNull();
+  }
+
+  @Test
+  void fetchCoursesByVersionExternalIdsTest() {
+    var courses = List.of(aCourse());
+    when(courseRepository.findAllByCourseVersionExternalIdIn(List.of(A_LATEST_VERSION_UUID)))
+        .thenReturn(courses);
+
+    var actual = courseService.fetchCoursesByVersionExternalIds(List.of(A_LATEST_VERSION_UUID));
+
+    assertEquals(courses, actual);
+  }
+
+  @Test
+  void getFromOisAndSaveCourseTest() {
+    var course = aCourse();
+
+    when(oisClient.getCourseByVersionExternalId(A_COURSE_UUID, A_LATEST_VERSION_UUID))
+        .thenReturn(aOisCourseFullResponse());
+    when(courseRepository.save(any())).thenReturn(course);
+
+    var actual = courseService.getFromOisAndSaveCourse(A_COURSE_UUID, A_LATEST_VERSION_UUID);
+
+    assertEquals(course, actual);
   }
 }

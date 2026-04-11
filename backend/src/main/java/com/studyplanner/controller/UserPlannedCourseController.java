@@ -11,13 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/planned-courses")
+@RequestMapping("/api/v1/users/me")
 @RequiredArgsConstructor
 public class UserPlannedCourseController {
 
   private final PlannedCourseService plannedCourseService;
 
-  @PutMapping("/study-plan/{studyPlanExternalId}")
+  @PutMapping("/study-plan/{studyPlanExternalId}/planned-courses")
   public ResponseEntity<List<PlannedCourseResponse>> setPlannedCourses(
       @PathVariable UUID studyPlanExternalId,
       @RequestBody @Valid List<PlannedCourseRequest> request) {
