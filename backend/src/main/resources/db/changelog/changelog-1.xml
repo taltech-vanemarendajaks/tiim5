@@ -124,4 +124,10 @@
         </sql>
     </changeSet>
 
+    <changeSet id="07.04.2026" author="kaisa.karjus">
+        <sql>
+            ALTER TABLE courses ADD CONSTRAINT uq_course_version UNIQUE (course_version_external_id);
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

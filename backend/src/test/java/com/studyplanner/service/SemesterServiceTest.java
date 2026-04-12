@@ -37,4 +37,15 @@ class SemesterServiceTest {
       assertEquals(semesterResponse, actual);
     }
   }
+
+  @Test
+  void fetchSemestersByStudyPlanExternalIdTest() {
+    var semesters = List.of(aSemester());
+    when(semesterRepository.findAllByStudyPlanExternalId(A_STUDY_PLAN_EXTERNAL_ID))
+        .thenReturn(semesters);
+
+    var actual = semesterService.fetchSemestersByStudyPlanExternalId(A_STUDY_PLAN_EXTERNAL_ID);
+
+    assertEquals(semesters, actual);
+  }
 }

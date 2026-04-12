@@ -12,7 +12,7 @@ public class UUIDUtils {
         return null;
       }
       return UUID.fromString(uuidString);
-    } catch (Exception e) {
+    } catch (Exception _) {
       throw new UUIDConversionException(uuidString);
     }
   }

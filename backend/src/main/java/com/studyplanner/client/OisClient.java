@@ -1,5 +1,6 @@
 package com.studyplanner.client;
 
+import com.studyplanner.client.dto.OisCourseFullResponse;
 import com.studyplanner.client.dto.OisCourseResponse;
 import com.studyplanner.client.dto.OisCourseVersionsResponse;
 import com.studyplanner.client.dto.OisVersionResponse;
@@ -16,6 +17,8 @@ public class OisClient {
 
   private static final String COURSES_URI = "/courses";
   private static final String COURSES_VERSIONS_DETAILS_URI = "/courses/versions/details";
+  private static final String COURSE_DETAILS_BY_VERSION_URI =
+      "/courses/{externalId}/versions/{versionExternalId}";
   private final RestClient restClient;
 
   public OisClient(@Value("${ois.base-url}") String baseUrl) {
@@ -41,7 +44,7 @@ public class OisClient {
               return uriBuilder.build();
             })
         .retrieve()
-        .body(new ParameterizedTypeReference<List<OisCourseResponse>>() {});
+        .body(new ParameterizedTypeReference<>() {});
   }
 
   public Map<UUID, List<OisVersionResponse>> getAllCourseVersions(List<UUID> uuids) {
@@ -56,5 +59,14 @@ public class OisClient {
     return response != null && response.coursesVersions() != null
         ? response.coursesVersions()
         : Map.of();
+  }
+
+  public OisCourseFullResponse getCourseByVersionExternalId(
+      UUID externalId, UUID versionExternalId) {
+    return restClient
+        .get()
+        .uri(COURSE_DETAILS_BY_VERSION_URI, externalId, versionExternalId)
+        .retrieve()
+        .body(OisCourseFullResponse.class);
   }
 }

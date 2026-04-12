@@ -1,6 +1,7 @@
 package com.studyplanner.service;
 
 import com.studyplanner.dto.SemesterResponse;
+import com.studyplanner.entity.Semester;
 import com.studyplanner.mapper.SemesterMapper;
 import com.studyplanner.repository.SemesterRepository;
 import com.studyplanner.utils.UserRequestContext;
@@ -20,5 +21,9 @@ public class SemesterService {
     return SemesterMapper.mapToResponseList(
         semesterRepository.findAllByUserAndStudyPlanExternalId(
             userExternalId, studyPlanExternalId));
+  }
+
+  public List<Semester> fetchSemestersByStudyPlanExternalId(UUID studyPlanExternalId) {
+    return semesterRepository.findAllByStudyPlanExternalId(studyPlanExternalId);
   }
 }
