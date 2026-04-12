@@ -10,7 +10,8 @@
     "e2e": "npx playwright test",
     "lint": "ng lint",
     "prettier": "prettier --write \"src/**/*.{ts,js,css,html}\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "typecheck": "tsc --noEmit"
   },
   "private": true,
   "packageManager": "npm@11.8.0",
@@ -37,6 +38,7 @@
     "@playwright/test": "^1.58.2",
     "@types/express": "^5.0.1",
     "@types/node": "^20.19.33",
+    "@vitest/coverage-v8": "^4.0.8",
     "angular-eslint": "21.2.0",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",

@@ -1,8 +1,10 @@
 plugins {
     java
+    jacoco
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependency.management)
     alias(libs.plugins.spotless)
+    id("org.sonarqube") version "7.2.3.7755"
 }
 
 group = "com.tiim5"
@@ -36,7 +38,8 @@ dependencies {
 }
 
 tasks.withType<Test> {
-	useJUnitPlatform()
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
 }
 
 spotless {
@@ -50,20 +53,29 @@ tasks.named("compileJava") {
     dependsOn("spotlessApply")
 }
 
-sourceSets {
-    create("integrationTest") {
-        java.srcDir("src/integrationTest/java")
-        resources.srcDir("src/integrationTest/resources")
-        compileClasspath += sourceSets["main"].output + configurations["testRuntimeClasspath"]
-        runtimeClasspath += output + compileClasspath
+jacoco {
+    toolVersion = "0.8.14"
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required = true
+        csv.required = false
     }
 }
 
-tasks.register<Test>("integrationTest") {
-    description = "Runs integration tests"
-    group = "verification"
-    testClassesDirs = sourceSets["integrationTest"].output.classesDirs
-    classpath = sourceSets["integrationTest"].runtimeClasspath
-    shouldRunAfter(tasks.test)
+sonar {
+    properties {
+        property("sonar.projectKey", "tiim-5_studyplanner")
+        property("sonar.organization", "tiim-5")
+        property("sonar.projectBaseDir", rootProject.projectDir.absolutePath)
+        property("sonar.sources", "src/main/java")
+        property("sonar.java.coveragePlugin", "jacoco")
+        property(
+            "sonar.coverage.jacoco.xmlReportPaths",
+            "${layout.buildDirectory.get()}/reports/jacoco/test/jacocoTestReport.xml"
+        )
+        property("sonar.exclusions", "**/config/**, **/entity/**, **/*StudyPlanner*")
+    }
 }
-
