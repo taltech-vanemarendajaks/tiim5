@@ -9,6 +9,7 @@ import com.studyplanner.exception.ResourceNotFoundException;
 import com.studyplanner.mapper.PlannedCourseMapper;
 import com.studyplanner.repository.*;
 import com.studyplanner.utils.UserRequestContext;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PlannedCourseService {
 
   private final PlannedCourseRepository plannedCourseRepository;
+  private final SemesterRepository semesterRepository;
   private final StudyPlanService studyPlanService;
   private final CourseService courseService;
   private final ModuleService moduleService;
@@ -154,5 +156,19 @@ public class PlannedCourseService {
           .orElse(optionalSubjects);
     }
     return optionalSubjects;
+  }
+
+  @Transactional
+  public PlannedCourseResponse updateStatus(UUID plannerCourseExternalId, CourseStatus status) {
+    PlannedCourse plannedCourse =
+        plannedCourseRepository
+            .findByExternalIdWithSemesterAndCourses(plannerCourseExternalId)
+            .orElseThrow(() -> new EntityNotFoundException("Planned course not found"));
+
+    plannedCourse.setStatus(status);
+    plannedCourse.getSemester().recalculateFinished();
+    semesterRepository.save(plannedCourse.getSemester());
+
+    return PlannedCourseMapper.mapToResponse(plannedCourse);
   }
 }

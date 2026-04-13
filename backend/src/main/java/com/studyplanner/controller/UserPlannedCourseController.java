@@ -2,6 +2,7 @@ package com.studyplanner.controller;
 
 import com.studyplanner.dto.PlannedCourseRequest;
 import com.studyplanner.dto.PlannedCourseResponse;
+import com.studyplanner.dto.UpdatePlannedCourseStatusRequest;
 import com.studyplanner.service.PlannedCourseService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -22,5 +23,15 @@ public class UserPlannedCourseController {
       @PathVariable UUID studyPlanExternalId,
       @RequestBody @Valid List<PlannedCourseRequest> request) {
     return ResponseEntity.ok(plannedCourseService.setPlannedCourses(studyPlanExternalId, request));
+  }
+
+  @PatchMapping(
+      "/study-plan/{studyPlanExternalId}/planned-courses/{plannedCourseExternalId}/status")
+  public ResponseEntity<PlannedCourseResponse> updateStatus(
+      @PathVariable UUID studyPlanExternalId,
+      @PathVariable UUID plannedCourseExternalId,
+      @RequestBody @Valid UpdatePlannedCourseStatusRequest request) {
+    return ResponseEntity.ok(
+        plannedCourseService.updateStatus(plannedCourseExternalId, request.status()));
   }
 }
