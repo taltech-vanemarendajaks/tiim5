@@ -20,6 +20,8 @@ public class UnitTestFixtures {
   public static final UUID AN_EXTERNAL_ID = UUID.fromString("147ffa4f-b56e-40f0-8ce0-266f77ff20c1");
   public static final LocalDateTime A_LOCAL_DATE_TIME = LocalDateTime.of(2024, 8, 13, 15, 30);
   public static final UUID A_COURSE_UUID = UUID.fromString("b99c0bb1-efd4-9b0a-857a-3dc7114e5c19");
+  public static final UUID A_PLANNED_COURSE_UUID =
+      UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
   public static final UUID A_LATEST_VERSION_UUID =
       UUID.fromString("814c854e-0af7-fb0a-6c8c-5f255cc4e277");
   public static final String A_TITLE_EN = "Title";
@@ -100,6 +102,8 @@ public class UnitTestFixtures {
         .externalId(AN_EXTERNAL_ID)
         .course(aCourse())
         .module(aModule())
+        .status(CourseStatus.PLANNED)
+        .semester(aSemester())
         .build();
   }
 
