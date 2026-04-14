@@ -18,7 +18,7 @@ public class OisClient {
   private static final String COURSES_URI = "/courses";
   private static final String COURSES_VERSIONS_DETAILS_URI = "/courses/versions/details";
   private static final String COURSE_DETAILS_BY_VERSION_URI =
-      "/courses/{externalId}/versions/{versionExternalId}";
+      "/courses/{externalId}/version/{versionExternalId}";
   private final RestClient restClient;
 
   public OisClient(@Value("${ois.base-url}") String baseUrl) {
