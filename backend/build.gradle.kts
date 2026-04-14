@@ -67,7 +67,7 @@ tasks.jacocoTestReport {
 
 sonar {
     properties {
-        property("sonar.projectKey", "tiim-5_studyplanner")
+        property("sonar.projectKey", "tiim-5_studyplanner-backend")
         property("sonar.organization", "tiim-5")
         property("sonar.projectBaseDir", rootProject.projectDir.absolutePath)
         property("sonar.sources", "src/main/java")
