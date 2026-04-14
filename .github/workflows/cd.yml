@@ -2,7 +2,8 @@ name: CD - Deploy
 
 on:
   push:
-  workflow_dispatch:
+    branches:
+      - main
 
 jobs:
   deploy:

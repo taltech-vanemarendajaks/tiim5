@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependency.management)
     alias(libs.plugins.spotless)
-    id("org.sonarqube") version "7.2.3.7755"
+    alias(libs.plugins.sonarqube)
 }
 
 group = "com.tiim5"
@@ -51,6 +51,23 @@ spotless {
 
 tasks.named("compileJava") {
     dependsOn("spotlessApply")
+}
+
+sourceSets {
+    create("integrationTest") {
+        java.srcDir("src/integrationTest/java")
+        resources.srcDir("src/integrationTest/resources")
+        compileClasspath += sourceSets["main"].output + configurations["testRuntimeClasspath"]
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+tasks.register<Test>("integrationTest") {
+    description = "Runs integration tests"
+    group = "verification"
+    testClassesDirs = sourceSets["integrationTest"].output.classesDirs
+    classpath = sourceSets["integrationTest"].runtimeClasspath
+    shouldRunAfter(tasks.test)
 }
 
 jacoco {
