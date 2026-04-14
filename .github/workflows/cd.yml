@@ -1,6 +1,7 @@
 name: CD - Deploy
 
 on:
+  push:
   workflow_dispatch:
 
 jobs:
