@@ -1,7 +1,12 @@
 name: Frontend CI
 
 on:
-  workflow_call:
+  push:
+    paths:
+      - 'frontend/**'
+  pull_request:
+    paths:
+      - 'frontend/**'
 
 jobs:
   frontend:
@@ -30,7 +35,7 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Typecheck
+      - name: Type check
         run: npm run typecheck
 
       - name: Run tests with coverage

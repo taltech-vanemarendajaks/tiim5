@@ -1,7 +1,12 @@
 name: Backend CI
 
 on:
-  workflow_call:
+  push:
+    paths:
+      - 'backend/**'
+  pull_request:
+    paths:
+      - 'backend/**'
 
 jobs:
   backend:
@@ -31,7 +36,7 @@ jobs:
       - name: Grant execute permission to gradlew
         run: chmod +x gradlew
 
-      - name: Check Spotless
+      - name: Run Spotless check
         run: ./gradlew spotlessCheck
 
       - name: Run tests with coverage
