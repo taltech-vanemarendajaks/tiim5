@@ -7,11 +7,9 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
 import com.studyplanner.client.OisClient;
-import com.studyplanner.entity.CourseStatus;
 import com.studyplanner.repository.*;
 import com.studyplanner.utils.UserRequestContext;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -81,22 +79,5 @@ class PlannedCourseServiceTest {
       verify(courseService)
           .getFromOisAndSaveCourse(request.courseExternalId(), request.courseVersionExternalId());
     }
-  }
-
-  @Test
-  void shouldUpdateCourseStatusToCompleted() {
-
-    var plannedCourse = aPlannedCourse();
-    var semester = plannedCourse.getSemester();
-    semester.setPlannedCourses(List.of(plannedCourse));
-
-    when(plannedCourseRepository.findByExternalIdWithSemesterAndCourses(AN_EXTERNAL_ID))
-        .thenReturn(Optional.of(plannedCourse));
-
-    plannedCourseService.updateStatus(AN_EXTERNAL_ID, CourseStatus.COMPLETED);
-
-    assertThat(plannedCourse.getStatus()).isEqualTo(CourseStatus.COMPLETED);
-    assertThat(semester.getFinished()).isTrue();
-    verify(semesterRepository).save(semester);
   }
 }

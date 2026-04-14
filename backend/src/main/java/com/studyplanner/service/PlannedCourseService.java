@@ -9,7 +9,6 @@ import com.studyplanner.exception.ResourceNotFoundException;
 import com.studyplanner.mapper.PlannedCourseMapper;
 import com.studyplanner.repository.*;
 import com.studyplanner.utils.UserRequestContext;
-import jakarta.persistence.EntityNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +55,8 @@ public class PlannedCourseService {
 
     plannedCourseRepository.deleteByStudyPlanExternalId(studyPlanExternalId);
     plannedCourseRepository.saveAll(plannedCourses);
+
+    semestersByExternalId.values().forEach(semesterService::recalculateAndSave);
 
     return PlannedCourseMapper.mapToResponseList(plannedCourses);
   }
@@ -155,18 +156,5 @@ public class PlannedCourseService {
           .orElse(optionalSubjects);
     }
     return optionalSubjects;
-  }
-
-  @Transactional
-  public PlannedCourseResponse updateStatus(UUID plannerCourseExternalId, CourseStatus status) {
-    PlannedCourse plannedCourse =
-        plannedCourseRepository
-            .findByExternalIdWithSemesterAndCourses(plannerCourseExternalId)
-            .orElseThrow(() -> new ResourceNotFoundException("Planned course not found"));
-
-    plannedCourse.setStatus(status);
-    semesterService.recalculateAndSave(plannedCourse.getSemester());
-
-    return PlannedCourseMapper.mapToResponse(plannedCourse);
   }
 }
