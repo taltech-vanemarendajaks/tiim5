@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PlannedCourseService {
 
   private final PlannedCourseRepository plannedCourseRepository;
-  private final SemesterRepository semesterRepository;
   private final StudyPlanService studyPlanService;
   private final CourseService courseService;
   private final ModuleService moduleService;
@@ -166,8 +165,7 @@ public class PlannedCourseService {
             .orElseThrow(() -> new EntityNotFoundException("Planned course not found"));
 
     plannedCourse.setStatus(status);
-    plannedCourse.getSemester().recalculateFinished();
-    semesterRepository.save(plannedCourse.getSemester());
+    semesterService.recalculateAndSave(plannedCourse.getSemester());
 
     return PlannedCourseMapper.mapToResponse(plannedCourse);
   }
