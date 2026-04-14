@@ -167,13 +167,17 @@ public class UnitTestFixtures {
         .build();
   }
 
-  public static PlannedCourseRequest aPlannedCourseRequest() {
+  public static PlannedCourseRequest aPlannedCourseRequest(CourseStatus status) {
     return PlannedCourseRequest.builder()
         .courseVersionExternalId(A_LATEST_VERSION_UUID)
         .courseExternalId(A_COURSE_UUID)
         .semesterExternalId(A_SEMESTER_EXTERNAL_ID)
-        .status(CourseStatus.PLANNED)
+        .status(status)
         .build();
+  }
+
+  public static PlannedCourseRequest aPlannedCourseRequest() {
+    return aPlannedCourseRequest(CourseStatus.PLANNED);
   }
 
   public static StudyPlan aStudyPlan() {
