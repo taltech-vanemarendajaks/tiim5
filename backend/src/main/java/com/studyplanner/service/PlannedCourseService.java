@@ -162,7 +162,7 @@ public class PlannedCourseService {
     PlannedCourse plannedCourse =
         plannedCourseRepository
             .findByExternalIdWithSemesterAndCourses(plannerCourseExternalId)
-            .orElseThrow(() -> new EntityNotFoundException("Planned course not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Planned course not found"));
 
     plannedCourse.setStatus(status);
     semesterService.recalculateAndSave(plannedCourse.getSemester());
