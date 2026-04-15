@@ -94,6 +94,7 @@ public class UnitTestFixtures {
         .externalId(AN_EXTERNAL_ID)
         .course(aCourseResponse())
         .module(aModuleResponse())
+        .courseStatus(CourseStatus.PLANNED)
         .build();
   }
 
