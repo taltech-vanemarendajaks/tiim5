@@ -56,6 +56,8 @@ public class PlannedCourseService {
     plannedCourseRepository.deleteByStudyPlanExternalId(studyPlanExternalId);
     plannedCourseRepository.saveAll(plannedCourses);
 
+    semestersByExternalId.values().forEach(semesterService::recalculateAndSave);
+
     return PlannedCourseMapper.mapToResponseList(plannedCourses);
   }
 
