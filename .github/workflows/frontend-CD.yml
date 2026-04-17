@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-backend:
+  deploy-frontend:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,7 +23,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/studyplanner-frontend:latest
 
-      - name: Deploy backend
+      - name: Deploy frontend
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SERVER_IP }}
@@ -31,5 +31,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /opt/tiim5
-            docker compose pull backend
-            docker compose up -d backend
+            docker compose pull frontend
+            docker compose up -d frontend
