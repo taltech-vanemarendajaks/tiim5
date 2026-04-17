@@ -1,0 +1,65 @@
+name: Backend CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect backend changes
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            backend:
+              - 'backend/**'
+
+      - name: Skip CI if no backend changes
+        if: steps.changes.outputs.backend != 'true'
+        run: |
+          echo "No backend changes → skipping backend CI"
+          exit 0
+
+      - name: Set up Java 25
+        if: steps.changes.outputs.backend == 'true'
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        if: steps.changes.outputs.backend == 'true'
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-home-cache-cleanup: true
+
+      - name: Grant execute permission to gradlew
+        if: steps.changes.outputs.backend == 'true'
+        run: chmod +x gradlew
+
+      - name: Run Spotless check
+        if: steps.changes.outputs.backend == 'true'
+        run: ./gradlew spotlessCheck
+
+      - name: Run tests with coverage
+        if: steps.changes.outputs.backend == 'true'
+        run: ./gradlew test jacocoTestReport
+
+      - name: SonarCloud Analysis
+        if: steps.changes.outputs.backend == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew sonar --info

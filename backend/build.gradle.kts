@@ -1,8 +1,10 @@
 plugins {
     java
+    jacoco
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependency.management)
     alias(libs.plugins.spotless)
+    alias(libs.plugins.sonarqube)
 }
 
 group = "com.tiim5"
@@ -36,7 +38,8 @@ dependencies {
 }
 
 tasks.withType<Test> {
-	useJUnitPlatform()
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
 }
 
 spotless {
@@ -67,3 +70,29 @@ tasks.register<Test>("integrationTest") {
     shouldRunAfter(tasks.test)
 }
 
+jacoco {
+    toolVersion = "0.8.14"
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required = true
+        csv.required = false
+    }
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "tiim-5_studyplanner-backend")
+        property("sonar.organization", "tiim-5")
+        property("sonar.projectBaseDir", rootProject.projectDir.absolutePath)
+        property("sonar.sources", "src/main/java")
+        property("sonar.java.coveragePlugin", "jacoco")
+        property(
+            "sonar.coverage.jacoco.xmlReportPaths",
+            "${layout.buildDirectory.get()}/reports/jacoco/test/jacocoTestReport.xml"
+        )
+        property("sonar.exclusions", "**/config/**, **/entity/**, **/*StudyPlanner*")
+    }
+}
