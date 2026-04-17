@@ -1,3 +1,4 @@
+-- Active: 1776106048944@@localhost@5432@studyplanner
 INSERT INTO curriculums (curriculum_external_id, title, study_level, credits) VALUES
     ('03421357-a6c2-da39-8f11-eb6b24c5d0e8', 'Füüsika', 'MASTER', 120);
 
@@ -23,3 +24,6 @@ INSERT INTO module_courses(module_id, course_id) VALUES (1, 1);
 INSERT INTO curriculum_modules (curriculum_id, module_id) VALUES (1,1);
 
 INSERT INTO curriculum_modules (curriculum_id, module_id) VALUES (1,2);
+
+INSERT INTO planned_courses(course_id, module_id, semester_id, status) VALUES
+    (1, 2, 1, 'PLANNED')

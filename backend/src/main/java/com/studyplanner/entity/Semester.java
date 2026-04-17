@@ -36,4 +36,14 @@ public class Semester extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "study_plan_id")
   private StudyPlan studyPlan;
+
+  public void recalculateFinished() {
+    if (plannedCourses == null || plannedCourses.isEmpty()) {
+      this.finished = false;
+      return;
+    }
+    this.finished =
+        plannedCourses.stream()
+            .allMatch(plannedCourse -> plannedCourse.getStatus() == CourseStatus.COMPLETED);
+  }
 }
