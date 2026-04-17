@@ -41,5 +41,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /opt/tiim5
-            docker compose pull backend
-            docker compose up -d backend
+            docker compose pull db backend
+            docker compose up -d db backend
