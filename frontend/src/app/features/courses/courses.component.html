@@ -1,3 +1,5 @@
+<h4>ÕPPEAINED</h4>
+<app-search-bar placeholder="Otsi nime järgi..." (searchChange)="searchTitle.set($event)" />
 @if (courses().length === 0) {
   <app-notification message="No courses found" />
 } @else {
@@ -11,9 +13,11 @@
       </tr>
     </thead>
     <tbody>
-      @for (course of courses(); track course.externalId) {
+      @for (course of courses(); track course.oisExternalId) {
         <tr class="course-row">
-          <td class="col-title">{{ course.titleEt }}</td>
+          <td class="col-title">
+            {{ course.titleEt }} <span class="course-code">({{ course.code }})</span>
+          </td>
           <td class="col-credits">{{ course.credits }}</td>
           <td class="col-semester">
             @if (course.semesterType) {
