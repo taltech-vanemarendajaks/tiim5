@@ -8,12 +8,12 @@
     } @else {
       <table class="course-table">
         <thead>
-        <tr>
-          <th class="col-title"></th>
-          <th class="col-credits">EAPd</th>
-          <th class="col-semester">Õpetamise semester</th>
-          <th class="col-action"></th>
-        </tr>
+          <tr>
+            <th class="col-title"></th>
+            <th class="col-credits">EAPd</th>
+            <th class="col-semester">Õpetamise semester</th>
+            <th class="col-action"></th>
+          </tr>
         </thead>
         <tbody>
           @for (course of courses(); track course.oisExternalId) {
@@ -37,6 +37,5 @@
         </tbody>
       </table>
     }
-
   </div>
 </div>

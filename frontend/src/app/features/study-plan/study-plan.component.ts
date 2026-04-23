@@ -9,12 +9,7 @@ import { filter, switchMap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-study-plan',
   standalone: true,
-  imports: [
-    CommonModule,
-    NotificationComponent,
-    SearchComponent,
-    SemesterBadgeComponent,
-  ],
+  imports: [CommonModule, NotificationComponent, SearchComponent, SemesterBadgeComponent],
   templateUrl: './study-plan.component.html',
   styleUrl: './study-plan.component.css',
 })

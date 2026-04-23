@@ -13,6 +13,7 @@ const SEMESTER_MAP: Record<CourseResponse.semesterType, { label: string; color: 
   standalone: true,
   imports: [MatChipsModule],
   templateUrl: './semester-badge.component.html',
+  styleUrl: './semester-badge.component.css',
 })
 export class SemesterBadgeComponent {
   readonly semester = input.required<CourseResponse.semesterType>();
