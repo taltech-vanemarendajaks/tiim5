@@ -5,9 +5,14 @@
 }
 
 .placeholder__title {
-  font-size: 24px;
+  font-family: 'Lexend', system-ui, sans-serif;
+  font-size: 28px;
   font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
   margin: 0;
+  text-transform: uppercase;
+  color: rgba(20, 20, 20, 0.84);
 }
 
 .placeholder__note {

@@ -18,18 +18,18 @@ export const routes: Routes = [
           import('./components/studies/studies').then((m) => m.Studies),
       },
       {
-        path: 'curriculum',
+        path: 'curriculums',
         children: [
           {
             path: '',
             loadComponent: () =>
-              import('./components/curriculum/curriculum').then((m) => m.Curriculum),
+              import('./components/curriculums/curriculums').then((m) => m.Curriculums),
           },
           {
             path: 'new',
             loadComponent: () =>
               import(
-                './components/curriculum/curriculum-planning/curriculum-planning'
+                './components/curriculums/curriculum-planning/curriculum-planning'
               ).then((m) => m.CurriculumPlanning),
           },
         ],

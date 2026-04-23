@@ -7,7 +7,7 @@
     "AriaLabel": "Peamenüü",
     "Dashboard": "Avaleht",
     "Studies": "Õpingud",
-    "Curriculum": "Õppekava",
+    "Curriculum": "Õppekavad",
     "Schedule": "Tunniplaan",
     "Settings": "Seaded"
   },
@@ -28,12 +28,12 @@
   "Settings": {
     "Title": "Seaded"
   },
-  "Curriculum": {
-    "Title": "Õppekava",
-    "Planning": {
-      "Title": "Õppekava planeerimine",
-      "SemesterPlan": "Semestrite kavand",
-      "Subjects": "Õppeained"
-    }
+  "Curriculums": {
+    "Title": "Õppekavad"
+  },
+  "CurriculumPlanning": {
+    "Title": "Õppekava planeerimine",
+    "SemesterPlan": "Semestrite kavand",
+    "Subjects": "Õppeained"
   }
 }

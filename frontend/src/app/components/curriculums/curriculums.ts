@@ -4,10 +4,10 @@ import { PlaceholderPage } from '../../shared/components/placeholder-page/placeh
 import { TPipe } from '../../pipes/t.pipe';
 
 @Component({
-  selector: 'app-curriculum',
+  selector: 'app-curriculums',
   imports: [PlaceholderPage, RouterLink, TPipe],
-  templateUrl: './curriculum.html',
-  styleUrl: './curriculum.css',
+  templateUrl: './curriculums.html',
+  styleUrl: './curriculums.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Curriculum {}
+export class Curriculums {}

@@ -28,7 +28,7 @@ export class Layout {
   protected readonly mainNav: readonly NavItem[] = [
     { path: '/dashboard', labelKey: 'Nav.Dashboard', icon: faGauge },
     { path: '/studies', labelKey: 'Nav.Studies', icon: faBookOpen },
-    { path: '/curriculum', labelKey: 'Nav.Curriculum', icon: faCalendarDays },
+    { path: '/curriculums', labelKey: 'Nav.Curriculum', icon: faCalendarDays },
     { path: '/schedule', labelKey: 'Nav.Schedule', icon: faChartColumn },
   ];
 

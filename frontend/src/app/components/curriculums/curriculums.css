@@ -1,11 +1,11 @@
-.curriculum__header {
+.curriculums__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
 }
 
-.curriculum__add {
+.curriculums__add {
   background: #7fb2e3;
   color: #ffffff;
   text-decoration: none;
@@ -16,6 +16,6 @@
   transition: background-color 120ms ease;
 }
 
-.curriculum__add:hover {
+.curriculums__add:hover {
   background: #5f9dd6;
 }
