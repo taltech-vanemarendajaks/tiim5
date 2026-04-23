@@ -1,6 +1,42 @@
 <div class="page-layout">
   <div class="left-panel">Coming soon</div>
   <div class="right-panel">
-    <app-courses />
+    <h4>ÕPPEAINED</h4>
+    <app-search-bar placeholder="Otsi nime järgi..." (searchChange)="searchTitle.set($event)" />
+    @if (courses().length === 0) {
+      <app-notification message="No courses found" />
+    } @else {
+      <table class="course-table">
+        <thead>
+        <tr>
+          <th class="col-title"></th>
+          <th class="col-credits">EAPd</th>
+          <th class="col-semester">Õpetamise semester</th>
+          <th class="col-action"></th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (course of courses(); track course.oisExternalId) {
+            <tr class="course-row">
+              <td class="col-title">
+                {{ course.titleEt }} <span class="course-code">({{ course.code }})</span>
+              </td>
+              <td class="col-credits">{{ course.credits }}</td>
+              <td class="col-semester">
+                @if (course.semesterType) {
+                  <div class="badge-center">
+                    <app-semester-badge [semester]="course.semesterType" />
+                  </div>
+                }
+              </td>
+              <td class="col-action">
+                <button type="button" class="add-btn">+</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
   </div>
 </div>
