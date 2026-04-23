@@ -1,0 +1,72 @@
+th {
+  color: #8E8B8B;
+  font-size: 14px;
+  font-weight: 200;
+}
+
+td {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.course-table {
+  width: 50%;
+  border-collapse: separate;
+  border-spacing: 0 6px;
+  table-layout: fixed;
+}
+
+.course-row td {
+  background-color: rgba(238, 243, 245, 0.58);
+}
+
+.course-row td:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.course-row td:nth-last-child(2) {
+  border-radius: 0 8px 8px 0;
+}
+
+.col-title {
+  width: 60%;
+  text-align: left;
+}
+
+.col-credits {
+  width: 15%;
+  text-align: center;
+}
+
+.col-semester {
+  width: 15%;
+  text-align: center;
+}
+
+.badge-center {
+  display: flex;
+  justify-content: center;
+}
+
+.col-action {
+  width: 10%;
+  text-align: left;
+  padding-left: 8px;
+}
+
+.add-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.add-btn:hover {
+  background: rgba(238, 243, 245, 0.58);
+  border-radius: 8px;
+}
+
+.course-row td:last-child {
+  background: none;
+}
