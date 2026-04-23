@@ -2,8 +2,7 @@ import { Component, inject, ChangeDetectionStrategy, Signal } from '@angular/cor
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { CourseControllerService, CourseResponse } from '../../../client/_generated_';
-import { SemesterBadgeComponent } from '../../shared/components/SemesterBadge/semester-badge.component';
-import { NotificationComponent } from '../../shared/components/Notification/notification.component';
+import { NotificationComponent, SemesterBadgeComponent } from '@/components';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,10 +15,7 @@ import { NotificationComponent } from '../../shared/components/Notification/noti
 export class CoursesComponent {
   private courseService = inject(CourseControllerService);
 
-  readonly courses: Signal<CourseResponse[]> = toSignal(
-    this.courseService.getAllCourses(),
-    {
-      initialValue: [],
-    },
-  );
+  readonly courses: Signal<CourseResponse[]> = toSignal(this.courseService.getAllCourses(), {
+    initialValue: [],
+  });
 }
