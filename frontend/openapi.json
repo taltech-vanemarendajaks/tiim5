@@ -1,0 +1,406 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/v1/users/me/study-plan/{studyPlanExternalId}/planned-courses": {
+      "put": {
+        "tags": [
+          "Planned course"
+        ],
+        "operationId": "setPlannedCourses",
+        "parameters": [
+          {
+            "name": "studyPlanExternalId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "User-External-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PlannedCourseRequest"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlannedCourseResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "getAllUsers",
+        "parameters": [
+          {
+            "name": "User-External-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/me/study-plan/{studyPlanExternalId}/semesters": {
+      "get": {
+        "tags": [
+          "Semester"
+        ],
+        "operationId": "getSemesters",
+        "parameters": [
+          {
+            "name": "studyPlanExternalId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "User-External-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SemesterResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/courses": {
+      "get": {
+        "tags": [
+          "Course"
+        ],
+        "operationId": "getAllCourses",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 300
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-External-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PlannedCourseRequest": {
+        "type": "object",
+        "properties": {
+          "semesterExternalId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "courseVersionExternalId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "courseExternalId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PLANNED",
+              "COMPLETED"
+            ]
+          }
+        },
+        "required": [
+          "courseExternalId",
+          "courseVersionExternalId",
+          "semesterExternalId"
+        ]
+      },
+      "CourseResponse": {
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "oisExternalId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "versionExternalId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "titleEn": {
+            "type": "string",
+            "minLength": 1
+          },
+          "titleEt": {
+            "type": "string",
+            "minLength": 1
+          },
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "credits": {
+            "type": "number",
+            "format": "double"
+          },
+          "semesterType": {
+            "type": "string",
+            "enum": [
+              "SPRING",
+              "AUTUMN"
+            ]
+          }
+        },
+        "required": [
+          "code",
+          "credits",
+          "externalId",
+          "oisExternalId",
+          "semesterType",
+          "titleEn",
+          "titleEt",
+          "versionExternalId"
+        ]
+      },
+      "ModuleResponse": {
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "requiredCredits": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "optionalCredits": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "externalId",
+          "requiredCredits",
+          "title"
+        ]
+      },
+      "PlannedCourseResponse": {
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "course": {
+            "$ref": "#/components/schemas/CourseResponse"
+          },
+          "module": {
+            "$ref": "#/components/schemas/ModuleResponse"
+          },
+          "courseStatus": {
+            "type": "string",
+            "enum": [
+              "PLANNED",
+              "COMPLETED"
+            ]
+          }
+        },
+        "required": [
+          "course",
+          "courseStatus",
+          "externalId",
+          "module"
+        ]
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "format": "uuid",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "creationDate",
+          "externalId",
+          "name"
+        ]
+      },
+      "SemesterResponse": {
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "finished": {
+            "type": "boolean"
+          },
+          "plannedCourses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlannedCourseResponse"
+            }
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "creationDate",
+          "externalId",
+          "finished",
+          "year"
+        ]
+      }
+    }
+  }
+}

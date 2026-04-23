@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, inject, signal, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotificationComponent, SearchComponent, SemesterBadgeComponent } from '@/components';
-import { CourseControllerService, CourseResponse } from '../../../client/_generated_';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { filter, switchMap } from 'rxjs/operators';
+import { CourseResponse, CourseService } from '@/client';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,7 +14,7 @@ import { filter, switchMap } from 'rxjs/operators';
   styleUrl: './study-plan.component.css',
 })
 export class StudyPlanComponent {
-  private readonly courseService = inject(CourseControllerService);
+  private readonly courseService = inject(CourseService);
 
   readonly searchTitle = signal<string>('');
 

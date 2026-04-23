@@ -2,6 +2,7 @@ package com.studyplanner.controller;
 
 import com.studyplanner.dto.CourseResponse;
 import com.studyplanner.service.CourseService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name = "Course")
 @RequestMapping("/api/v1/courses")
 @RequiredArgsConstructor
 public class CourseController {

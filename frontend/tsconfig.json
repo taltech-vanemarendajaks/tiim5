@@ -13,7 +13,8 @@
     "module": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@/components": ["src/app/shared/components"]
+      "@/components": ["src/app/shared/components"],
+      "@/client": ["src/app/client/_generated_"]
     }
   },
   "angularCompilerOptions": {
