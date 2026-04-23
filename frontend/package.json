@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit",
     "fetch:openapi": "node scripts/fetch-openapi-spec.mjs",
     "generate:openapi": "openapi --input ./openapi.json --output src/app/client/_generated_ --client angular",
-    "sync:openapi": "npm run fetch:openapi && npm run generate:openapi"
+    "sync:openapi": "npm run fetch:openapi && npm run generate:openapi && npm run prettier"
   },
   "private": true,
   "packageManager": "npm@11.8.0",

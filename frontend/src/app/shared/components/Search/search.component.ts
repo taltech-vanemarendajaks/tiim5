@@ -13,7 +13,6 @@ export class SearchComponent {
 
   onInput(event: Event) {
     const value = (event.target as HTMLInputElement).value;
-    console.log('onInput called:', value);
     this.searchChange.emit(value);
   }
 }

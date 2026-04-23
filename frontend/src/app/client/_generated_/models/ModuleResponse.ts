@@ -3,9 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export type ModuleResponse = {
-    externalId: string;
-    title: string;
-    requiredCredits: number;
-    optionalCredits?: number;
+  externalId: string;
+  title: string;
+  requiredCredits: number;
+  optionalCredits?: number;
 };
-

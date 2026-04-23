@@ -3,15 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 export type PlannedCourseRequest = {
-    semesterExternalId: string;
-    courseVersionExternalId: string;
-    courseExternalId: string;
-    status?: PlannedCourseRequest.status;
+  semesterExternalId: string;
+  courseVersionExternalId: string;
+  courseExternalId: string;
+  status?: PlannedCourseRequest.status;
 };
 export namespace PlannedCourseRequest {
-    export enum status {
-        PLANNED = 'PLANNED',
-        COMPLETED = 'COMPLETED',
-    }
+  export enum status {
+    PLANNED = 'PLANNED',
+    COMPLETED = 'COMPLETED',
+  }
 }
-

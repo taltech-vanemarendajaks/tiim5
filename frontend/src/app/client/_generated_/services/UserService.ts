@@ -9,24 +9,22 @@ import type { UserResponse } from '../models/UserResponse';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class UserService {
-    constructor(public readonly http: HttpClient) {}
-    /**
-     * @param userExternalId
-     * @returns UserResponse OK
-     * @throws ApiError
-     */
-    public getAllUsers(
-        userExternalId?: string,
-    ): Observable<Array<UserResponse>> {
-        return __request(OpenAPI, this.http, {
-            method: 'GET',
-            url: '/api/v1/users',
-            headers: {
-                'User-External-Id': userExternalId,
-            },
-        });
-    }
+  constructor(public readonly http: HttpClient) {}
+  /**
+   * @param userExternalId
+   * @returns UserResponse OK
+   * @throws ApiError
+   */
+  public getAllUsers(userExternalId?: string): Observable<Array<UserResponse>> {
+    return __request(OpenAPI, this.http, {
+      method: 'GET',
+      url: '/api/v1/users',
+      headers: {
+        'User-External-Id': userExternalId,
+      },
+    });
+  }
 }

@@ -3,8 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type UserResponse = {
-    externalId: string;
-    name: string;
-    creationDate: string;
+  externalId: string;
+  name: string;
+  creationDate: string;
 };
-

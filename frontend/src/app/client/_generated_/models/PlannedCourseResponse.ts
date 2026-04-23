@@ -5,15 +5,14 @@
 import type { CourseResponse } from './CourseResponse';
 import type { ModuleResponse } from './ModuleResponse';
 export type PlannedCourseResponse = {
-    externalId: string;
-    course: CourseResponse;
-    module: ModuleResponse;
-    courseStatus: PlannedCourseResponse.courseStatus;
+  externalId: string;
+  course: CourseResponse;
+  module: ModuleResponse;
+  courseStatus: PlannedCourseResponse.courseStatus;
 };
 export namespace PlannedCourseResponse {
-    export enum courseStatus {
-        PLANNED = 'PLANNED',
-        COMPLETED = 'COMPLETED',
-    }
+  export enum courseStatus {
+    PLANNED = 'PLANNED',
+    COMPLETED = 'COMPLETED',
+  }
 }
-

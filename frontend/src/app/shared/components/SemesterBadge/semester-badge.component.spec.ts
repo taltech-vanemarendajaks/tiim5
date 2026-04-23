@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { SemesterBadgeComponent } from './semester-badge.component';
-import { CourseResponse } from '../../../../client/_generated_';
 import { it, expect } from 'vitest';
+import { CourseResponse } from '@/client';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
