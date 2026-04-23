@@ -1,0 +1,16 @@
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.placeholder__title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.placeholder__note {
+  color: #6b7793;
+  margin: 0;
+}

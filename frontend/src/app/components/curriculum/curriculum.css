@@ -1,0 +1,21 @@
+.curriculum__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.curriculum__add {
+  background: #7fb2e3;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 120ms ease;
+}
+
+.curriculum__add:hover {
+  background: #5f9dd6;
+}
