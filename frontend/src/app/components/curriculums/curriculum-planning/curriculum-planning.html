@@ -27,31 +27,31 @@
       @if (courses().length === 0) {
         <app-notification [message]="'CurriculumPlanning.NoCoursesNotification' | t" />
       } @else {
-        <table class="course-table">
+        <table class="course__table">
           <thead>
             <tr>
-              <th class="col-title"></th>
-              <th class="col-credits">{{ 'CurriculumPlanning.CoursePoints' | t }}</th>
-              <th class="col-semester">{{ 'CurriculumPlanning.StudySemester' | t }}</th>
-              <th class="col-action"></th>
+              <th class="col__title"></th>
+              <th class="col__credits">{{ 'CurriculumPlanning.CoursePoints' | t }}</th>
+              <th class="col__semester">{{ 'CurriculumPlanning.StudySemester' | t }}</th>
+              <th class="col__action"></th>
             </tr>
           </thead>
           <tbody>
             @for (course of courses(); track course.oisExternalId) {
-              <tr class="course-row">
-                <td class="col-title">
-                  {{ course.titleEt }} <span class="course-code">({{ course.code }})</span>
+              <tr class="course__row">
+                <td class="col__title">
+                  {{ course.titleEt }} <span class="course__code">({{ course.code }})</span>
                 </td>
-                <td class="col-credits">{{ course.credits }}</td>
-                <td class="col-semester">
+                <td class="col__credits">{{ course.credits }}</td>
+                <td class="col__semester">
                   @if (course.semesterType) {
-                    <div class="badge-center">
+                    <div class="badge__center">
                       <app-semester-badge [semester]="course.semesterType" />
                     </div>
                   }
                 </td>
-                <td class="col-action">
-                  <button type="button" class="add-btn">+</button>
+                <td class="col__action">
+                  <button type="button" class="add__btn">+</button>
                 </td>
               </tr>
             }

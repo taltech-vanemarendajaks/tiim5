@@ -50,6 +50,6 @@ it('should render search icon', () => {
   const fixture = TestBed.createComponent(TestHostComponent);
   fixture.detectChanges();
 
-  const icon = fixture.nativeElement.querySelector('.search-icon');
+  const icon = fixture.nativeElement.querySelector('.search__icon');
   expect(icon).not.toBeNull();
 });

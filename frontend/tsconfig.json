@@ -15,7 +15,8 @@
     "baseUrl": ".",
     "paths": {
       "@/components": ["src/app/shared/components"],
-      "@/client": ["src/app/client/_generated_"]
+      "@/client": ["src/app/client/_generated_"],
+      "@/pipes": ["src/app/pipes"]
     }
   },
   "angularCompilerOptions": {

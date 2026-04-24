@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { TPipe } from '../../../pipes/t.pipe';
+import { TPipe } from '@/pipes';
 
 @Component({
   selector: 'app-placeholder-page',

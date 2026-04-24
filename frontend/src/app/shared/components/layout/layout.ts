@@ -9,7 +9,7 @@ import {
   faGauge,
   faGear,
 } from '@fortawesome/free-solid-svg-icons';
-import { TPipe } from '../../../pipes/t.pipe';
+import { TPipe } from '@/pipes';
 
 interface NavItem {
   path: string;

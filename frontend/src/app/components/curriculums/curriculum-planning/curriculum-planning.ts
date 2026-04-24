@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { TPipe } from '../../../pipes/t.pipe';
+import { TPipe } from '@/pipes';
 import { CommonModule } from '@angular/common';
 import { NotificationComponent, SearchComponent, SemesterBadgeComponent } from '@/components';
 import { CourseService } from '@/client';

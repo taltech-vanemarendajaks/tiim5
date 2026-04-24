@@ -12,10 +12,10 @@
   letter-spacing: 0;
   margin: 0;
   text-transform: uppercase;
-  color: rgba(20, 20, 20, 0.84);
+  color: var(--color-page-title);
 }
 
 .placeholder__note {
-  color: #6b7793;
+  color: var(--color-light-text);
   margin: 0;
 }
