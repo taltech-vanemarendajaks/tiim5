@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import ee from '../../assets/i18n/ee.json';
+import ee from '../../../assets/i18n/ee.json';
 
 export type Locale = 'ee';
 
