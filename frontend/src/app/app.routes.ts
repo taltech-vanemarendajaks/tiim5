@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { Layout } from './shared/components/layout/layout';
+import { Layout } from './layout/layout';
 
 export const routes: Routes = [
   {
@@ -10,12 +10,12 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./components/dashboard/dashboard').then((m) => m.Dashboard),
+          import('./features/dashboard/dashboard').then((m) => m.Dashboard),
       },
       {
         path: 'studies',
         loadComponent: () =>
-          import('./components/studies/studies').then((m) => m.Studies),
+          import('./features/studies/studies').then((m) => m.Studies),
       },
       {
         path: 'curriculums',
@@ -23,13 +23,13 @@ export const routes: Routes = [
           {
             path: '',
             loadComponent: () =>
-              import('./components/curriculums/curriculums').then((m) => m.Curriculums),
+              import('./features/curriculums/curriculums').then((m) => m.Curriculums),
           },
           {
             path: 'new',
             loadComponent: () =>
               import(
-                './components/curriculums/curriculum-planning/curriculum-planning'
+                './features/curriculums/curriculum-planning/curriculum-planning'
               ).then((m) => m.CurriculumPlanning),
           },
         ],
@@ -37,12 +37,12 @@ export const routes: Routes = [
       {
         path: 'schedule',
         loadComponent: () =>
-          import('./components/schedule/schedule').then((m) => m.Schedule),
+          import('./features/schedule/schedule').then((m) => m.Schedule),
       },
       {
         path: 'settings',
         loadComponent: () =>
-          import('./components/settings/settings').then((m) => m.Settings),
+          import('./features/settings/settings').then((m) => m.Settings),
       },
       { path: '**', redirectTo: 'dashboard' },
     ],

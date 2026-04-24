@@ -14,7 +14,7 @@
               routerLinkActive="is-active"
               class="sidebar__link"
             >
-              <fa-icon ngSkipHydration [icon]="item.icon" class="sidebar__icon" />
+              <app-icon [name]="item.icon" class="sidebar__icon" />
               <span class="sidebar__label">{{ item.labelKey | t }}</span>
             </a>
           </li>
@@ -28,7 +28,7 @@
         routerLinkActive="is-active"
         class="sidebar__link"
       >
-        <fa-icon ngSkipHydration [icon]="settingsNav.icon" class="sidebar__icon" />
+        <app-icon [name]="settingsNav.icon" class="sidebar__icon" />
         <span class="sidebar__label">{{ settingsNav.labelKey | t }}</span>
       </a>
     </div>
