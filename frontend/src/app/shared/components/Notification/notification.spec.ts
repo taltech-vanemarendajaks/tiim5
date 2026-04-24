@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { NotificationComponent } from './notification.component';
+import { Notification } from './notification';
 import { it, expect } from 'vitest';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NotificationComponent],
+  imports: [Notification],
   template: `<app-notification [message]="message" />`,
 })
 class TestHostComponent {
@@ -25,7 +25,7 @@ it('should display default message when none provided', () => {
   @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NotificationComponent],
+    imports: [Notification],
     template: `<app-notification />`,
   })
   class NoInputHostComponent {}

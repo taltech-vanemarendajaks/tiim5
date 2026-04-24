@@ -12,10 +12,10 @@ const SEMESTER_MAP: Record<CourseResponse.semesterType, { label: string; color: 
   selector: 'app-semester-badge',
   standalone: true,
   imports: [MatChipsModule],
-  templateUrl: './semester-badge.component.html',
-  styleUrl: './semester-badge.component.css',
+  templateUrl: './semester-badge.html',
+  styleUrl: './semester-badge.css',
 })
-export class SemesterBadgeComponent {
+export class SemesterBadge {
   readonly semester = input.required<CourseResponse.semesterType>();
 
   get badge() {

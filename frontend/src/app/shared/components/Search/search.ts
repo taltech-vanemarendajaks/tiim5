@@ -4,10 +4,10 @@ import { Component, input, output, ChangeDetectionStrategy } from '@angular/core
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-search-bar',
   standalone: true,
-  templateUrl: './search.component.html',
-  styleUrl: './search.component.css',
+  templateUrl: './search.html',
+  styleUrl: './search.css',
 })
-export class SearchComponent {
+export class Search {
   readonly placeholder = input<string>('Search...');
   readonly searchChange = output<string>();
 

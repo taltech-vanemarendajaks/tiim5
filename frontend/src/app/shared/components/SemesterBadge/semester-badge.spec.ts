@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { SemesterBadgeComponent } from './semester-badge.component';
+import { SemesterBadge } from './semester-badge';
 import { it, expect } from 'vitest';
 import { CourseResponse } from '@/client';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [SemesterBadgeComponent],
+  imports: [SemesterBadge],
   template: `<app-semester-badge [semester]="semester" />`,
 })
 class TestHostComponent {

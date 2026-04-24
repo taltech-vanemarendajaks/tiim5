@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { SearchComponent } from './search.component';
+import { Search } from './search';
 import { it, expect } from 'vitest';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [SearchComponent],
+  imports: [Search],
   template: `<app-search-bar [placeholder]="placeholder" (searchChange)="onSearch($event)" />`,
 })
 class TestHostComponent {

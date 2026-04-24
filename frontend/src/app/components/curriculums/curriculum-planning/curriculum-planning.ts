@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { TPipe } from '@/pipes';
 import { CommonModule } from '@angular/common';
-import { NotificationComponent, SearchComponent, SemesterBadgeComponent } from '@/components';
+import { Notification, Search, SemesterBadge } from '@/components';
 import { CourseService } from '@/client';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { filter, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-curriculum-planning',
-  imports: [TPipe, CommonModule, NotificationComponent, SearchComponent, SemesterBadgeComponent],
+  imports: [TPipe, CommonModule, Notification, Search, SemesterBadge],
   templateUrl: './curriculum-planning.html',
   styleUrl: './curriculum-planning.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -4,9 +4,9 @@ import { Component, input, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-notification',
   standalone: true,
-  templateUrl: './notification.component.html',
-  styleUrl: './notification.component.css',
+  templateUrl: './notification.html',
+  styleUrl: './notification.css',
 })
-export class NotificationComponent {
+export class Notification {
   readonly message = input<string>('No results found.');
 }
