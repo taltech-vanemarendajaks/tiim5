@@ -1,9 +1,50 @@
 import { Routes } from '@angular/router';
+import { Layout } from './shared/components/layout/layout';
 
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () =>
-      import('./features/study-plan/study-plan.component').then((m) => m.StudyPlanComponent),
+    component: Layout,
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./components/dashboard/dashboard').then((m) => m.Dashboard),
+      },
+      {
+        path: 'studies',
+        loadComponent: () =>
+          import('./components/studies/studies').then((m) => m.Studies),
+      },
+      {
+        path: 'curriculums',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./components/curriculums/curriculums').then((m) => m.Curriculums),
+          },
+          {
+            path: 'new',
+            loadComponent: () =>
+              import(
+                './components/curriculums/curriculum-planning/curriculum-planning'
+              ).then((m) => m.CurriculumPlanning),
+          },
+        ],
+      },
+      {
+        path: 'schedule',
+        loadComponent: () =>
+          import('./components/schedule/schedule').then((m) => m.Schedule),
+      },
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('./components/settings/settings').then((m) => m.Settings),
+      },
+      { path: '**', redirectTo: 'dashboard' },
+    ],
   },
 ];
