@@ -11,6 +11,7 @@ public class SemesterMapper {
         .externalId(semester.getExternalId())
         .year(semester.getYear())
         .finished(semester.getFinished())
+        .semesterType(semester.getSemesterType())
         .plannedCourses(PlannedCourseMapper.mapToResponseList(semester.getPlannedCourses()))
         .creationDate(semester.getCreationDate())
         .build();
