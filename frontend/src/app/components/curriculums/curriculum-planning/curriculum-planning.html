@@ -19,6 +19,45 @@
       <h2 class="planning__section-title">
         {{ 'CurriculumPlanning.Subjects' | t }}
       </h2>
+      <app-search-bar
+        [placeholder]="'CurriculumPlanning.SearchPlaceholder' | t"
+        (searchChange)="searchTitle.set($event)"
+      >
+      </app-search-bar>
+      @if (courses().length === 0) {
+        <app-notification [message]="'CurriculumPlanning.NoCoursesNotification' | t" />
+      } @else {
+        <table class="course-table">
+          <thead>
+            <tr>
+              <th class="col-title"></th>
+              <th class="col-credits">{{ 'CurriculumPlanning.CoursePoints' | t }}</th>
+              <th class="col-semester">{{ 'CurriculumPlanning.StudySemester' | t }}</th>
+              <th class="col-action"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (course of courses(); track course.oisExternalId) {
+              <tr class="course-row">
+                <td class="col-title">
+                  {{ course.titleEt }} <span class="course-code">({{ course.code }})</span>
+                </td>
+                <td class="col-credits">{{ course.credits }}</td>
+                <td class="col-semester">
+                  @if (course.semesterType) {
+                    <div class="badge-center">
+                      <app-semester-badge [semester]="course.semesterType" />
+                    </div>
+                  }
+                </td>
+                <td class="col-action">
+                  <button type="button" class="add-btn">+</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
     </section>
   </div>
 </section>
