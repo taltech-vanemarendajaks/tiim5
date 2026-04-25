@@ -1,17 +1,15 @@
 package com.studyplanner.dto;
 
-import com.studyplanner.entity.SemesterType;
+import com.studyplanner.entity.StudyLevel;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 import lombok.Builder;
 
 @Builder
-public record SemesterResponse(
+public record CurriculumResponse(
     @NotNull UUID externalId,
-    @NotNull Integer year,
-    @NotNull Boolean finished,
-    SemesterType semesterType,
-    List<PlannedCourseResponse> plannedCourses,
+    @NotNull String title,
+    @NotNull StudyLevel studyLevel,
+    @NotNull Integer credits,
     @NotNull LocalDateTime creationDate) {}
