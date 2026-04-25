@@ -3,7 +3,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { provideIcons } from '@ng-icons/core';
 import { ICON_SET, IconName } from '../icon/icon-set';
 import { Icon } from '../icon/icon';
-import { TPipe } from '../../pipes/t.pipe';
+import { TPipe } from '@/pipes';
 
 interface NavItem {
   path: string;
