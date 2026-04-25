@@ -20,12 +20,12 @@
   letter-spacing: 0;
   margin: 0;
   text-transform: uppercase;
-  color: rgba(20, 20, 20, 0.84);
+  color: var(--color-page-title);
 }
 
 .planning__save {
-  background: #7fb2e3;
-  color: #ffffff;
+  background: var(--color-button);
+  color: var(--color-button-text);
   border: none;
   border-radius: 8px;
   padding: 10px 20px;
@@ -36,7 +36,7 @@
 }
 
 .planning__save:hover:not(:disabled) {
-  background: #5f9dd6;
+  background: var(--color-button-hover);
 }
 
 .planning__save:disabled {
@@ -50,7 +50,7 @@
   gap: 32px;
   flex: 1;
   align-items: stretch;
-  border-left: 1px solid #d4dfee;
+  border-left: 1px solid var(--color-divider);
   padding-left: 32px;
 }
 
@@ -67,11 +67,88 @@
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #2b3a59;
+  color: var(--color-section-title);
 }
 
 .planning__divider {
   width: 1px;
-  background: #d4dfee;
+  background: var(--color-divider);
   align-self: stretch;
+}
+
+th {
+  color: var(--color-light-text);
+  font-size: 14px;
+  font-weight: 200;
+}
+
+td {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.course__table {
+  border-collapse: separate;
+  border-spacing: 0 6px;
+  table-layout: fixed;
+}
+
+.course__row td {
+  background-color: var(--color-table-background);
+}
+
+.course__row td:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.course__row td:nth-last-child(2) {
+  border-radius: 0 8px 8px 0;
+}
+
+.col__title {
+  padding-left: 8px;
+  width: 65%;
+  text-align: left;
+}
+
+.col__credits {
+  width: 15%;
+  text-align: center;
+}
+
+.col__semester {
+  width: 15%;
+  text-align: center;
+}
+
+.badge__center {
+  display: flex;
+  justify-content: center;
+}
+
+.col__action {
+  width: 5%;
+  text-align: left;
+  padding-left: 8px;
+}
+
+.add__btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.add__btn:hover {
+  background: var(--color-table-background);
+  border-radius: 8px;
+}
+
+.course__row td:last-child {
+  background: none;
+}
+
+.course__code {
+  font-weight: 400;
 }

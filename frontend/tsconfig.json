@@ -16,7 +16,7 @@
     "paths": {
       "@/components": ["src/app/shared/components"],
       "@/client": ["src/app/client/_generated_"],
-      "@/pipes": ["src/app/pipes"]
+      "@/pipes": ["src/app/shared/pipes"]
     }
   },
   "angularCompilerOptions": {
