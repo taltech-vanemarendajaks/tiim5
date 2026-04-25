@@ -1,0 +1,39 @@
+{
+  "App": {
+    "Name": "StudyPlanner",
+    "UserPlaceholder": "Olivia Jane"
+  },
+  "Nav": {
+    "AriaLabel": "Peamenüü",
+    "Dashboard": "Avaleht",
+    "Studies": "Õpingud",
+    "Curriculums": "Õppekavad",
+    "Schedule": "Tunniplaan",
+    "Settings": "Seaded"
+  },
+  "Common": {
+    "WorkInProgress": "Töös",
+    "Save": "Salvesta",
+    "AddNew": "Lisa uus"
+  },
+  "Dashboard": {
+    "Title": "Avaleht"
+  },
+  "Studies": {
+    "Title": "Õpingud"
+  },
+  "Schedule": {
+    "Title": "Tunniplaan"
+  },
+  "Settings": {
+    "Title": "Seaded"
+  },
+  "Curriculums": {
+    "Title": "Õppekavad"
+  },
+  "CurriculumPlanning": {
+    "Title": "Õppekava planeerimine",
+    "SemesterPlan": "Semestrite kavand",
+    "Subjects": "Õppeained"
+  }
+}
