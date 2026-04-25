@@ -9,8 +9,12 @@
       <ul>
         @for (item of mainNav; track item.path) {
           <li>
-            <a [routerLink]="item.path" routerLinkActive="is-active" class="sidebar__link">
-              <fa-icon ngSkipHydration [icon]="item.icon" class="sidebar__icon" />
+            <a
+              [routerLink]="item.path"
+              routerLinkActive="is-active"
+              class="sidebar__link"
+            >
+              <app-icon [name]="item.icon" class="sidebar__icon" />
               <span class="sidebar__label">{{ item.labelKey | t }}</span>
             </a>
           </li>
@@ -19,8 +23,12 @@
     </nav>
 
     <div class="sidebar__footer">
-      <a [routerLink]="settingsNav.path" routerLinkActive="is-active" class="sidebar__link">
-        <fa-icon ngSkipHydration [icon]="settingsNav.icon" class="sidebar__icon" />
+      <a
+        [routerLink]="settingsNav.path"
+        routerLinkActive="is-active"
+        class="sidebar__link"
+      >
+        <app-icon [name]="settingsNav.icon" class="sidebar__icon" />
         <span class="sidebar__label">{{ settingsNav.labelKey | t }}</span>
       </a>
     </div>

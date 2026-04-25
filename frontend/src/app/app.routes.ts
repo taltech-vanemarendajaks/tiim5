@@ -9,11 +9,13 @@ export const routes: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
       {
         path: 'dashboard',
-        loadComponent: () => import('./components/dashboard/dashboard').then((m) => m.Dashboard),
+        loadComponent: () =>
+          import('./features/dashboard/dashboard').then((m) => m.Dashboard),
       },
       {
         path: 'studies',
-        loadComponent: () => import('./components/studies/studies').then((m) => m.Studies),
+        loadComponent: () =>
+          import('./features/studies/studies').then((m) => m.Studies),
       },
       {
         path: 'curriculums',
@@ -21,24 +23,26 @@ export const routes: Routes = [
           {
             path: '',
             loadComponent: () =>
-              import('./components/curriculums/curriculums').then((m) => m.Curriculums),
+              import('./features/curriculums/curriculums').then((m) => m.Curriculums),
           },
           {
             path: 'new',
             loadComponent: () =>
-              import('./components/curriculums/curriculum-planning/curriculum-planning').then(
-                (m) => m.CurriculumPlanning,
-              ),
+              import(
+                './features/curriculums/curriculum-planning/curriculum-planning'
+              ).then((m) => m.CurriculumPlanning),
           },
         ],
       },
       {
         path: 'schedule',
-        loadComponent: () => import('./components/schedule/schedule').then((m) => m.Schedule),
+        loadComponent: () =>
+          import('./features/schedule/schedule').then((m) => m.Schedule),
       },
       {
         path: 'settings',
-        loadComponent: () => import('./components/settings/settings').then((m) => m.Settings),
+        loadComponent: () =>
+          import('./features/settings/settings').then((m) => m.Settings),
       },
       { path: '**', redirectTo: 'dashboard' },
     ],
