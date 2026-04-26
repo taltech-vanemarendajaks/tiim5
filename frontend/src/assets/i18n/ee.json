@@ -14,7 +14,9 @@
   "Common": {
     "WorkInProgress": "Töös",
     "Save": "Salvesta",
-    "AddNew": "Lisa uus"
+    "AddNew": "Lisa uus",
+    "Autumn": "Sügis",
+    "Spring": "Kevad"
   },
   "Dashboard": {
     "Title": "Avaleht"
@@ -38,6 +40,9 @@
     "CoursePoints": "EAPd",
     "StudySemester": "Õpetamise semester",
     "SearchPlaceholder": "Otsi nime järgi...",
-    "NoCoursesNotification": "Hetkel ei leitud ühtegi kursust"
+    "NoCoursesNotification": "Hetkel ei leitud ühtegi kursust",
+    "HideCompletedSemesters": "Peida läbitud semestrid",
+    "CurriculumCompletion": "Õppekava täituvus",
+    "NoStudyPlanNotification": "Hetkel ei leitud ühtegi õppekava"
   }
 }

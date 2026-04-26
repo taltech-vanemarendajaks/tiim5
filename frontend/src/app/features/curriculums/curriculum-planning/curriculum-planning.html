@@ -11,6 +11,77 @@
       <h2 class="planning__section-title">
         {{ 'CurriculumPlanning.SemesterPlan' | t }}
       </h2>
+
+      @if (filteredSemesters().length === 0) {
+        <app-notification [message]="'CurriculumPlanning.NoStudyPlanNotification' | t" />
+      } @else {
+        <label class="planning__hide-toggle">
+          <input
+            type="checkbox"
+            class="course__checkbox"
+            (change)="hideCompleted.set(!hideCompleted())"
+          />
+          {{ 'CurriculumPlanning.HideCompletedSemesters' | t }}
+        </label>
+
+        <cdk-accordion class="planning__accordion" [multi]="true">
+          @for (semester of filteredSemesters(); track semester.externalId) {
+            <cdk-accordion-item
+              #accordionItem="cdkAccordionItem"
+              class="planning__accordion-item"
+              [expanded]="semester.externalId === currentSemesterId()"
+            >
+              <button
+                class="planning__accordion-header"
+                (click)="accordionItem.toggle()"
+                [attr.aria-expanded]="accordionItem.expanded"
+              >
+              <span class="planning__dot-slot">
+                @if (semester.externalId === currentSemesterId()) {
+                  <span class="planning__current-dot"></span>
+                }
+              </span>
+                <span
+                  class="planning__semester-name"
+                  [class.planning__semester-name--done]="semester.finished"
+                >
+                {{ getSemesterKey(semester.semesterType ?? '') | t }} {{ semester.year }}
+              </span>
+                <span
+                  class="planning__credits"
+                  [class.planning__semester-name--done]="semester.finished"
+                >
+                {{ calculateSemesterCredits(semester.plannedCourses ?? []) }}/{{ 30 }}
+              </span>
+                <span
+                  class="planning__credits-unit"
+                  [class.planning__semester-name--done]="semester.finished"
+                >{{ 'CurriculumPlanning.CoursePoints' | t }}</span
+                >
+                <span>
+                {{ accordionItem.expanded ? '△' : '▽' }}
+              </span>
+              </button>
+
+              @if (accordionItem.expanded) {
+                <ng-template #checkboxTpl let-course>
+                  <input
+                    type="checkbox"
+                    class="course__checkbox"
+                    [checked]="course.courseStatus === 'COMPLETED'"
+                  />
+                </ng-template>
+
+                <app-course-table
+                  [courses]="getCourses(semester)"
+                  [showHeader]="false"
+                  [actionTemplate]="checkboxTpl"
+                />
+              }
+            </cdk-accordion-item>
+          }
+        </cdk-accordion>
+      }
     </section>
 
     <div class="planning__divider" aria-hidden="true"></div>
@@ -27,37 +98,18 @@
       @if (courses().length === 0) {
         <app-notification [message]="'CurriculumPlanning.NoCoursesNotification' | t" />
       } @else {
-        <table class="course__table">
-          <thead>
-            <tr>
-              <th class="col__title"></th>
-              <th class="col__credits">{{ 'CurriculumPlanning.CoursePoints' | t }}</th>
-              <th class="col__semester">{{ 'CurriculumPlanning.StudySemester' | t }}</th>
-              <th class="col__action"></th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (course of courses(); track course.oisExternalId) {
-              <tr class="course__row">
-                <td class="col__title">
-                  {{ course.titleEt }} <span class="course__code">({{ course.code }})</span>
-                </td>
-                <td class="col__credits">{{ course.credits }}</td>
-                <td class="col__semester">
-                  @if (course.semesterType) {
-                    <div class="badge__center">
-                      <app-semester-badge [semester]="course.semesterType" />
-                    </div>
-                  }
-                </td>
-                <td class="col__action">
-                  <button type="button" class="add__btn">+</button>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
+        <app-course-table [courses]="courses()" />
       }
     </section>
   </div>
+
+  @if (totalRequired() !== null) {
+    <footer class="planning__footer">
+      <span>{{ 'CurriculumPlanning.CurriculumCompletion' | t }}</span>
+      <span class="planning__completion-badge">{{ completionPercentage() }}%</span>
+      <span>
+      {{ totalCredits() }}/{{ totalRequired() }} {{ 'CurriculumPlanning.CoursePoints' | t }}
+    </span>
+    </footer>
+  }
 </section>
