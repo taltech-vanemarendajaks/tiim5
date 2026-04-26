@@ -24,7 +24,7 @@ export const routes: Routes = [
               import('./features/curriculums/curriculums').then((m) => m.Curriculums),
           },
           {
-            path: 'new',
+            path: ':externalId',
             loadComponent: () =>
               import('./features/curriculums/curriculum-planning/curriculum-planning').then(
                 (m) => m.CurriculumPlanning,

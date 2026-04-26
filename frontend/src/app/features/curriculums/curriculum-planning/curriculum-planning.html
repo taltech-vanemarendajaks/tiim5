@@ -13,7 +13,7 @@
       </h2>
 
       @if (filteredSemesters().length === 0) {
-        <app-notification [message]="'CurriculumPlanning.NoStudyPlanNotification' | t" />
+        <app-notification [message]="'CurriculumPlanning.NoSemestersNotification' | t" />
       } @else {
         <label class="planning__hide-toggle">
           <input
@@ -36,31 +36,31 @@
                 (click)="accordionItem.toggle()"
                 [attr.aria-expanded]="accordionItem.expanded"
               >
-              <span class="planning__dot-slot">
-                @if (semester.externalId === currentSemesterId()) {
-                  <span class="planning__current-dot"></span>
-                }
-              </span>
+                <span class="planning__dot-slot">
+                  @if (semester.externalId === currentSemesterId()) {
+                    <span class="planning__current-dot"></span>
+                  }
+                </span>
                 <span
                   class="planning__semester-name"
                   [class.planning__semester-name--done]="semester.finished"
                 >
-                {{ getSemesterKey(semester.semesterType ?? '') | t }} {{ semester.year }}
-              </span>
+                  {{ getSemesterKey(semester.semesterType ?? '') | t }} {{ semester.year }}
+                </span>
                 <span
                   class="planning__credits"
                   [class.planning__semester-name--done]="semester.finished"
                 >
-                {{ calculateSemesterCredits(semester.plannedCourses ?? []) }}/{{ 30 }}
-              </span>
+                  {{ calculateSemesterCredits(semester.plannedCourses ?? []) }}/{{ 30 }}
+                </span>
                 <span
                   class="planning__credits-unit"
                   [class.planning__semester-name--done]="semester.finished"
-                >{{ 'CurriculumPlanning.CoursePoints' | t }}</span
+                  >{{ 'CurriculumPlanning.CoursePoints' | t }}</span
                 >
                 <span>
-                {{ accordionItem.expanded ? '△' : '▽' }}
-              </span>
+                  {{ accordionItem.expanded ? '△' : '▽' }}
+                </span>
               </button>
 
               @if (accordionItem.expanded) {
@@ -108,8 +108,8 @@
       <span>{{ 'CurriculumPlanning.CurriculumCompletion' | t }}</span>
       <span class="planning__completion-badge">{{ completionPercentage() }}%</span>
       <span>
-      {{ totalCredits() }}/{{ totalRequired() }} {{ 'CurriculumPlanning.CoursePoints' | t }}
-    </span>
+        {{ totalCredits() }}/{{ totalRequired() }} {{ 'CurriculumPlanning.CoursePoints' | t }}
+      </span>
     </footer>
   }
 </section>
