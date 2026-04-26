@@ -141,6 +141,36 @@
         }
       }
     },
+    "/api/v1/users/me/curriculum": {
+      "get": {
+        "tags": [
+          "Curriculum"
+        ],
+        "operationId": "getCurriculum",
+        "parameters": [
+          {
+            "name": "User-External-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurriculumResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/courses": {
       "get": {
         "tags": [
@@ -383,6 +413,13 @@
           "finished": {
             "type": "boolean"
           },
+          "semesterType": {
+            "type": "string",
+            "enum": [
+              "SPRING",
+              "AUTUMN"
+            ]
+          },
           "plannedCourses": {
             "type": "array",
             "items": {
@@ -399,6 +436,42 @@
           "externalId",
           "finished",
           "year"
+        ]
+      },
+      "CurriculumResponse": {
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "studyLevel": {
+            "type": "string",
+            "enum": [
+              "BACHELOR",
+              "MASTER",
+              "INTEGRATED",
+              "DOCTOR"
+            ]
+          },
+          "credits": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "creationDate",
+          "credits",
+          "externalId",
+          "studyLevel",
+          "title"
         ]
       }
     }
