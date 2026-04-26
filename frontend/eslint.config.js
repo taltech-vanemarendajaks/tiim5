@@ -20,6 +20,7 @@ module.exports = defineConfig([
     plugins: {
       "unused-imports": unusedImports,
     },
+    ignores: ["src/app/client/_generated_/**"],
     rules: {
       "@angular-eslint/directive-selector": [
         "error",

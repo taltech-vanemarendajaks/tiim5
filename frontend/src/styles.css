@@ -24,3 +24,21 @@ app-root {
   display: block;
   height: 100%;
 }
+
+:root {
+  --color-table-background: #f2f4f5;
+  --color-light-text: #8e8b8b;
+  --color-divider: #d4dfee;
+  --color-section-title: #2b3a59;
+  --color-button-hover: #5f9dd6;
+  --color-button: #7fb2e3;
+  --color-button-text: #ffffff;
+  --color-page-title: #141414d6;
+  --color-sidebar-background: #cae0ff;
+  --color-sidebar-hover: #b6d2f5;
+  --color-sidebar-icon: #3d4e6f;
+  --color-sidebar-border: rgba(0, 0, 0, 0.15);
+  --color-page-background: #f7fafd;
+  --color-sidebar-text: #1f2a44;
+  --color-sidebar-subtext: #4b5a76;
+}

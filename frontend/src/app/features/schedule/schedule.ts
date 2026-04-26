@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PlaceholderPage } from '../../shared/components/placeholder-page/placeholder-page';
+import { PlaceholderPage } from '@/components';
 
 @Component({
   selector: 'app-schedule',

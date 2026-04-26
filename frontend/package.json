@@ -11,7 +11,10 @@
     "lint": "ng lint",
     "prettier": "prettier --write \"src/**/*.{ts,js,css,html}\"",
     "prepare": "husky",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "fetch:openapi": "node scripts/fetch-openapi-spec.mjs",
+    "generate:openapi": "openapi --input ./openapi.json --output src/app/client/_generated_ --client angular",
+    "sync:openapi": "npm run fetch:openapi && npm run generate:openapi && npm run prettier"
   },
   "private": true,
   "packageManager": "npm@11.8.0",
@@ -23,6 +26,7 @@
     "@angular/compiler": "^21.2.10",
     "@angular/core": "^21.2.10",
     "@angular/forms": "^21.2.10",
+    "@angular/material": "^21.2.8",
     "@angular/platform-browser": "^21.2.10",
     "@angular/platform-server": "^21.2.10",
     "@angular/router": "^21.2.10",
@@ -50,6 +54,7 @@
     "jsdom": "^27.1.0",
     "lint-staged": "^16.2.7",
     "prettier": "^3.8.1",
+    "openapi-typescript-codegen": "^0.29.0",
     "typescript": "~5.9.2",
     "typescript-eslint": "8.50.1",
     "vitest": "^4.0.8"

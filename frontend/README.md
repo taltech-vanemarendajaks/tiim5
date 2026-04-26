@@ -37,6 +37,13 @@ npm run lint
 npm run prettier
 ```
 
+### Code generation
+
+Generate services from OpenAPI spec:
+```
+npm run sync:openapi
+```
+
 ### Tech stack
 
 - Angular 21 with SSR support

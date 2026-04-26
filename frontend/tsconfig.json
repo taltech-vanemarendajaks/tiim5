@@ -11,7 +11,13 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "preserve",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/components": ["src/app/shared/components"],
+      "@/client": ["src/app/client/_generated_"],
+      "@/pipes": ["src/app/shared/pipes"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
