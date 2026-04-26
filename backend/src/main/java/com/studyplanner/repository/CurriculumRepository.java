@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface CurriculumRepository extends JpaRepository<Curriculum, Long> {
   @Query(
-      "SELECT c FROM Curriculum c JOIN c.studyPlans sp JOIN sp.user u WHERE u.externalId = :userExternalId")
-  Curriculum findByUserExternalId(@Param("userExternalId") UUID userExternalId);
+      "SELECT c FROM Curriculum c JOIN c.studyPlans sp WHERE sp.externalId = :studyPlanExternalId")
+  Curriculum findByStudyPlanExternalId(@Param("studyPlanExternalId") UUID studyPlanExternalId);
 }
