@@ -5,30 +5,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import type { Observable } from 'rxjs';
-import type { CurriculumResponse } from '../models/CurriculumResponse';
+import type { StudyPlanResponse } from '../models/StudyPlanResponse';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 @Injectable({
   providedIn: 'root',
 })
-export class CurriculumService {
+export class StudyPlanService {
   constructor(public readonly http: HttpClient) {}
   /**
-   * @param studyPlanExternalId
    * @param userExternalId
-   * @returns CurriculumResponse OK
+   * @returns StudyPlanResponse OK
    * @throws ApiError
    */
-  public getCurriculumByStudyPlan(
-    studyPlanExternalId: string,
-    userExternalId?: string,
-  ): Observable<CurriculumResponse> {
+  public getStudyPlans(userExternalId?: string): Observable<Array<StudyPlanResponse>> {
     return __request(OpenAPI, this.http, {
       method: 'GET',
-      url: '/api/v1/users/me/study-plan/{studyPlanExternalId}/curriculum',
-      path: {
-        studyPlanExternalId: studyPlanExternalId,
-      },
+      url: '/api/v1/users/me/study-plans',
       headers: {
         'User-External-Id': userExternalId,
       },
