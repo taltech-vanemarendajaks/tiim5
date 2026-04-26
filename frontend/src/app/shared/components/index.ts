@@ -4,3 +4,4 @@ export { Search } from './search/search';
 export { PlaceholderPage } from './placeholder-page/placeholder-page';
 export { Layout } from './layout/layout';
 export { CourseTable } from './course-table/course-table';
+export { PageLayout } from './page-layout/page-layout';

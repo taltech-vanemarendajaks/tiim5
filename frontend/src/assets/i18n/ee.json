@@ -16,7 +16,8 @@
     "Save": "Salvesta",
     "AddNew": "Lisa uus",
     "Autumn": "Sügis",
-    "Spring": "Kevad"
+    "Spring": "Kevad",
+    "Edit": "Muuda"
   },
   "Dashboard": {
     "Title": "Avaleht"
@@ -31,7 +32,15 @@
     "Title": "Seaded"
   },
   "Curriculums": {
-    "Title": "Õppekavad"
+    "Title": "Õppekavad",
+    "Name": "Nimi",
+    "Credits": "EAPd",
+    "StudyLevel": "Õppeaste",
+    "Master": "Magistriõpe",
+    "Bachelor": "Bakalaureuseõpe",
+    "Integrated": "Integreeritud õpe",
+    "Doctor": "Doktorantuur",
+    "NoCurriculumsNotification": "Hetkel ei leitud ühtegi õppekava"
   },
   "CurriculumPlanning": {
     "Title": "Õppekava planeerimine",
@@ -43,6 +52,6 @@
     "NoCoursesNotification": "Hetkel ei leitud ühtegi kursust",
     "HideCompletedSemesters": "Peida läbitud semestrid",
     "CurriculumCompletion": "Õppekava täituvus",
-    "NoStudyPlanNotification": "Hetkel ei leitud ühtegi õppekava"
+    "NoSemestersNotification": "Hetkel ei leitud ühtegi semestrit"
   }
 }

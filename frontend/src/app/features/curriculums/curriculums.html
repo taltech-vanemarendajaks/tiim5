@@ -1,4 +1,29 @@
-<header class="curriculums__header">
-  <app-placeholder-page titleKey="Curriculums.Title" />
-  <a routerLink="new" class="curriculums__add">{{ 'Common.AddNew' | t }}</a>
-</header>
+<app-page-layout titleKey="Curriculums.Title">
+  @if (studyPlans().length === 0) {
+    <app-notification [message]="'Curriculums.NoCurriculumsNotification' | t" />
+  } @else {
+    <table class="curriculum__table">
+      <thead>
+      <tr class="column__header">
+        <th>{{ 'Curriculums.Name' | t }}</th>
+        <th>{{ 'Curriculums.StudyLevel' | t }}</th>
+        <th>{{ 'Curriculums.Credits' | t }}</th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (studyPlan of studyPlans(); track studyPlan.externalId) {
+          <tr class="curriculum__row">
+            <td>{{ studyPlan.curriculum.title }}</td>
+            <td>{{ mapStudyLevel(studyPlan.curriculum.studyLevel) | t }}</td>
+            <td>{{ studyPlan.completedCredits }} / {{ studyPlan.curriculum.credits }}</td>
+            <td class="column__action">
+              <a [routerLink]="[studyPlan.externalId]" class="curriculums__edit">
+                {{ 'Common.Edit' | t }}
+              </a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</app-page-layout>
