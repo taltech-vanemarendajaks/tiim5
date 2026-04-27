@@ -18,6 +18,7 @@ export type { UserResponse } from './models/UserResponse';
 
 export { CourseService } from './services/CourseService';
 export { CurriculumService } from './services/CurriculumService';
+export { ModuleService } from './services/ModuleService';
 export { PlannedCourseService } from './services/PlannedCourseService';
 export { SemesterService } from './services/SemesterService';
 export { StudyPlanService } from './services/StudyPlanService';
