@@ -15,7 +15,14 @@
   padding: 15px;
   background-color: var(--color-table-background);
   cursor: default;
-  border-radius: 10px;
+}
+
+.curriculum__row td:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+.curriculum__row td:last-child {
+  border-radius: 0 10px 10px 0;
 }
 
 .column__action {
