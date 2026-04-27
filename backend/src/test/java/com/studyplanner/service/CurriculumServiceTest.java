@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import com.studyplanner.repository.CurriculumRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,7 +24,7 @@ class CurriculumServiceTest {
     var curriculumResponse = aCurriculumResponse();
 
     when(curriculumRepository.findByStudyPlanExternalId(A_STUDY_PLAN_EXTERNAL_ID))
-        .thenReturn(curriculum);
+        .thenReturn(Optional.ofNullable(curriculum));
 
     var actual = curriculumService.getCurriculumByStudyPlan(A_STUDY_PLAN_EXTERNAL_ID);
 
