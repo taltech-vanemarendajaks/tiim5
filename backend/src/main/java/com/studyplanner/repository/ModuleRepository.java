@@ -20,4 +20,9 @@ public interface ModuleRepository extends JpaRepository<Module, Long> {
     WHERE c.id IN :courseIds
     """)
   List<Module> findModulesWithCurriculums(@Param("courseIds") List<Long> courseIds);
+
+  @Query(
+      "SELECT m FROM StudyPlan sp JOIN sp.curriculum c JOIN c.modules m WHERE sp.externalId = :studyPlanExternalId")
+  List<Module> findModulesByStudyPlanExternalId(
+      @Param("studyPlanExternalId") UUID studyPlanExternalId);
 }

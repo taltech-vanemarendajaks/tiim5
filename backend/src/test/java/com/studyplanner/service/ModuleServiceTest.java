@@ -40,4 +40,17 @@ class ModuleServiceTest {
 
     assertEquals(modules, actual);
   }
+
+  @Test
+  void getModulesTest() {
+    var modules = List.of(aModule());
+    var moduleResponse = List.of(aModuleResponse());
+
+    when(moduleRepository.findModulesByStudyPlanExternalId(A_STUDY_PLAN_EXTERNAL_ID))
+        .thenReturn(modules);
+
+    var actual = moduleService.getModules(A_STUDY_PLAN_EXTERNAL_ID);
+
+    assertEquals(moduleResponse, actual);
+  }
 }

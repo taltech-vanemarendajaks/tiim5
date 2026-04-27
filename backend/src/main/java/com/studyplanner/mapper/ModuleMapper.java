@@ -2,6 +2,7 @@ package com.studyplanner.mapper;
 
 import com.studyplanner.dto.ModuleResponse;
 import com.studyplanner.entity.Module;
+import java.util.List;
 
 public class ModuleMapper {
 
@@ -12,5 +13,9 @@ public class ModuleMapper {
         .requiredCredits(module.getRequiredCredits())
         .optionalCredits(module.getOptionalCredits())
         .build();
+  }
+
+  public static List<ModuleResponse> mapToResponseList(List<Module> modules) {
+    return modules.stream().map(ModuleMapper::mapToResponse).toList();
   }
 }

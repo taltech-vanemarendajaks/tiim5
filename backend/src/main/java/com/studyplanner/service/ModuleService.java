@@ -1,7 +1,9 @@
 package com.studyplanner.service;
 
+import com.studyplanner.dto.ModuleResponse;
 import com.studyplanner.entity.Module;
 import com.studyplanner.exception.ResourceNotFoundException;
+import com.studyplanner.mapper.ModuleMapper;
 import com.studyplanner.repository.ModuleRepository;
 import java.util.List;
 import java.util.UUID;
@@ -27,5 +29,10 @@ public class ModuleService {
                     String.format(
                         "Module with title: %s doesn't exist for curriculum: %s",
                         title, curriculumExternalId)));
+  }
+
+  public List<ModuleResponse> getModules(UUID studyPlanExternalId) {
+    return ModuleMapper.mapToResponseList(
+        moduleRepository.findModulesByStudyPlanExternalId(studyPlanExternalId));
   }
 }
