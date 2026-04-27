@@ -21,9 +21,10 @@ import {
   UserService,
 } from '@/client';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import { calculateSemesterCredits, findCurrentSemester, getSemesterKey } from '@/utils';
 import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 type CourseWithStatus = CourseResponse & { courseStatus: PlannedCourseResponse.courseStatus };
 
@@ -105,12 +106,11 @@ export class CurriculumPlanning {
   );
 
   readonly totalRequired: Signal<number | null> = toSignal(
-    this.curriculumService
-      .getCurriculumByStudyPlan(this.studyPlanExternalId)
-      .pipe(map((curriculum) => curriculum.credits)),
-    {
-      initialValue: null,
-    },
+    this.curriculumService.getCurriculumByStudyPlan(this.studyPlanExternalId).pipe(
+      map((curriculum) => curriculum.credits),
+      catchError(() => of(null)),
+    ),
+    { initialValue: null },
   );
 
   readonly completionPercentage = computed(() => {
