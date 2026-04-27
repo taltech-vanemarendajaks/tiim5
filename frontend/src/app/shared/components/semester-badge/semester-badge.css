@@ -1,4 +1,5 @@
 mat-chip {
   font-size: 12px;
   font-weight: 600;
+  cursor: default;
 }

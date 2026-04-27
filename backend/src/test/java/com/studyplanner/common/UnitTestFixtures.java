@@ -181,10 +181,11 @@ public class UnitTestFixtures {
 
   public static StudyPlan aStudyPlan() {
     return StudyPlan.builder()
-        .externalId(AN_EXTERNAL_ID)
+        .externalId(A_STUDY_PLAN_EXTERNAL_ID)
         .completedCredits(36)
         .user(aUser())
         .curriculum(aCurriculum())
+        .creationDate(A_LOCAL_DATE_TIME)
         .build();
   }
 
@@ -204,6 +205,15 @@ public class UnitTestFixtures {
         .externalId(AN_EXTERNAL_ID)
         .title(A_TITLE_EN)
         .credits(120)
+        .build();
+  }
+
+  public static StudyPlanResponse aStudyPlanResponse() {
+    return StudyPlanResponse.builder()
+        .externalId(A_STUDY_PLAN_EXTERNAL_ID)
+        .completedCredits(36)
+        .curriculum(aCurriculumResponse())
+        .creationDate(A_LOCAL_DATE_TIME)
         .build();
   }
 }

@@ -15,7 +15,7 @@ body {
     -apple-system,
     'Segoe UI',
     sans-serif;
-  color: #1f2a44;
+  color: var(--color-sidebar-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

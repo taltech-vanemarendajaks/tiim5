@@ -99,6 +99,39 @@
         }
       }
     },
+    "/api/v1/users/me/study-plans": {
+      "get": {
+        "tags": [
+          "Study plan"
+        ],
+        "operationId": "getStudyPlans",
+        "parameters": [
+          {
+            "name": "User-External-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StudyPlanResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/users/me/study-plan/{studyPlanExternalId}/semesters": {
       "get": {
         "tags": [
@@ -134,6 +167,45 @@
                   "items": {
                     "$ref": "#/components/schemas/SemesterResponse"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/me/study-plan/{studyPlanExternalId}/curriculum": {
+      "get": {
+        "tags": [
+          "Curriculum"
+        ],
+        "operationId": "getCurriculumByStudyPlan",
+        "parameters": [
+          {
+            "name": "studyPlanExternalId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "User-External-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurriculumResponse"
                 }
               }
             }
@@ -369,6 +441,76 @@
           "name"
         ]
       },
+      "CurriculumResponse": {
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "studyLevel": {
+            "type": "string",
+            "enum": [
+              "BACHELOR",
+              "MASTER",
+              "INTEGRATED",
+              "DOCTOR"
+            ]
+          },
+          "credits": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "creationDate",
+          "credits",
+          "externalId",
+          "studyLevel",
+          "title"
+        ]
+      },
+      "StudyPlanResponse": {
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "completedCredits": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "curriculum": {
+            "$ref": "#/components/schemas/CurriculumResponse"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "completedCredits",
+          "creationDate",
+          "curriculum",
+          "externalId",
+          "startDate"
+        ]
+      },
       "SemesterResponse": {
         "type": "object",
         "properties": {
@@ -382,6 +524,13 @@
           },
           "finished": {
             "type": "boolean"
+          },
+          "semesterType": {
+            "type": "string",
+            "enum": [
+              "SPRING",
+              "AUTUMN"
+            ]
           },
           "plannedCourses": {
             "type": "array",

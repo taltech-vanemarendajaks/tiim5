@@ -7,6 +7,13 @@ export type SemesterResponse = {
   externalId: string;
   year: number;
   finished: boolean;
+  semesterType?: SemesterResponse.semesterType;
   plannedCourses?: Array<PlannedCourseResponse>;
   creationDate: string;
 };
+export namespace SemesterResponse {
+  export enum semesterType {
+    SPRING = 'SPRING',
+    AUTUMN = 'AUTUMN',
+  }
+}

@@ -1,12 +1,11 @@
 package com.studyplanner.service;
 
 import static com.studyplanner.common.UnitTestFixtures.*;
-import static com.studyplanner.common.UnitTestFixtures.A_USER_EXTERNAL_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import com.studyplanner.repository.CurriculumRepository;
-import com.studyplanner.utils.UserRequestContext;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,16 +22,12 @@ class CurriculumServiceTest {
   void getCurriculumTest() {
     var curriculum = aCurriculum();
     var curriculumResponse = aCurriculumResponse();
-    try (var mockedRequestContext = mockStatic(UserRequestContext.class)) {
-      mockedRequestContext
-          .when(UserRequestContext::getUserExternalId)
-          .thenReturn(A_USER_EXTERNAL_ID);
 
-      when(curriculumRepository.findByUserExternalId(A_USER_EXTERNAL_ID)).thenReturn(curriculum);
+    when(curriculumRepository.findByStudyPlanExternalId(A_STUDY_PLAN_EXTERNAL_ID))
+        .thenReturn(Optional.ofNullable(curriculum));
 
-      var actual = curriculumService.getCurriculum();
+    var actual = curriculumService.getCurriculumByStudyPlan(A_STUDY_PLAN_EXTERNAL_ID);
 
-      assertEquals(curriculumResponse, actual);
-    }
+    assertEquals(curriculumResponse, actual);
   }
 }

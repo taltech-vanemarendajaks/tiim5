@@ -76,79 +76,103 @@
   align-self: stretch;
 }
 
-th {
-  color: var(--color-light-text);
-  font-size: 14px;
-  font-weight: 200;
+.planning__hide-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.875rem;
+  color: var(--color-section-title);
+  cursor: pointer;
 }
 
-td {
-  font-size: 12px;
+.course__checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.planning__accordion {
+  display: flex;
+  flex-direction: column;
+}
+
+.planning__accordion-item {
+  position: relative;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.planning__accordion-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.875rem 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  position: relative;
+}
+
+.planning__dot-slot {
+  position: absolute;
+  transform: translateX(-150%);
+}
+
+.planning__current-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--color-sidebar-background);
+  display: inline-block;
+}
+
+.planning__semester-name {
+  flex: 1;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.planning__semester-name--done {
+  text-decoration: line-through;
+  color: var(--color-light-text);
+}
+
+.planning__credits {
+  font-size: 14px;
   font-weight: 600;
 }
 
-.course__table {
-  border-collapse: separate;
-  border-spacing: 0 6px;
-  table-layout: fixed;
+.planning__credits--done {
+  text-decoration: line-through;
+  color: var(--color-light-text);
 }
 
-.course__row td {
-  background-color: var(--color-table-background);
+.planning__credits-unit {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-light-text);
 }
 
-.course__row td:first-child {
-  border-radius: 8px 0 0 8px;
+.planning__credits-unit--done {
+  text-decoration: line-through;
 }
 
-.course__row td:nth-last-child(2) {
-  border-radius: 0 8px 8px 0;
-}
-
-.col__title {
-  padding-left: 8px;
-  width: 65%;
-  text-align: left;
-}
-
-.col__credits {
-  width: 15%;
-  text-align: center;
-}
-
-.col__semester {
-  width: 15%;
-  text-align: center;
-}
-
-.badge__center {
+.planning__footer {
+  position: sticky;
+  bottom: 0;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  padding-left: 10px;
 }
 
-.col__action {
-  width: 5%;
-  text-align: left;
-  padding-left: 8px;
-}
-
-.add__btn {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
+.planning__completion-badge {
+  background-color: var(--color-sidebar-background);
   padding: 8px;
-}
-
-.add__btn:hover {
-  background: var(--color-table-background);
-  border-radius: 8px;
-}
-
-.course__row td:last-child {
-  background: none;
-}
-
-.course__code {
-  font-weight: 400;
+  border-radius: 10px;
+  font-weight: 600;
 }
