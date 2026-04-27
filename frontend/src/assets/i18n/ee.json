@@ -55,6 +55,7 @@
     "NoSemestersNotification": "Hetkel ei leitud ühtegi semestrit",
     "Modules": "Moodulite täituvus",
     "RequiredCredits": "Kohustusliku ained",
-    "OptionalCredits": "Valikained"
+    "OptionalCredits": "Valikained",
+    "NoModulesNotification": "Hetkel ei leitud ühtegi moodulit"
   }
 }

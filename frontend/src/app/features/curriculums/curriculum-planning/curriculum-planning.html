@@ -110,25 +110,31 @@
         <h2 class="planning__section-title">
           {{ 'CurriculumPlanning.Modules' | t }}
         </h2>
-        <table class="module__table">
-          <thead>
-          <tr>
-            <th class="column__title"></th>
-            <th class="column__credits">{{ 'CurriculumPlanning.Credits' | t }}</th>
-          </tr>
-          </thead>
-          <tbody>
-            @for (module of modules(); track module.externalId) {
-              <tr class="module__row">
-                <td class="column__title">
-                  {{ module.title }}
-                </td>
-                <td class="column__credits">{{ moduleCredits().get(module.externalId) ?? 0 }} /
-                  {{ (module.requiredCredits ?? 0) + (module.optionalCredits ?? 0) }}</td>
+        @if (modules().length === 0) {
+          <app-notification [message]="'CurriculumPlanning.NoModulesNotification' | t" />
+        } @else {
+          <table class="module__table">
+            <thead>
+              <tr>
+                <th class="column__title"></th>
+                <th class="column__credits">{{ 'CurriculumPlanning.Credits' | t }}</th>
               </tr>
-            }
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              @for (module of modules(); track module.externalId) {
+                <tr class="module__row">
+                  <td class="column__title">
+                    {{ module.title }}
+                  </td>
+                  <td class="column__credits">
+                    {{ moduleCredits().get(module.externalId) ?? 0 }} /
+                    {{ (module.requiredCredits ?? 0) + (module.optionalCredits ?? 0) }}
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
       </div>
     </section>
   </div>
