@@ -1,6 +1,7 @@
 package com.studyplanner.service;
 
 import com.studyplanner.dto.CurriculumResponse;
+import com.studyplanner.exception.ResourceNotFoundException;
 import com.studyplanner.mapper.CurriculumMapper;
 import com.studyplanner.repository.CurriculumRepository;
 import java.util.UUID;
@@ -15,6 +16,11 @@ public class CurriculumService {
 
   public CurriculumResponse getCurriculumByStudyPlan(UUID studyPlanExternalId) {
     return CurriculumMapper.mapToResponse(
-        curriculumRepository.findByStudyPlanExternalId(studyPlanExternalId));
+        curriculumRepository
+            .findByStudyPlanExternalId(studyPlanExternalId)
+            .orElseThrow(
+                () ->
+                    new ResourceNotFoundException(
+                        "No curriculum found for study plan external id " + studyPlanExternalId)));
   }
 }
