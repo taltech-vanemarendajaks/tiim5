@@ -4,11 +4,11 @@
   } @else {
     <table class="curriculum__table">
       <thead>
-      <tr class="column__header">
-        <th>{{ 'Curriculums.Name' | t }}</th>
-        <th>{{ 'Curriculums.StudyLevel' | t }}</th>
-        <th>{{ 'Curriculums.Credits' | t }}</th>
-      </tr>
+        <tr class="column__header">
+          <th>{{ 'Curriculums.Name' | t }}</th>
+          <th>{{ 'Curriculums.StudyLevel' | t }}</th>
+          <th>{{ 'Curriculums.Credits' | t }}</th>
+        </tr>
       </thead>
       <tbody>
         @for (studyPlan of studyPlans(); track studyPlan.externalId) {

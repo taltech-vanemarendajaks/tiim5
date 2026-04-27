@@ -17,11 +17,12 @@ import {
   PlannedCourseResponse,
   SemesterResponse,
   SemesterService,
+  UserResponse,
+  UserService,
 } from '@/client';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { calculateSemesterCredits, findCurrentSemester, getSemesterKey } from '@/utils';
-import { UserStore } from '@/services';
 import { ActivatedRoute } from '@angular/router';
 
 type CourseWithStatus = CourseResponse & { courseStatus: PlannedCourseResponse.courseStatus };
@@ -37,10 +38,14 @@ export class CurriculumPlanning {
   private readonly courseService = inject(CourseService);
   private readonly semesterService = inject(SemesterService);
   private readonly curriculumService = inject(CurriculumService);
-  private readonly userStore = inject(UserStore);
-  private readonly userExternalId = this.userStore.user()?.externalId;
+  private readonly userService = inject(UserService);
   private readonly route = inject(ActivatedRoute);
   private readonly studyPlanExternalId = this.route.snapshot.params['externalId'];
+
+  readonly user: Signal<UserResponse | null> = toSignal(
+    this.userService.getAllUsers().pipe(map((users) => users[0] ?? null)),
+    { initialValue: null },
+  );
 
   readonly searchTitle = signal<string>('');
   readonly searchTitle$ = toObservable(this.searchTitle);
@@ -57,7 +62,12 @@ export class CurriculumPlanning {
   readonly hideCompleted = signal(false);
 
   readonly semesters: Signal<SemesterResponse[]> = toSignal(
-    this.semesterService.getSemesters(this.studyPlanExternalId, this.userExternalId),
+    toObservable(this.user).pipe(
+      filter((user) => user !== null),
+      switchMap((user) =>
+        this.semesterService.getSemesters(this.studyPlanExternalId, user.externalId),
+      ),
+    ),
     {
       initialValue: [],
     },
