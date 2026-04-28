@@ -56,7 +56,7 @@
                 <span
                   class="planning__credits-unit"
                   [class.planning__semester-name--done]="semester.finished"
-                  >{{ 'CurriculumPlanning.CoursePoints' | t }}</span
+                  >{{ 'CurriculumPlanning.Credits' | t }}</span
                 >
                 <span>
                   {{ accordionItem.expanded ? '△' : '▽' }}
@@ -86,20 +86,56 @@
 
     <div class="planning__divider" aria-hidden="true"></div>
 
-    <section class="planning__panel">
-      <h2 class="planning__section-title">
-        {{ 'CurriculumPlanning.Subjects' | t }}
-      </h2>
-      <app-search-bar
-        [placeholder]="'CurriculumPlanning.SearchPlaceholder' | t"
-        (searchChange)="searchTitle.set($event)"
-      >
-      </app-search-bar>
-      @if (courses().length === 0) {
-        <app-notification [message]="'CurriculumPlanning.NoCoursesNotification' | t" />
-      } @else {
-        <app-course-table [courses]="courses()" />
-      }
+    <section class="planning__panel--split">
+      <div class="planning__sidebar">
+        <h2 class="planning__section-title">
+          {{ 'CurriculumPlanning.Subjects' | t }}
+        </h2>
+        <app-search-bar
+          [placeholder]="'CurriculumPlanning.SearchPlaceholder' | t"
+          (searchChange)="searchTitle.set($event)"
+        >
+        </app-search-bar>
+
+        @if (courses().length === 0) {
+          <app-notification [message]="'CurriculumPlanning.NoCoursesNotification' | t" />
+        } @else {
+          <div class="planning__table-scroll">
+            <app-course-table [courses]="courses()" />
+          </div>
+        }
+      </div>
+
+      <div class="planning__content">
+        <h2 class="planning__section-title">
+          {{ 'CurriculumPlanning.Modules' | t }}
+        </h2>
+        @if (modules().length === 0) {
+          <app-notification [message]="'CurriculumPlanning.NoModulesNotification' | t" />
+        } @else {
+          <table class="module__table">
+            <thead>
+              <tr>
+                <th class="column__title"></th>
+                <th class="column__credits">{{ 'CurriculumPlanning.Credits' | t }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (module of modules(); track module.externalId) {
+                <tr class="module__row">
+                  <td class="column__title">
+                    {{ module.title }}
+                  </td>
+                  <td class="column__credits">
+                    {{ moduleCredits().get(module.externalId) ?? 0 }} /
+                    {{ (module.requiredCredits ?? 0) + (module.optionalCredits ?? 0) }}
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
     </section>
   </div>
 
@@ -108,7 +144,7 @@
       <span>{{ 'CurriculumPlanning.CurriculumCompletion' | t }}</span>
       <span class="planning__completion-badge">{{ completionPercentage() }}%</span>
       <span>
-        {{ totalCredits() }}/{{ totalRequired() }} {{ 'CurriculumPlanning.CoursePoints' | t }}
+        {{ totalCredits() }}/{{ totalRequired() }} {{ 'CurriculumPlanning.Credits' | t }}
       </span>
     </footer>
   }

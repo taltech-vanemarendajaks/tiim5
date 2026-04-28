@@ -46,12 +46,16 @@
     "Title": "Õppekava planeerimine",
     "SemesterPlan": "Semestrite kavand",
     "Subjects": "Õppeained",
-    "CoursePoints": "EAPd",
+    "Credits": "EAPd",
     "StudySemester": "Õpetamise semester",
     "SearchPlaceholder": "Otsi nime järgi...",
     "NoCoursesNotification": "Hetkel ei leitud ühtegi kursust",
     "HideCompletedSemesters": "Peida läbitud semestrid",
     "CurriculumCompletion": "Õppekava täituvus",
-    "NoSemestersNotification": "Hetkel ei leitud ühtegi semestrit"
+    "NoSemestersNotification": "Hetkel ei leitud ühtegi semestrit",
+    "Modules": "Moodulite täituvus",
+    "RequiredCredits": "Kohustusliku ained",
+    "OptionalCredits": "Valikained",
+    "NoModulesNotification": "Hetkel ei leitud ühtegi moodulit"
   }
 }

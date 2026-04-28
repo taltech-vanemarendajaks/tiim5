@@ -14,6 +14,8 @@ import {
   CourseResponse,
   CourseService,
   CurriculumService,
+  ModuleResponse,
+  ModuleService,
   PlannedCourseResponse,
   SemesterResponse,
   SemesterService,
@@ -40,6 +42,7 @@ export class CurriculumPlanning {
   private readonly semesterService = inject(SemesterService);
   private readonly curriculumService = inject(CurriculumService);
   private readonly userService = inject(UserService);
+  private readonly moduleService = inject(ModuleService);
   private readonly route = inject(ActivatedRoute);
   private readonly studyPlanExternalId = this.route.snapshot.params['externalId'];
 
@@ -117,5 +120,26 @@ export class CurriculumPlanning {
     const required = this.totalRequired();
     if (!required) return null;
     return Math.round((this.totalCredits() / required) * 100);
+  });
+
+  readonly modules: Signal<ModuleResponse[]> = toSignal(
+    this.moduleService.getModules(this.studyPlanExternalId),
+    { initialValue: [] },
+  );
+
+  readonly moduleCredits: Signal<Map<string, number>> = computed(() => {
+    const map = new Map<string, number>();
+
+    this.semesters().forEach((semester) => {
+      semester.plannedCourses?.forEach((pc) => {
+        if (pc.courseStatus === 'COMPLETED') {
+          const moduleId = pc.module.externalId;
+          const current = map.get(moduleId) ?? 0;
+          map.set(moduleId, current + pc.course.credits);
+        }
+      });
+    });
+
+    return map;
   });
 }
