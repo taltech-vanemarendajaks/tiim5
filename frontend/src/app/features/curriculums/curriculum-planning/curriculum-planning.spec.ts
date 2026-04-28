@@ -85,7 +85,10 @@ function setup() {
 
   TestBed.configureTestingModule({
     providers: [
-      { provide: ActivatedRoute, useValue: { snapshot: { params: { externalId: STUDY_PLAN_ID } } } },
+      {
+        provide: ActivatedRoute,
+        useValue: { snapshot: { params: { externalId: STUDY_PLAN_ID } } },
+      },
       { provide: UserService, useValue: userService },
       { provide: CourseService, useValue: courseService },
       { provide: CurriculumService, useValue: curriculumService },
@@ -159,15 +162,11 @@ it('removes a draft course and toggles status', () => {
   const cmp = fixture.componentInstance;
 
   cmp.toggleCompleted('v-1', 'sem-autumn', true);
-  expect(cmp.draftPlannedCourses()[0].status).toBe(
-    PlannedCourseResponse.courseStatus.COMPLETED,
-  );
+  expect(cmp.draftPlannedCourses()[0].status).toBe(PlannedCourseResponse.courseStatus.COMPLETED);
   expect(cmp.dirty()).toBe(true);
 
   cmp.toggleCompleted('v-1', 'sem-autumn', false);
-  expect(cmp.draftPlannedCourses()[0].status).toBe(
-    PlannedCourseResponse.courseStatus.PLANNED,
-  );
+  expect(cmp.draftPlannedCourses()[0].status).toBe(PlannedCourseResponse.courseStatus.PLANNED);
   expect(cmp.dirty()).toBe(false);
 
   cmp.removeCourse('v-1', 'sem-autumn');

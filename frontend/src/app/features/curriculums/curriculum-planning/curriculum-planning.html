@@ -1,12 +1,7 @@
 <section class="planning">
   <header class="planning__header">
     <h1 class="planning__title">{{ 'CurriculumPlanning.Title' | t }}</h1>
-    <button
-      type="button"
-      class="planning__save"
-      (click)="save()"
-      [disabled]="!dirty() || saving()"
-    >
+    <button type="button" class="planning__save" (click)="save()" [disabled]="!dirty() || saving()">
       {{ (saving() ? 'Common.Saving' : 'Common.Save') | t }}
     </button>
   </header>
@@ -36,18 +31,18 @@
         {{ 'CurriculumPlanning.SemesterPlan' | t }}
       </h2>
 
+      <label class="planning__hide-toggle">
+        <input
+          type="checkbox"
+          class="course__checkbox"
+          (change)="hideCompleted.set(!hideCompleted())"
+        />
+        {{ 'CurriculumPlanning.HideCompletedSemesters' | t }}
+      </label>
+
       @if (filteredSemesters().length === 0) {
         <app-notification [message]="'CurriculumPlanning.NoSemestersNotification' | t" />
       } @else {
-        <label class="planning__hide-toggle">
-          <input
-            type="checkbox"
-            class="course__checkbox"
-            (change)="hideCompleted.set(!hideCompleted())"
-          />
-          {{ 'CurriculumPlanning.HideCompletedSemesters' | t }}
-        </label>
-
         <cdk-accordion class="planning__accordion" [multi]="true">
           @for (semester of filteredSemesters(); track semester.externalId) {
             <cdk-accordion-item

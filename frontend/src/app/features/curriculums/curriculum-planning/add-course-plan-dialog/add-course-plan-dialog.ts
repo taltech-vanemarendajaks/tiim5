@@ -21,9 +21,7 @@ export class AddCoursePlanDialog {
   private readonly dialogRef = inject<DialogRef<string | undefined>>(DialogRef);
   protected readonly data = inject<AddCoursePlanDialogData>(DIALOG_DATA);
   protected readonly getSemesterKey = getSemesterKey;
-  protected readonly selectedSemesterId = signal<string>(
-    this.data.semesters[0]?.externalId ?? '',
-  );
+  protected readonly selectedSemesterId = signal<string>(this.data.semesters[0]?.externalId ?? '');
 
   protected onSemesterChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
