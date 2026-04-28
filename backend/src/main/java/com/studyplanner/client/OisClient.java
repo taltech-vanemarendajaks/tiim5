@@ -1,9 +1,7 @@
 package com.studyplanner.client;
 
-import com.studyplanner.client.dto.OisCourseFullResponse;
-import com.studyplanner.client.dto.OisCourseResponse;
-import com.studyplanner.client.dto.OisCourseVersionsResponse;
-import com.studyplanner.client.dto.OisVersionResponse;
+import com.studyplanner.client.dto.*;
+import com.studyplanner.dto.*;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -19,7 +17,11 @@ public class OisClient {
   private static final String COURSES_VERSIONS_DETAILS_URI = "/courses/versions/details";
   private static final String COURSE_DETAILS_BY_VERSION_URI =
       "/courses/{externalId}/versions/{versionExternalId}";
+  private static final String CURRICULUM_URI = "/curricula";
+  private static final String CURRICULUM_BY_VERSION_URI =
+      "/curricula/curricula-version/{curriculumVersionId}";
   private final RestClient restClient;
+  private final String CURRICULUM_VERSIONS_BY_ID = "/curricula/{curriculumId}/versions";
 
   public OisClient(@Value("${ois.base-url}") String baseUrl) {
     this.restClient =
@@ -68,5 +70,41 @@ public class OisClient {
         .uri(COURSE_DETAILS_BY_VERSION_URI, externalId, versionExternalId)
         .retrieve()
         .body(OisCourseFullResponse.class);
+  }
+
+  public List<OisCurriculumVersionPartialResponse> getAllCurriculumVersions(String curriculumId) {
+    return restClient
+        .get()
+        .uri(CURRICULUM_VERSIONS_BY_ID, curriculumId)
+        .retrieve()
+        .body(new ParameterizedTypeReference<>() {});
+  }
+
+  public List<OisCurriculumResponse> getAllCurriculums(
+      int start, int take, String q, String study_level) {
+    OisCurriculumRequest request = new OisCurriculumRequest(start, take, q, study_level);
+    return restClient
+        .post()
+        .uri(CURRICULUM_URI)
+        .body(request)
+        .retrieve()
+        .body(new ParameterizedTypeReference<>() {});
+  }
+
+  public OisCurriculumVersionResponse getCurriculumVersionById(String curriculumVersionId) {
+    return restClient
+        .get()
+        .uri(CURRICULUM_BY_VERSION_URI, curriculumVersionId)
+        .retrieve()
+        .body(new ParameterizedTypeReference<>() {});
+  }
+
+  public List<OisCourseResponse> getCoursesBatched(List<UUID> courseUuids) {
+    return restClient
+        .post()
+        .uri(COURSES_URI)
+        .body(Map.of("uuids", courseUuids))
+        .retrieve()
+        .body(new ParameterizedTypeReference<>() {});
   }
 }

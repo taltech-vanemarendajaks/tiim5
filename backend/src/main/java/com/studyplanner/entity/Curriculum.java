@@ -1,8 +1,7 @@
 package com.studyplanner.entity;
 
 import jakarta.persistence.*;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import jdk.jfr.Description;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +26,10 @@ public class Curriculum extends BaseEntity {
   private UUID curriculumExternalId;
 
   @Column(nullable = false)
+  @Description("Curriculum Version UUID from õis API")
+  private UUID curriculumVersionExternalId;
+
+  @Column(nullable = false)
   private String title;
 
   @Column(nullable = false)
@@ -44,5 +47,5 @@ public class Curriculum extends BaseEntity {
       name = "curriculum_modules",
       joinColumns = @JoinColumn(name = "curriculum_id"),
       inverseJoinColumns = @JoinColumn(name = "module_id"))
-  private List<Module> modules;
+  private List<Module> modules = new ArrayList<>();
 }

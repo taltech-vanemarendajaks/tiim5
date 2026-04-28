@@ -3,6 +3,7 @@ package com.studyplanner.client.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
+import lombok.*;
 import lombok.Builder;
 
 @Builder
@@ -13,4 +14,4 @@ public record OisCourseFullResponse(
     Title title,
     Double credits,
     @JsonProperty("uuid") UUID latestVersion,
-    OisTargetResponse target) {}
+    @JsonIgnoreProperties(ignoreUnknown = true) OisTargetResponse target) {}
