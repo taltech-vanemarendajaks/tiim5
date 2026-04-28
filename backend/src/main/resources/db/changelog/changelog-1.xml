@@ -130,4 +130,19 @@
         </sql>
     </changeSet>
 
+    <changeSet id="27.04.2026" author="elina.liibak">
+        <sql>
+            ALTER TABLE curriculums ADD COLUMN curriculum_version_external_id UUID;
+
+            UPDATE curriculums
+            SET curriculum_version_external_id = uuid_generate_v4()
+            WHERE curriculum_version_external_id IS NULL;
+
+            ALTER TABLE curriculums
+            ALTER COLUMN curriculum_version_external_id SET NOT NULL;
+
+            ALTER TABLE curriculums ADD CONSTRAINT uq_curriculum_version UNIQUE (curriculum_version_external_id);
+            ALTER TABLE semesters DROP CONSTRAINT uq_semester_year_type_plan;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
