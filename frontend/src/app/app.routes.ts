@@ -40,6 +40,10 @@ export const routes: Routes = [
         path: 'settings',
         loadComponent: () => import('./features/settings/settings').then((m) => m.Settings),
       },
+      {
+        path: 'register',
+        loadComponent: () => import('./features/register/register').then((m) => m.Register),
+      },
       { path: '**', redirectTo: 'dashboard' },
     ],
   },

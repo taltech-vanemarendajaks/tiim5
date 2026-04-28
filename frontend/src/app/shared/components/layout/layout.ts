@@ -25,6 +25,7 @@ export class Layout {
     { path: '/studies', labelKey: 'Nav.Studies', icon: 'studies' },
     { path: '/curriculums', labelKey: 'Nav.Curriculums', icon: 'curriculums' },
     { path: '/schedule', labelKey: 'Nav.Schedule', icon: 'schedule' },
+    { path: '/register', labelKey: 'Nav.Register', icon: 'register' },
   ];
 
   protected readonly settingsNav: NavItem = {

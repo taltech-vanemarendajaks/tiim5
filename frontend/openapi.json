@@ -786,6 +786,14 @@
           },
           "studyLevel": {
             "type": "string"
+          },
+          "curriculumVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "curriculumId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "required": [

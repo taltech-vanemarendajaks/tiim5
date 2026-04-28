@@ -5,4 +5,6 @@
 export type RegisterUserRequest = {
   name: string;
   studyLevel: string;
+  curriculumVersionId?: string;
+  curriculumId?: string;
 };

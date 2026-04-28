@@ -1,0 +1,94 @@
+<div class="register-container">
+  @if (submitted()) {
+    <p>Registration successful!</p>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="register-form">
+      <h2>Registreeri</h2>
+
+      <div class="field">
+        <label for="name">Nimi</label>
+        <input
+          id="name"
+          pInputText
+          formControlName="name"
+          placeholder="Sisesta oma nimi"
+          [class.ng-invalid]="form.controls.name.invalid && form.controls.name.touched"
+        />
+        @if (form.controls.name.invalid && form.controls.name.touched) {
+          <small class="error">Nimi on nõutud</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="studyLevel">Õppetase</label>
+        <p-select
+          id="studyLevel"
+          formControlName="studyLevel"
+          [options]="studyLevelOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Vali õppetase"
+          [class.ng-invalid]="form.controls.studyLevel.invalid && form.controls.studyLevel.touched"
+        />
+        @if (form.controls.studyLevel.invalid && form.controls.studyLevel.touched) {
+          <small class="error">Õppetase on nõutud</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="curriculumExternalId">{{ 'Register.SearchPlaceholder' | t }}</label>
+        <p-select
+          id="curriculumExternalId"
+          formControlName="curriculumExternalId"
+          [options]="curriculums()"
+          optionLabel="title"
+          optionValue="externalId"
+          [filter]="true"
+          (onFilter)="searchCurriculumContent.set($event.filter)"
+          [placeholder]="
+            form.controls.studyLevel.value
+              ? ('Register.SearchPlaceholder' | t)
+              : ('Register.SelectStudyLevelFirst' | t)
+          "
+          [class.ng-invalid]="
+            form.controls.curriculumExternalId.invalid && form.controls.curriculumExternalId.touched
+          "
+        />
+        @if (
+          form.controls.curriculumExternalId.invalid && form.controls.curriculumExternalId.touched
+        ) {
+          <small class="error">Õppekava valik on nõutud</small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="curriculumExternalId">{{ 'Register.SearchPlaceholder' | t }}</label>
+        <p-select
+          id="curriculumVersionExternalId"
+          formControlName="curriculumVersionExternalId"
+          [options]="curriculumVersions()"
+          optionLabel="year"
+          optionValue="externalVersionId"
+          [filter]="true"
+          (onFilter)="searchCurriculumVersionContent.set($event.filter)"
+          [placeholder]="
+            form.controls.studyLevel.value
+              ? ('Register.SearchPlaceholder' | t)
+              : ('Register.SelectCurriculumFirst' | t)
+          "
+          [class.ng-invalid]="
+            form.controls.curriculumExternalId.invalid && form.controls.curriculumExternalId.touched
+          "
+        />
+        @if (
+          form.controls.curriculumVersionExternalId.invalid &&
+          form.controls.curriculumVersionExternalId.touched
+        ) {
+          <small class="error">Õppekava versioon on nõutud</small>
+        }
+      </div>
+
+      <p-button type="submit" label="Register" [loading]="loading()" [disabled]="loading()" />
+    </form>
+  }
+</div>
