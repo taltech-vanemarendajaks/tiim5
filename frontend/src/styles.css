@@ -2,6 +2,12 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  font-family:
+    'Lexend',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
 }
 
 html,

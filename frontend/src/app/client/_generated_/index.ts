@@ -8,10 +8,14 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export { CourseResponse } from './models/CourseResponse';
+export type { CreateNewStudyPlanRequest } from './models/CreateNewStudyPlanRequest';
+export { CreateNewStudyPlanSemesterRequest } from './models/CreateNewStudyPlanSemesterRequest';
 export { CurriculumResponse } from './models/CurriculumResponse';
+export type { CurriculumVersionResponse } from './models/CurriculumVersionResponse';
 export type { ModuleResponse } from './models/ModuleResponse';
 export { PlannedCourseRequest } from './models/PlannedCourseRequest';
 export { PlannedCourseResponse } from './models/PlannedCourseResponse';
+export type { RegisterUserRequest } from './models/RegisterUserRequest';
 export { SemesterResponse } from './models/SemesterResponse';
 export type { StudyPlanResponse } from './models/StudyPlanResponse';
 export type { UserResponse } from './models/UserResponse';
