@@ -11,6 +11,7 @@ import com.studyplanner.entity.SemesterType;
 import com.studyplanner.repository.CourseRepository;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -64,15 +65,33 @@ class CourseServiceTest {
   }
 
   @Test
-  void getFromOisAndSaveCourseTest() {
+  void getFromOisAndSaveCourse_whenCourseIsNew_savesAndReturnsIt() {
     var course = aCourse();
 
     when(oisClient.getCourseByVersionExternalId(A_COURSE_UUID, A_LATEST_VERSION_UUID))
         .thenReturn(aOisCourseFullResponse());
+    when(courseRepository.findByCourseVersionExternalId(A_LATEST_VERSION_UUID))
+        .thenReturn(Optional.empty());
     when(courseRepository.save(any())).thenReturn(course);
 
     var actual = courseService.getFromOisAndSaveCourse(A_COURSE_UUID, A_LATEST_VERSION_UUID);
 
     assertEquals(course, actual);
+    verify(courseRepository).save(any());
+  }
+
+  @Test
+  void getFromOisAndSaveCourse_whenCourseAlreadyExists_returnsExistingWithoutSaving() {
+    var existingCourse = aCourse();
+
+    when(oisClient.getCourseByVersionExternalId(A_COURSE_UUID, A_LATEST_VERSION_UUID))
+        .thenReturn(aOisCourseFullResponse());
+    when(courseRepository.findByCourseVersionExternalId(A_LATEST_VERSION_UUID))
+        .thenReturn(Optional.of(existingCourse));
+
+    var actual = courseService.getFromOisAndSaveCourse(A_COURSE_UUID, A_LATEST_VERSION_UUID);
+
+    assertEquals(existingCourse, actual);
+    verify(courseRepository, never()).save(any());
   }
 }

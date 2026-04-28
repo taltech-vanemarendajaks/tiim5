@@ -40,8 +40,9 @@ public class CourseService {
         oisClient.getCourseByVersionExternalId(courseExternalId, courseVersionExternalId);
 
     Course course = CourseMapper.mapToCourse(response);
-
-    return courseRepository.save(course);
+    return courseRepository
+        .findByCourseVersionExternalId(course.getCourseVersionExternalId())
+        .orElseGet(() -> courseRepository.save(course));
   }
 
   private Map<UUID, List<OisVersionResponse>> getVersionsByCourseUuid(

@@ -1,8 +1,7 @@
 package com.studyplanner.entity;
 
 import jakarta.persistence.*;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import jdk.jfr.Description;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -47,5 +46,5 @@ public class Course extends BaseEntity {
   private SemesterType semesterType;
 
   @ManyToMany(mappedBy = "courses")
-  private List<Module> modules;
+  private List<Module> modules = new ArrayList<>();
 }
