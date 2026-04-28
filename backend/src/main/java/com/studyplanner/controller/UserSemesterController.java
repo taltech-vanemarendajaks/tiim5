@@ -1,6 +1,7 @@
 package com.studyplanner.controller;
 
 import com.studyplanner.dto.SemesterResponse;
+import com.studyplanner.entity.*;
 import com.studyplanner.service.SemesterService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;

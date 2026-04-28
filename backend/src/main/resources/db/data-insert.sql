@@ -1,6 +1,6 @@
 -- Active: 1776106048944@@localhost@5432@studyplanner
-INSERT INTO curriculums (curriculum_external_id, title, study_level, credits) VALUES
-    ('03421357-a6c2-da39-8f11-eb6b24c5d0e8', 'Füüsika', 'MASTER', 120);
+INSERT INTO curriculums (curriculum_external_id, curriculum_version_external_id, title, study_level, credits) VALUES
+    ('03421357-a6c2-da39-8f11-eb6b24c5d0e8', '056e849b-0d51-01a0-8d40-f35abf97d7dc', 'Füüsika', 'MASTER', 120);
 
 INSERT INTO users (name) VALUES ('Jane Doe');
 

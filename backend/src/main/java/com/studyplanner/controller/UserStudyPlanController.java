@@ -1,14 +1,13 @@
 package com.studyplanner.controller;
 
-import com.studyplanner.dto.StudyPlanResponse;
+import com.studyplanner.dto.*;
+import com.studyplanner.entity.*;
 import com.studyplanner.service.StudyPlanService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.List;
+import java.util.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Tag(name = "Study plan")
@@ -21,5 +20,24 @@ public class UserStudyPlanController {
   @GetMapping("/study-plans")
   public ResponseEntity<List<StudyPlanResponse>> getStudyPlans() {
     return ResponseEntity.ok(studyPlanService.getStudyPlans());
+  }
+
+  @PostMapping("/study-plans/new")
+  public ResponseEntity<StudyPlanResponse> addNewStudyPlan(
+      @RequestBody CreateNewStudyPlanRequest createNewStudyPlanRequest) {
+    System.out.println(createNewStudyPlanRequest);
+    return ResponseEntity.ok(
+        studyPlanService.addNewStudyPlanForUser(
+            createNewStudyPlanRequest.curriculumId(),
+            createNewStudyPlanRequest.curriculumVersionId()));
+  }
+
+  @PostMapping("/study-plan/{studyPlanExternalId}/semesters/new")
+  public ResponseEntity<StudyPlanResponse> addSemester(
+      @PathVariable UUID studyPlanExternalId,
+      @RequestBody CreateNewStudyPlanSemesterRequest createNewStudyPlanSemesterRequest) {
+    return ResponseEntity.ok(
+        studyPlanService.createNewSemesterForStudyPlan(
+            studyPlanExternalId, createNewStudyPlanSemesterRequest.semesterType()));
   }
 }
