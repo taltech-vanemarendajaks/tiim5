@@ -530,8 +530,8 @@
             "type": "string"
           },
           "completedCredits": {
-            "type": "integer",
-            "format": "int32"
+            "type": "number",
+            "format": "double"
           },
           "startDate": {
             "type": "string",

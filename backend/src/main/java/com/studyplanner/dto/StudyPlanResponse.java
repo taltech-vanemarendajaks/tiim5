@@ -9,7 +9,7 @@ import lombok.Builder;
 public record StudyPlanResponse(
     @NotNull UUID externalId,
     String name,
-    @NotNull Integer completedCredits,
+    @NotNull Double completedCredits,
     @NotNull LocalDateTime startDate,
     @NotNull CurriculumResponse curriculum,
     @NotNull LocalDateTime creationDate) {}

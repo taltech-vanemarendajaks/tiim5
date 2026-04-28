@@ -1,10 +1,29 @@
 <section class="planning">
   <header class="planning__header">
     <h1 class="planning__title">{{ 'CurriculumPlanning.Title' | t }}</h1>
-    <button type="button" class="planning__save" disabled>
-      {{ 'Common.Save' | t }}
+    <button type="button" class="planning__save" (click)="save()" [disabled]="!dirty() || saving()">
+      {{ (saving() ? 'Common.Saving' : 'Common.Save') | t }}
     </button>
   </header>
+
+  @if (notification(); as note) {
+    <div
+      class="planning__notice"
+      [class.planning__notice--success]="note.kind === 'success'"
+      [class.planning__notice--error]="note.kind === 'error'"
+      role="status"
+    >
+      <span>{{ note.key | t }}</span>
+      <button
+        type="button"
+        class="planning__notice-close"
+        (click)="dismissNotification()"
+        [attr.aria-label]="'Common.Close' | t"
+      >
+        ×
+      </button>
+    </div>
+  }
 
   <div class="planning__panels">
     <section class="planning__panel">
@@ -12,24 +31,26 @@
         {{ 'CurriculumPlanning.SemesterPlan' | t }}
       </h2>
 
+      <label class="planning__hide-toggle">
+        <input
+          type="checkbox"
+          class="course__checkbox"
+          (change)="hideCompleted.set(!hideCompleted())"
+        />
+        {{ 'CurriculumPlanning.HideCompletedSemesters' | t }}
+      </label>
+
       @if (filteredSemesters().length === 0) {
         <app-notification [message]="'CurriculumPlanning.NoSemestersNotification' | t" />
       } @else {
-        <label class="planning__hide-toggle">
-          <input
-            type="checkbox"
-            class="course__checkbox"
-            (change)="hideCompleted.set(!hideCompleted())"
-          />
-          {{ 'CurriculumPlanning.HideCompletedSemesters' | t }}
-        </label>
-
         <cdk-accordion class="planning__accordion" [multi]="true">
           @for (semester of filteredSemesters(); track semester.externalId) {
             <cdk-accordion-item
               #accordionItem="cdkAccordionItem"
               class="planning__accordion-item"
-              [expanded]="semester.externalId === currentSemesterId()"
+              [expanded]="
+                getCourses(semester).length > 0 || semester.externalId === currentSemesterId()
+              "
             >
               <button
                 class="planning__accordion-header"
@@ -43,39 +64,68 @@
                 </span>
                 <span
                   class="planning__semester-name"
-                  [class.planning__semester-name--done]="semester.finished"
+                  [class.planning__semester-name--done]="isSemesterFinished(semester.externalId)"
                 >
                   {{ getSemesterKey(semester.semesterType ?? '') | t }} {{ semester.year }}
                 </span>
                 <span
                   class="planning__credits"
-                  [class.planning__semester-name--done]="semester.finished"
+                  [class.planning__semester-name--done]="isSemesterFinished(semester.externalId)"
                 >
-                  {{ calculateSemesterCredits(semester.plannedCourses ?? []) }}/{{ 30 }}
+                  {{ getSemesterCredits(semester.externalId) }}/{{ 30 }}
                 </span>
                 <span
                   class="planning__credits-unit"
-                  [class.planning__semester-name--done]="semester.finished"
+                  [class.planning__semester-name--done]="isSemesterFinished(semester.externalId)"
                   >{{ 'CurriculumPlanning.Credits' | t }}</span
                 >
-                <span>
-                  {{ accordionItem.expanded ? '△' : '▽' }}
-                </span>
+                <svg
+                  class="planning__chevron"
+                  [class.planning__chevron--up]="accordionItem.expanded"
+                  viewBox="0 0 12 8"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M1 1.5L6 6L11 1.5"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
               </button>
 
               @if (accordionItem.expanded) {
-                <ng-template #checkboxTpl let-course>
-                  <input
-                    type="checkbox"
-                    class="course__checkbox"
-                    [checked]="course.courseStatus === 'COMPLETED'"
-                  />
+                <ng-template #plannedActionTpl let-course>
+                  <div class="planning__row-actions">
+                    <input
+                      type="checkbox"
+                      class="course__checkbox"
+                      [checked]="course.courseStatus === 'COMPLETED'"
+                      (change)="
+                        toggleCompleted(
+                          course.versionExternalId,
+                          semester.externalId,
+                          $any($event.target).checked
+                        )
+                      "
+                    />
+                    <button
+                      type="button"
+                      class="planning__remove-btn"
+                      (click)="removeCourse(course.versionExternalId, semester.externalId)"
+                      [attr.aria-label]="'CurriculumPlanning.RemoveCourse' | t"
+                    >
+                      ×
+                    </button>
+                  </div>
                 </ng-template>
 
                 <app-course-table
                   [courses]="getCourses(semester)"
                   [showHeader]="false"
-                  [actionTemplate]="checkboxTpl"
+                  [actionTemplate]="plannedActionTpl"
                 />
               }
             </cdk-accordion-item>
@@ -100,8 +150,19 @@
         @if (courses().length === 0) {
           <app-notification [message]="'CurriculumPlanning.NoCoursesNotification' | t" />
         } @else {
+          <ng-template #catalogActionTpl let-course>
+            <button
+              type="button"
+              class="planning__add-btn"
+              (click)="addCourse(course)"
+              [attr.aria-label]="'CurriculumPlanning.AddToPlan' | t"
+            >
+              +
+            </button>
+          </ng-template>
+
           <div class="planning__table-scroll">
-            <app-course-table [courses]="courses()" />
+            <app-course-table [courses]="courses()" [actionTemplate]="catalogActionTpl" />
           </div>
         }
       </div>

@@ -3,8 +3,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { CourseResponse } from '@/client';
 
 const SEMESTER_MAP: Record<CourseResponse.semesterType, { label: string; color: string }> = {
-  [CourseResponse.semesterType.SPRING]: { label: 'S', color: '#85DC75' },
-  [CourseResponse.semesterType.AUTUMN]: { label: 'K', color: '#CAE0FF' },
+  [CourseResponse.semesterType.SPRING]: { label: 'K', color: '#85DC75' },
+  [CourseResponse.semesterType.AUTUMN]: { label: 'S', color: '#CAE0FF' },
 };
 
 @Component({
