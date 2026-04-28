@@ -10,5 +10,4 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
   List<Course> findAllByCourseVersionExternalIdIn(List<UUID> versionIds);
 
   Optional<Course> findByCourseVersionExternalId(UUID courseVersionExternalId);
-
 }
