@@ -5,7 +5,7 @@
 export type PlannedCourseRequest = {
   semesterExternalId: string;
   courseVersionExternalId: string;
-  courseExternalId: string;
+  courseOisExternalId: string;
   status?: PlannedCourseRequest.status;
 };
 export namespace PlannedCourseRequest {

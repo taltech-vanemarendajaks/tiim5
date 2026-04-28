@@ -338,7 +338,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "courseExternalId": {
+          "courseOisExternalId": {
             "type": "string",
             "format": "uuid"
           },
@@ -351,7 +351,7 @@
           }
         },
         "required": [
-          "courseExternalId",
+          "courseOisExternalId",
           "courseVersionExternalId",
           "semesterExternalId"
         ]
@@ -530,8 +530,8 @@
             "type": "string"
           },
           "completedCredits": {
-            "type": "integer",
-            "format": "int32"
+            "type": "number",
+            "format": "double"
           },
           "startDate": {
             "type": "string",
