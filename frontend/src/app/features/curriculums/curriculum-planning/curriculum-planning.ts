@@ -32,14 +32,7 @@ type CourseWithStatus = CourseResponse & { courseStatus: PlannedCourseResponse.c
 
 @Component({
   selector: 'app-curriculum-planning',
-  imports: [
-    TPipe,
-    CommonModule,
-    Notification,
-    Search,
-    CdkAccordionModule,
-    CourseTable,
-  ],
+  imports: [TPipe, CommonModule, Notification, Search, CdkAccordionModule, CourseTable],
   templateUrl: './curriculum-planning.html',
   styleUrl: './curriculum-planning.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
