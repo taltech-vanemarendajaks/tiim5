@@ -146,63 +146,6 @@ class CurriculumServiceTest {
   }
 
   @Test
-  void initalizeCurriculum_moduleWithDirectAndSubmoduleCourses_combinesAllCourses() {
-    var directCourseUuid = UUID.randomUUID();
-    var submoduleCourseUuid = UUID.randomUUID();
-    var directVersionUuid = UUID.randomUUID();
-    var submoduleVersionUuid = UUID.randomUUID();
-
-    var submodule =
-        new OisModule(
-            new Title("Sub", "Alammoodul"),
-            6,
-            0,
-            List.of(new OisModuleCourseResponse(submoduleCourseUuid, false)),
-            null,
-            UUID.randomUUID());
-    var oisModule =
-        new OisModule(
-            new Title("Module", "Moodul"),
-            18,
-            0,
-            List.of(new OisModuleCourseResponse(directCourseUuid, true)),
-            List.of(submodule),
-            A_MODULE_EXTERNAL_ID);
-
-    when(curriculumRepository.findByCurriculumVersionExternalId(A_CURRICULUM_VERSION_UUID))
-        .thenReturn(Optional.empty());
-    when(oisClient.getCurriculumVersionById(A_CURRICULUM_VERSION_UUID.toString()))
-        .thenReturn(aCurriculumVersionResponse(List.of(oisModule)));
-    when(oisClient.getCoursesBatched(List.of(directCourseUuid, submoduleCourseUuid)))
-        .thenReturn(
-            List.of(
-                OisCourseResponse.builder()
-                    .externalId(directCourseUuid)
-                    .latestVersion(directVersionUuid)
-                    .code("1")
-                    .credits(6.0)
-                    .title(new Title("D", "D"))
-                    .build(),
-                OisCourseResponse.builder()
-                    .externalId(submoduleCourseUuid)
-                    .latestVersion(submoduleVersionUuid)
-                    .code("2")
-                    .credits(3.0)
-                    .title(new Title("S", "S"))
-                    .build()));
-    when(courseService.getFromOisAndSaveCourse(directCourseUuid, directVersionUuid))
-        .thenReturn(aCourse());
-    when(courseService.getFromOisAndSaveCourse(submoduleCourseUuid, submoduleVersionUuid))
-        .thenReturn(aCourse());
-    when(curriculumRepository.save(any(Curriculum.class))).thenAnswer(inv -> inv.getArgument(0));
-
-    curriculumService.initalizeCurriculum(A_CURRICULUM_UUID, A_CURRICULUM_VERSION_UUID);
-
-    verify(courseService, times(2)).getFromOisAndSaveCourse(any(), any());
-    verify(moduleService).saveModule(any());
-  }
-
-  @Test
   void initalizeCurriculum_moduleWithNoCourses_skipsModule() {
     var oisModule =
         new OisModule(new Title("Empty", "Tühi"), 0, 0, null, null, A_MODULE_EXTERNAL_ID);
@@ -233,6 +176,157 @@ class CurriculumServiceTest {
     assertEquals(2, result.size());
     assertEquals(A_CURRICULUM_VERSION_UUID, result.get(0).externalVersionId());
     assertEquals(2024, result.get(0).year());
+  }
+
+  @Test
+  void initalizeCurriculum_freeElectivesModule_savedDirectlyWithoutLoadingCourses() {
+    var oisModule =
+        new OisModule(
+            new Title("Optional courses", "Vabaainete moodul"),
+            6,
+            0,
+            List.of(new OisModuleCourseResponse(UUID.randomUUID(), false)),
+            null,
+            A_MODULE_EXTERNAL_ID);
+
+    when(curriculumRepository.findByCurriculumVersionExternalId(A_CURRICULUM_VERSION_UUID))
+        .thenReturn(Optional.empty());
+    when(oisClient.getCurriculumVersionById(A_CURRICULUM_VERSION_UUID.toString()))
+        .thenReturn(aCurriculumVersionResponse(List.of(oisModule)));
+    when(curriculumRepository.save(any(Curriculum.class))).thenAnswer(inv -> inv.getArgument(0));
+
+    curriculumService.initalizeCurriculum(A_CURRICULUM_UUID, A_CURRICULUM_VERSION_UUID);
+
+    verify(moduleService).saveModule(any());
+    verify(courseService, never()).getFromOisAndSaveCourse(any(), any());
+    verify(oisClient, never()).getCoursesBatched(any());
+  }
+
+  @Test
+  void initalizeCurriculum_suunamodul_aggregatesAllSubmoduleCoursesIntoSingleModule() {
+    var courseUuid1 = UUID.randomUUID();
+    var courseUuid2 = UUID.randomUUID();
+    var versionUuid1 = UUID.randomUUID();
+    var versionUuid2 = UUID.randomUUID();
+
+    var submodule1 =
+        new OisModule(
+            new Title("Track sub 1", "Suuna alam 1"),
+            6,
+            0,
+            List.of(new OisModuleCourseResponse(courseUuid1, true)),
+            null,
+            UUID.randomUUID());
+    var submodule2 =
+        new OisModule(
+            new Title("Track sub 2", "Suuna alam 2"),
+            6,
+            0,
+            List.of(new OisModuleCourseResponse(courseUuid2, true)),
+            null,
+            UUID.randomUUID());
+    var suunamodul =
+        new OisModule(
+            new Title("Narrow field module", "Suunamoodul"),
+            12,
+            0,
+            null,
+            List.of(submodule1, submodule2),
+            A_MODULE_EXTERNAL_ID);
+
+    when(curriculumRepository.findByCurriculumVersionExternalId(A_CURRICULUM_VERSION_UUID))
+        .thenReturn(Optional.empty());
+    when(oisClient.getCurriculumVersionById(A_CURRICULUM_VERSION_UUID.toString()))
+        .thenReturn(aCurriculumVersionResponse(List.of(suunamodul)));
+    when(oisClient.getCoursesBatched(List.of(courseUuid1)))
+        .thenReturn(
+            List.of(
+                OisCourseResponse.builder()
+                    .externalId(courseUuid1)
+                    .latestVersion(versionUuid1)
+                    .code("S1")
+                    .credits(6.0)
+                    .title(new Title("Track Course 1", "Suuna kursus 1"))
+                    .build()));
+    when(oisClient.getCoursesBatched(List.of(courseUuid2)))
+        .thenReturn(
+            List.of(
+                OisCourseResponse.builder()
+                    .externalId(courseUuid2)
+                    .latestVersion(versionUuid2)
+                    .code("S2")
+                    .credits(6.0)
+                    .title(new Title("Track Course 2", "Suuna kursus 2"))
+                    .build()));
+    when(courseService.getFromOisAndSaveCourse(courseUuid1, versionUuid1)).thenReturn(aCourse());
+    when(courseService.getFromOisAndSaveCourse(courseUuid2, versionUuid2)).thenReturn(aCourse());
+    when(curriculumRepository.save(any(Curriculum.class))).thenAnswer(inv -> inv.getArgument(0));
+
+    curriculumService.initalizeCurriculum(A_CURRICULUM_UUID, A_CURRICULUM_VERSION_UUID);
+
+    // All submodule courses are collected but only one Module entity is saved
+    verify(moduleService, times(1)).saveModule(any());
+    verify(courseService, times(2)).getFromOisAndSaveCourse(any(), any());
+  }
+
+  @Test
+  void initalizeCurriculum_multipleSuunamodulOccurrences_allCoursesAggregatedIntoOneModule() {
+    var courseUuid1 = UUID.randomUUID();
+    var courseUuid2 = UUID.randomUUID();
+    var versionUuid1 = UUID.randomUUID();
+    var versionUuid2 = UUID.randomUUID();
+
+    // Two top-level suunamodul entries (e.g. different specialization tracks)
+    var suunamodul1 =
+        new OisModule(
+            new Title("Narrow field module", "Suunamoodul"),
+            12,
+            0,
+            List.of(new OisModuleCourseResponse(courseUuid1, true)),
+            null,
+            A_MODULE_EXTERNAL_ID);
+    var suunamodul2 =
+        new OisModule(
+            new Title("Narrow field module", "Suunamoodul"),
+            12,
+            0,
+            List.of(new OisModuleCourseResponse(courseUuid2, true)),
+            null,
+            UUID.randomUUID());
+
+    when(curriculumRepository.findByCurriculumVersionExternalId(A_CURRICULUM_VERSION_UUID))
+        .thenReturn(Optional.empty());
+    when(oisClient.getCurriculumVersionById(A_CURRICULUM_VERSION_UUID.toString()))
+        .thenReturn(aCurriculumVersionResponse(List.of(suunamodul1, suunamodul2)));
+    when(oisClient.getCoursesBatched(List.of(courseUuid1)))
+        .thenReturn(
+            List.of(
+                OisCourseResponse.builder()
+                    .externalId(courseUuid1)
+                    .latestVersion(versionUuid1)
+                    .code("T1")
+                    .credits(6.0)
+                    .title(new Title("Track 1", "Raja 1"))
+                    .build()));
+    when(oisClient.getCoursesBatched(List.of(courseUuid2)))
+        .thenReturn(
+            List.of(
+                OisCourseResponse.builder()
+                    .externalId(courseUuid2)
+                    .latestVersion(versionUuid2)
+                    .code("T2")
+                    .credits(6.0)
+                    .title(new Title("Track 2", "Raja 2"))
+                    .build()));
+    when(courseService.getFromOisAndSaveCourse(courseUuid1, versionUuid1)).thenReturn(aCourse());
+    when(courseService.getFromOisAndSaveCourse(courseUuid2, versionUuid2)).thenReturn(aCourse());
+    when(curriculumRepository.save(any(Curriculum.class))).thenAnswer(inv -> inv.getArgument(0));
+
+    curriculumService.initalizeCurriculum(A_CURRICULUM_UUID, A_CURRICULUM_VERSION_UUID);
+
+    // Both suunamodul occurrences collapse into one saved module
+    verify(moduleService, times(1)).saveModule(any());
+    verify(courseService, times(2)).getFromOisAndSaveCourse(any(), any());
   }
 
   @Test
