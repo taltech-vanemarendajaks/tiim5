@@ -25,7 +25,7 @@ public class StudyPlan extends BaseEntity {
   @Column private String name;
 
   @Column(nullable = false)
-  private Integer completedCredits = 0;
+  private Double completedCredits = 0.0;
 
   @Column(nullable = false)
   private LocalDateTime startDate;
@@ -45,14 +45,13 @@ public class StudyPlan extends BaseEntity {
 
   public void recalculateCompletedCredits(Collection<PlannedCourse> plannedCourses) {
     if (plannedCourses == null || plannedCourses.isEmpty()) {
-      this.completedCredits = 0;
+      this.completedCredits = 0.0;
       return;
     }
     this.completedCredits =
-        (int)
-            plannedCourses.stream()
-                .filter(plannedCourse -> plannedCourse.getStatus() == CourseStatus.COMPLETED)
-                .mapToDouble(plannedCourse -> plannedCourse.getCourse().getCredits())
-                .sum();
+        plannedCourses.stream()
+            .filter(plannedCourse -> plannedCourse.getStatus() == CourseStatus.COMPLETED)
+            .mapToDouble(plannedCourse -> plannedCourse.getCourse().getCredits())
+            .sum();
   }
 }

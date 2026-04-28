@@ -187,7 +187,7 @@ export class CurriculumPlanning {
 
   addCourse(course: CourseResponse): void {
     const draft = this.draftPlannedCourses();
-    const matching = this.sortedSemesters().filter(
+    const available = this.sortedSemesters().filter(
       (s) =>
         s.semesterType !== undefined &&
         (s.semesterType as string) === (course.semesterType as string) &&
@@ -198,12 +198,12 @@ export class CurriculumPlanning {
         ),
     );
 
-    if (matching.length === 0) {
-      this.notification.set({ kind: 'error', key: 'CurriculumPlanning.NoMatchingSemesters' });
+    if (available.length === 0) {
+      this.notification.set({ kind: 'error', key: 'CurriculumPlanning.NoAvailableSemester' });
       return;
     }
 
-    const data: AddCoursePlanDialogData = { course, semesters: matching };
+    const data: AddCoursePlanDialogData = { course, semesters: available };
     const ref = this.dialog.open<string | undefined>(AddCoursePlanDialog, { data });
     ref.closed.subscribe((semesterExternalId) => {
       if (!semesterExternalId) return;

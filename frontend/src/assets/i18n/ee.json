@@ -64,7 +64,7 @@
     "Add": "Lisa",
     "IntoSemester": "Semestrisse",
     "AddToPlan": "Lisa aine plaani",
-    "NoMatchingSemesters": "Selle aine jaoks puudub sobiv semester",
+    "NoAvailableSemester": "Sellele ainele ei leidu sobivat semestrit",
     "SaveSuccess": "Plaan salvestatud",
     "SaveError": "Plaani salvestamine ebaõnnestus",
     "RemoveCourse": "Eemalda aine"

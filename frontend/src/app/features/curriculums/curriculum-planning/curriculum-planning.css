@@ -278,13 +278,13 @@ td {
 }
 
 .planning__notice--success {
-  background: #e8f5ed;
-  color: #1f6b3a;
+  background: var(--color-success-background);
+  color: var(--color-success-text);
 }
 
 .planning__notice--error {
-  background: #fdecec;
-  color: #a92626;
+  background: var(--color-error-background);
+  color: var(--color-error-text);
 }
 
 .planning__notice-close {
@@ -325,5 +325,5 @@ td {
 }
 
 .planning__remove-btn {
-  color: #a92626;
+  color: var(--color-error-text);
 }

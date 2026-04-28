@@ -153,7 +153,7 @@ it('shows error notification when the only matching semester already contains th
   expect(dialog.open).not.toHaveBeenCalled();
   expect(cmp.notification()).toEqual({
     kind: 'error',
-    key: 'CurriculumPlanning.NoMatchingSemesters',
+    key: 'CurriculumPlanning.NoAvailableSemester',
   });
 });
 
