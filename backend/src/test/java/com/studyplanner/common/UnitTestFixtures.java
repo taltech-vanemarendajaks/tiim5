@@ -129,7 +129,9 @@ public class UnitTestFixtures {
         .id(1L)
         .externalId(AN_EXTERNAL_ID)
         .title(A_TITLE_EN)
+        .studyLevel(StudyLevel.BACHELOR)
         .credits(120)
+        .creationDate(A_LOCAL_DATE_TIME)
         .build();
   }
 
@@ -204,8 +206,14 @@ public class UnitTestFixtures {
     return CurriculumResponse.builder()
         .externalId(AN_EXTERNAL_ID)
         .title(A_TITLE_EN)
+        .studyLevel(StudyLevel.BACHELOR)
         .credits(120)
+        .creationDate(A_LOCAL_DATE_TIME)
         .build();
+  }
+
+  public static CurriculumVersionResponse aCurriculumVersionResponse() {
+    return CurriculumVersionResponse.builder().externalVersionId(AN_EXTERNAL_ID).year(2024).build();
   }
 
   public static StudyPlanResponse aStudyPlanResponse() {
@@ -215,5 +223,9 @@ public class UnitTestFixtures {
         .curriculum(aCurriculumResponse())
         .creationDate(A_LOCAL_DATE_TIME)
         .build();
+  }
+
+  public static RegisterUserRequest aRegisterUserRequest() {
+    return RegisterUserRequest.builder().name("User").studyLevel("bachelor").build();
   }
 }
