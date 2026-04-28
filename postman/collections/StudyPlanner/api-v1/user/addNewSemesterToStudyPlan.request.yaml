@@ -1,0 +1,5 @@
+$kind: http-request
+name: addNewSemesterToStudyPlan
+url: ""
+method: GET
+order: 4386384160229666

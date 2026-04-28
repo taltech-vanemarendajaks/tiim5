@@ -1,0 +1,5 @@
+$kind: http-request
+name: addNewUserStudyPlan
+url: ""
+method: GET
+order: 2003173170482434
