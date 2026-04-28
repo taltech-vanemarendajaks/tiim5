@@ -8,8 +8,6 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export { CourseResponse } from './models/CourseResponse';
-export type { CreateNewStudyPlanRequest } from './models/CreateNewStudyPlanRequest';
-export { CreateNewStudyPlanSemesterRequest } from './models/CreateNewStudyPlanSemesterRequest';
 export { CurriculumResponse } from './models/CurriculumResponse';
 export type { CurriculumVersionResponse } from './models/CurriculumVersionResponse';
 export type { ModuleResponse } from './models/ModuleResponse';

@@ -15,30 +15,6 @@ import { request as __request } from '../core/request';
 export class CurriculumService {
   constructor(public readonly http: HttpClient) {}
   /**
-   * @param curriculumId
-   * @param curriculumVersionId
-   * @param userExternalId
-   * @returns CurriculumResponse OK
-   * @throws ApiError
-   */
-  public saveNewCurriculum(
-    curriculumId: string,
-    curriculumVersionId: string,
-    userExternalId?: string,
-  ): Observable<CurriculumResponse> {
-    return __request(OpenAPI, this.http, {
-      method: 'POST',
-      url: '/api/v1/curriculums/new',
-      headers: {
-        'User-External-Id': userExternalId,
-      },
-      query: {
-        curriculumId: curriculumId,
-        curriculumVersionId: curriculumVersionId,
-      },
-    });
-  }
-  /**
    * @param studyPlanExternalId
    * @param userExternalId
    * @returns CurriculumResponse OK

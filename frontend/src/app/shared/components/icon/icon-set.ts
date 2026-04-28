@@ -13,7 +13,7 @@ export const ICON_SET = {
   curriculums: lucideCalendarDays,
   schedule: lucideChartColumn,
   settings: lucideSettings,
-  register: lucideScanFace
+  register: lucideScanFace,
 } as const;
 
 export type IconName = keyof typeof ICON_SET;
