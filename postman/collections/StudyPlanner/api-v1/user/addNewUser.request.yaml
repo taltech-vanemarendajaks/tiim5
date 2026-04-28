@@ -1,7 +1,16 @@
 $kind: http-request
 name: addNewUser
-url: "{{host}}/users"
+url: "{{host}}/users/register"
 method: POST
+body:
+  type: json
+  content: |-
+    {
+        "curriculumVersionId": "cc33bc95-ead5-7335-ec97-f082086b7492",
+        "name": "Elina Liibak",
+        "studyLevel": "bachelor",
+        "curriculumId": "11072dda-27b5-cd07-1ac9-309a5eccef16"
+    }
 scripts:
   - type: afterResponse
     code: |-

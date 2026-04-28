@@ -1,10 +1,9 @@
 $kind: http-request
 name: getCurrentUser
-url: "{{host}}/users/:userExternalId"
+url: "{{host}}/users/me"
 method: GET
-pathVariables:
-  - key: userExternalId
-    value: ""
+headers:
+  User-External-Id: b0e4284b-e802-4cd7-8aeb-c098f7be94df
 scripts:
   - type: afterResponse
     code: |-
