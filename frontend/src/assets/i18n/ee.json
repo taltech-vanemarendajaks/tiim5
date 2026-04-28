@@ -14,10 +14,13 @@
   "Common": {
     "WorkInProgress": "Töös",
     "Save": "Salvesta",
+    "Saving": "Salvestan...",
     "AddNew": "Lisa uus",
     "Autumn": "Sügis",
     "Spring": "Kevad",
-    "Edit": "Muuda"
+    "Edit": "Muuda",
+    "Close": "Sulge",
+    "Remove": "Eemalda"
   },
   "Dashboard": {
     "Title": "Avaleht"
@@ -56,6 +59,14 @@
     "Modules": "Moodulite täituvus",
     "RequiredCredits": "Kohustusliku ained",
     "OptionalCredits": "Valikained",
-    "NoModulesNotification": "Hetkel ei leitud ühtegi moodulit"
+    "NoModulesNotification": "Hetkel ei leitud ühtegi moodulit",
+    "AddCourseModalLabel": "Lisa aine modal",
+    "Add": "Lisa",
+    "IntoSemester": "Semestrisse",
+    "AddToPlan": "Lisa aine plaani",
+    "NoMatchingSemesters": "Selle aine jaoks puudub sobiv semester",
+    "SaveSuccess": "Plaan salvestatud",
+    "SaveError": "Plaani salvestamine ebaõnnestus",
+    "RemoveCourse": "Eemalda aine"
   }
 }

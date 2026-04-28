@@ -146,7 +146,11 @@
 
 .planning__dot-slot {
   position: absolute;
-  transform: translateX(-150%);
+  left: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
 }
 
 .planning__current-dot {
@@ -154,7 +158,19 @@
   height: 16px;
   border-radius: 50%;
   background-color: var(--color-sidebar-background);
-  display: inline-block;
+  display: block;
+}
+
+.planning__chevron {
+  width: 12px;
+  height: 12px;
+  color: var(--color-light-text);
+  transition: transform 200ms ease;
+  flex-shrink: 0;
+}
+
+.planning__chevron--up {
+  transform: rotate(180deg);
 }
 
 .planning__semester-name {
@@ -247,4 +263,66 @@ td {
 .column__credits {
   width: 25%;
   text-align: center;
+}
+
+.planning__notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.planning__notice--success {
+  background: #e8f5ed;
+  color: #1f6b3a;
+}
+
+.planning__notice--error {
+  background: #fdecec;
+  color: #a92626;
+}
+
+.planning__notice-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  color: inherit;
+  padding: 0 4px;
+}
+
+.planning__row-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.planning__add-btn,
+.planning__remove-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  color: var(--color-section-title);
+  line-height: 1;
+}
+
+.planning__add-btn {
+  font-size: 20px;
+}
+
+.planning__add-btn:hover,
+.planning__remove-btn:hover {
+  background: var(--color-table-background);
+}
+
+.planning__remove-btn {
+  color: #a92626;
 }

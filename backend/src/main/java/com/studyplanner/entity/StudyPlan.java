@@ -2,6 +2,7 @@ package com.studyplanner.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,4 +42,17 @@ public class StudyPlan extends BaseEntity {
   private List<Semester> semesters;
 
   @Column private LocalDateTime updateDate;
+
+  public void recalculateCompletedCredits(Collection<PlannedCourse> plannedCourses) {
+    if (plannedCourses == null || plannedCourses.isEmpty()) {
+      this.completedCredits = 0;
+      return;
+    }
+    this.completedCredits =
+        (int)
+            plannedCourses.stream()
+                .filter(plannedCourse -> plannedCourse.getStatus() == CourseStatus.COMPLETED)
+                .mapToDouble(plannedCourse -> plannedCourse.getCourse().getCredits())
+                .sum();
+  }
 }

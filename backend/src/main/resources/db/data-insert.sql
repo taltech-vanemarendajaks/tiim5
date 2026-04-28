@@ -8,7 +8,12 @@ INSERT INTO study_plans (curriculum_id, user_id, start_date) VALUES
     (1, 1, '2025-09-01 00:00:00');
 
 INSERT INTO semesters(finished, semester_type, study_plan_id, year) VALUES
-    (false, 'AUTUMN', 1, 2026);
+    (false, 'AUTUMN', 1, 2025),
+    (false, 'SPRING', 1, 2026),
+    (false, 'AUTUMN', 1, 2026),
+    (false, 'SPRING', 1, 2027),
+    (false, 'AUTUMN', 1, 2027),
+    (false, 'SPRING', 1, 2028);
 
 INSERT INTO modules (module_external_id, title, required_credits, optional_credits) VALUES
     ('49fa7f06-6752-6a70-134e-f6e2a869e2f6', 'Füüsika esimene suunamoodul', 24, 0);
