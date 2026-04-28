@@ -130,4 +130,10 @@
         </sql>
     </changeSet>
 
+    <changeSet id="28.04.2026" author="kaisa.karjus">
+        <sql>
+            ALTER TABLE study_plans ALTER COLUMN completed_credits TYPE DOUBLE PRECISION;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

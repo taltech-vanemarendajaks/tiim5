@@ -58,7 +58,6 @@ public class UnitTestFixtures {
         .finished(false)
         .plannedCourses(List.of())
         .creationDate(A_LOCAL_DATE_TIME)
-        .studyPlan(aStudyPlan())
         .build();
   }
 
@@ -169,7 +168,7 @@ public class UnitTestFixtures {
   public static PlannedCourseRequest aPlannedCourseRequest(CourseStatus status) {
     return PlannedCourseRequest.builder()
         .courseVersionExternalId(A_LATEST_VERSION_UUID)
-        .courseExternalId(A_COURSE_UUID)
+        .courseOisExternalId(A_COURSE_UUID)
         .semesterExternalId(A_SEMESTER_EXTERNAL_ID)
         .status(status)
         .build();
@@ -182,9 +181,10 @@ public class UnitTestFixtures {
   public static StudyPlan aStudyPlan() {
     return StudyPlan.builder()
         .externalId(A_STUDY_PLAN_EXTERNAL_ID)
-        .completedCredits(36)
+        .completedCredits(36.0)
         .user(aUser())
         .curriculum(aCurriculum())
+        .semesters(List.of(aSemester()))
         .creationDate(A_LOCAL_DATE_TIME)
         .build();
   }
@@ -211,7 +211,7 @@ public class UnitTestFixtures {
   public static StudyPlanResponse aStudyPlanResponse() {
     return StudyPlanResponse.builder()
         .externalId(A_STUDY_PLAN_EXTERNAL_ID)
-        .completedCredits(36)
+        .completedCredits(36.0)
         .curriculum(aCurriculumResponse())
         .creationDate(A_LOCAL_DATE_TIME)
         .build();

@@ -57,6 +57,7 @@ public class PlannedCourseService {
     plannedCourseRepository.saveAll(plannedCourses);
 
     semestersByExternalId.values().forEach(semesterService::recalculateAndSave);
+    studyPlanService.recalculateAndSaveCompletedCredits(studyPlanExternalId);
 
     return PlannedCourseMapper.mapToResponseList(plannedCourses);
   }
@@ -116,7 +117,7 @@ public class PlannedCourseService {
       if (!coursesByVersionId.containsKey(request.courseVersionExternalId())) {
         Course course =
             courseService.getFromOisAndSaveCourse(
-                request.courseExternalId(), request.courseVersionExternalId());
+                request.courseOisExternalId(), request.courseVersionExternalId());
         coursesByVersionId.put(course.getCourseVersionExternalId(), course);
       }
     }

@@ -24,7 +24,7 @@ public class StudyPlan extends BaseEntity {
   @Column private String name;
 
   @Column(nullable = false)
-  private Integer completedCredits = 0;
+  private Double completedCredits = 0.0;
 
   @Column(nullable = false)
   private LocalDateTime startDate;

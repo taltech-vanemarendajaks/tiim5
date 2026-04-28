@@ -26,7 +26,6 @@ class PlannedCourseServiceTest {
   @Mock private CourseService courseService;
   @Mock private ModuleService moduleService;
   @Mock private PlannedCourseRepository plannedCourseRepository;
-  @Mock private SemesterRepository semesterRepository;
   @Mock private OisClient oisClient;
   @InjectMocks private PlannedCourseService plannedCourseService;
 
@@ -70,7 +69,7 @@ class PlannedCourseServiceTest {
           .thenReturn(List.of(aSemester()));
       when(courseService.fetchCoursesByVersionExternalIds(any())).thenReturn(List.of());
       when(courseService.getFromOisAndSaveCourse(
-              request.courseExternalId(), request.courseVersionExternalId()))
+              request.courseOisExternalId(), request.courseVersionExternalId()))
           .thenReturn(aCourse());
       when(moduleService.fetchModulesByCourseIds(any())).thenReturn(List.of());
       when(moduleService.fetchModuleByTitleAndCurriculumExternalId(any(), any()))
@@ -79,7 +78,8 @@ class PlannedCourseServiceTest {
       plannedCourseService.setPlannedCourses(A_STUDY_PLAN_EXTERNAL_ID, List.of(request));
 
       verify(courseService)
-          .getFromOisAndSaveCourse(request.courseExternalId(), request.courseVersionExternalId());
+          .getFromOisAndSaveCourse(
+              request.courseOisExternalId(), request.courseVersionExternalId());
     }
   }
 

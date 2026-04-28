@@ -2,9 +2,10 @@ package com.studyplanner.service;
 
 import static com.studyplanner.common.UnitTestFixtures.*;
 import static com.studyplanner.common.UnitTestFixtures.A_STUDY_PLAN_EXTERNAL_ID;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import com.studyplanner.repository.StudyPlanRepository;
 import com.studyplanner.utils.UserRequestContext;
@@ -48,5 +49,18 @@ class StudyPlanServiceTest {
 
       assertEquals(studyPlanResponse, actual);
     }
+  }
+
+  @Test
+  void setPlannedCoursesTest() {
+    var studyPlan = aStudyPlan();
+
+    when(studyPlanRepository.findByExternalId(A_STUDY_PLAN_EXTERNAL_ID))
+        .thenReturn(Optional.ofNullable(studyPlan));
+
+    studyPlanService.recalculateAndSaveCompletedCredits(A_STUDY_PLAN_EXTERNAL_ID);
+
+    assertThat(studyPlan.getCompletedCredits()).isEqualTo(0.0);
+    verify(studyPlanRepository).save(studyPlan);
   }
 }
