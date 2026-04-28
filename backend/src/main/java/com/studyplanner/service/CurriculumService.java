@@ -13,6 +13,7 @@ import com.studyplanner.repository.CurriculumRepository;
 import jakarta.transaction.*;
 import java.util.*;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -71,65 +72,118 @@ public class CurriculumService {
         CurriculumMapper.mapOisCurriculumVersionToCurriculum(oisCurriculumVersionResponse);
     curriculum.setCurriculumExternalId(curriculumId);
 
-    // traversing modules for courseIDs
+    AtomicReference<Module> suunamoduulRef = new AtomicReference<>();
+
     oisCurriculumVersionResponse
         .modules()
         .blocks()
         .forEach(
-            submodules -> {
-              List<OisModule> moduleList = submodules.submodules();
+            block ->
+                block
+                    .submodules()
+                    .forEach(
+                        topLevelModule ->
+                            collectAndSaveModules(topLevelModule, curriculum, suunamoduulRef)));
 
-              moduleList.forEach(
-                  oisModule -> {
-                    List<OisModuleCourseResponse> courseResponses = new ArrayList<>();
-
-                    if (oisModule.OisModuleCourseResponse() != null) {
-                      courseResponses.addAll(oisModule.OisModuleCourseResponse());
-                    }
-
-                    if (oisModule.submodules() != null) {
-                      oisModule
-                          .submodules()
-                          .forEach(
-                              submodule -> {
-                                if (submodule.OisModuleCourseResponse() != null) {
-                                  courseResponses.addAll(submodule.OisModuleCourseResponse());
-                                }
-                              });
-                    }
-
-                    if (courseResponses.isEmpty()) {
-                      return;
-                    }
-
-                    Module module = ModuleMapper.OisModuleToModule(oisModule);
-
-                    List<UUID> courseUuids =
-                        courseResponses.stream().map(OisModuleCourseResponse::externalId).toList();
-
-                    // Getting other course metadata from ois, but mainly latest_version_id-s.
-                    List<OisCourseResponse> courses = oisClient.getCoursesBatched(courseUuids);
-
-                    // Batched course response doesn't include semester info
-                    // so we need to make another call for each individual course
-                    courses.forEach(
-                        courseResponse -> {
-                          UUID externalId = courseResponse.externalId();
-                          UUID versionId = courseResponse.latestVersion();
-
-                          if (externalId != null && versionId != null) {
-                            module
-                                .getCourses()
-                                .add(courseService.getFromOisAndSaveCourse(externalId, versionId));
-                          }
-                        });
-
-                    moduleService.saveModule(module);
-                    curriculum.getModules().add(module);
-                  });
-            });
+    Module suunamodul = suunamoduulRef.get();
+    if (suunamodul != null) {
+      moduleService.saveModule(suunamodul);
+      curriculum.getModules().add(suunamodul);
+    }
 
     return curriculumRepository.save(curriculum);
+  }
+
+  private static final String FREE_ELECTIVES_ET = "Vabaainete moodul";
+  private static final String FREE_ELECTIVES_EN = "Optional courses";
+  private static final String SUUNAMODUL_ET = "Suunamoodul";
+  private static final String SUUNAMODUL_EN = "Narrow field module";
+
+  private boolean isFreeElectives(OisModule oisModule) {
+    if (oisModule.title() == null) return false;
+    return FREE_ELECTIVES_ET.equals(oisModule.title().et())
+        || FREE_ELECTIVES_EN.equals(oisModule.title().en());
+  }
+
+  private boolean isSuunamodul(OisModule oisModule) {
+    if (oisModule.title() == null) return false;
+    return SUUNAMODUL_ET.equals(oisModule.title().et())
+        || SUUNAMODUL_EN.equals(oisModule.title().en());
+  }
+
+  private void collectAndSaveModules(
+      OisModule oisModule, Curriculum curriculum, AtomicReference<Module> suunamoduulRef) {
+
+    if (isFreeElectives(oisModule)) {
+      Module module = ModuleMapper.OisModuleToModule(oisModule);
+      moduleService.saveModule(module);
+      curriculum.getModules().add(module);
+      return;
+    }
+
+    if (isSuunamodul(oisModule)) {
+      suunamoduulRef.compareAndSet(null, ModuleMapper.OisModuleToModule(oisModule));
+      collectAllCoursesIntoModule(oisModule, suunamoduulRef.get());
+      return;
+    }
+
+    List<OisModuleCourseResponse> directCourses =
+        oisModule.OisModuleCourseResponse() != null
+            ? oisModule.OisModuleCourseResponse()
+            : List.of();
+
+    if (!directCourses.isEmpty()) {
+      Module module = ModuleMapper.OisModuleToModule(oisModule);
+
+      List<UUID> courseUuids =
+          directCourses.stream().map(OisModuleCourseResponse::externalId).toList();
+
+      // Getting other course metadata from OIS, mainly latest_version_id-s.
+      List<OisCourseResponse> courses = oisClient.getCoursesBatched(courseUuids);
+
+      // Batched response doesn't include semester info; fetch each course individually.
+      courses.forEach(
+          courseResponse -> {
+            UUID externalId = courseResponse.externalId();
+            UUID versionId = courseResponse.latestVersion();
+            if (externalId != null && versionId != null) {
+              module.getCourses().add(courseService.getFromOisAndSaveCourse(externalId, versionId));
+            }
+          });
+
+      moduleService.saveModule(module);
+      curriculum.getModules().add(module);
+    }
+
+    if (oisModule.submodules() != null) {
+      oisModule.submodules().forEach(sub -> collectAndSaveModules(sub, curriculum, suunamoduulRef));
+    }
+  }
+
+  private void collectAllCoursesIntoModule(OisModule oisModule, Module target) {
+    List<OisModuleCourseResponse> directCourses =
+        oisModule.OisModuleCourseResponse() != null
+            ? oisModule.OisModuleCourseResponse()
+            : List.of();
+
+    if (!directCourses.isEmpty()) {
+      List<UUID> courseUuids =
+          directCourses.stream().map(OisModuleCourseResponse::externalId).toList();
+
+      List<OisCourseResponse> courses = oisClient.getCoursesBatched(courseUuids);
+      courses.forEach(
+          courseResponse -> {
+            UUID externalId = courseResponse.externalId();
+            UUID versionId = courseResponse.latestVersion();
+            if (externalId != null && versionId != null) {
+              target.getCourses().add(courseService.getFromOisAndSaveCourse(externalId, versionId));
+            }
+          });
+    }
+
+    if (oisModule.submodules() != null) {
+      oisModule.submodules().forEach(sub -> collectAllCoursesIntoModule(sub, target));
+    }
   }
 
   public CurriculumResponse addNewCurriculum(UUID curriculumId, UUID curriculumVersionId) {

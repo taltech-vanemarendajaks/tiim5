@@ -53,8 +53,8 @@ public class StudyPlanService {
     return savedStudyPlan;
   }
 
-  public StudyPlanResponse addNewStudyPlanForUser(UUID curriculumId, UUID curriculumVersionId) {
-    UUID userExternalId = UserRequestContext.getUserExternalId();
+  public StudyPlanResponse addNewStudyPlanForUser(
+      UUID userExternalId, UUID curriculumId, UUID curriculumVersionId) {
     User user = userService.getUserByExternalId(userExternalId);
     Curriculum curriculum =
         curriculumService.initalizeCurriculum(curriculumId, curriculumVersionId);

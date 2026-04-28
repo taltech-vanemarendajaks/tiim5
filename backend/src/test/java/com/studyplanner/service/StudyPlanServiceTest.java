@@ -98,7 +98,9 @@ class StudyPlanServiceTest {
       when(curriculumService.initalizeCurriculum(any(), any())).thenReturn(curriculum);
       when(studyPlanRepository.save(any())).thenReturn(studyPlan);
 
-      var actual = studyPlanService.addNewStudyPlanForUser(AN_EXTERNAL_ID, A_LATEST_VERSION_UUID);
+      var actual =
+          studyPlanService.addNewStudyPlanForUser(
+              A_USER_EXTERNAL_ID, AN_EXTERNAL_ID, A_LATEST_VERSION_UUID);
 
       assertEquals(studyPlanResponse.externalId(), actual.externalId());
       verify(semesterService).createSemestersBasedOnCurriculum(any());

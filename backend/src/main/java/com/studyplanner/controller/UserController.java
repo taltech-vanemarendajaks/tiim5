@@ -1,10 +1,12 @@
 package com.studyplanner.controller;
 
 import com.studyplanner.dto.*;
-import com.studyplanner.service.UserService;
+import com.studyplanner.entity.*;
+import com.studyplanner.mapper.*;
+import com.studyplanner.service.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.*;
-import java.util.List;
+import java.util.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
   private final UserService userService;
+  private final StudyPlanService studyPlanService;
 
   @GetMapping
   public ResponseEntity<List<UserResponse>> getAllUsers() {
@@ -30,6 +33,13 @@ public class UserController {
   @PostMapping("/register")
   public ResponseEntity<UserResponse> createNewUser(
       @RequestBody @Valid RegisterUserRequest registerUserRequest) {
-    return ResponseEntity.ok(userService.createNewUser(registerUserRequest));
+
+    UserResponse userResponse = userService.createNewUser(registerUserRequest);
+
+    UUID newUserID = userResponse.externalId();
+
+    studyPlanService.addNewStudyPlanForUser(
+        newUserID, registerUserRequest.curriculumId(), registerUserRequest.curriculumVersionId());
+    return ResponseEntity.ok(userResponse);
   }
 }

@@ -22,16 +22,6 @@ public class UserStudyPlanController {
     return ResponseEntity.ok(studyPlanService.getStudyPlans());
   }
 
-  @PostMapping("/study-plans/new")
-  public ResponseEntity<StudyPlanResponse> addNewStudyPlan(
-      @RequestBody CreateNewStudyPlanRequest createNewStudyPlanRequest) {
-    System.out.println(createNewStudyPlanRequest);
-    return ResponseEntity.ok(
-        studyPlanService.addNewStudyPlanForUser(
-            createNewStudyPlanRequest.curriculumId(),
-            createNewStudyPlanRequest.curriculumVersionId()));
-  }
-
   @PostMapping("/study-plan/{studyPlanExternalId}/semesters/new")
   public ResponseEntity<StudyPlanResponse> addSemester(
       @PathVariable UUID studyPlanExternalId,
