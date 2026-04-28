@@ -2,10 +2,8 @@ package com.studyplanner.mapper;
 
 import com.fasterxml.jackson.annotation.*;
 import com.studyplanner.client.dto.*;
-import com.studyplanner.client.dto.*;
 import com.studyplanner.dto.ModuleResponse;
 import com.studyplanner.entity.Module;
-
 import java.util.*;
 
 public class ModuleMapper {
