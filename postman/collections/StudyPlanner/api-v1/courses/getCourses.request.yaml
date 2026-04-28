@@ -1,5 +1,0 @@
-$kind: http-request
-name: getCourses
-url: "{{host}}/curricula"
-method: GET
-order: 1020599783350

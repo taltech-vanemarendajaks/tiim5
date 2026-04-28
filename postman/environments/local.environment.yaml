@@ -1,6 +1,0 @@
-name: local
-values:
-  - key: host
-    value: ""
-    enabled: true
-color: null

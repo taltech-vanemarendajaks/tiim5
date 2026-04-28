@@ -1,9 +1,0 @@
-$kind: http-request
-name: getCurriculaVerisons
-url: http://ois2.ut.ee/api/curricula/:curriculaId/versions
-method: GET
-pathVariables:
-  - key: curriculaId
-    value: "2617"
-    description: Füsioteraapia
-order: 4354339325825269
