@@ -1,7 +1,7 @@
 {
   "App": {
     "Name": "StudyPlanner",
-    "UserPlaceholder": "Olivia Jane"
+    "UserPlaceholder": "Õppeplaanerija"
   },
   "Nav": {
     "AriaLabel": "Peamenüü",
@@ -9,7 +9,9 @@
     "Studies": "Õpingud",
     "Curriculums": "Õppekavad",
     "Schedule": "Tunniplaan",
-    "Settings": "Seaded"
+    "Settings": "Seaded",
+    "Register": "Loo konto",
+    "Logout": "Logi välja"
   },
   "Common": {
     "WorkInProgress": "Töös",
@@ -36,6 +38,7 @@
   },
   "Curriculums": {
     "Title": "Õppekavad",
+    "Create": "Lisa uus õppekava",
     "Name": "Nimi",
     "Credits": "EAPd",
     "StudyLevel": "Õppeaste",
@@ -44,6 +47,11 @@
     "Integrated": "Integreeritud õpe",
     "Doctor": "Doktorantuur",
     "NoCurriculumsNotification": "Hetkel ei leitud ühtegi õppekava"
+  },
+  "Register": {
+    "SearchPlaceholder": "Otsi õppekava nime järgi...",
+    "SelectStudyLevelFirst": "Vali esmalt õppeaste",
+    "SelectCurriculumFirst": "Vali esmalt õppekava"
   },
   "CurriculumPlanning": {
     "Title": "Õppekava planeerimine",

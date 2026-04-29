@@ -14,6 +14,7 @@ import com.studyplanner.entity.Semester;
 import com.studyplanner.repository.*;
 import com.studyplanner.utils.UserRequestContext;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -45,7 +46,7 @@ class PlannedCourseServiceTest {
       when(courseService.fetchCoursesByVersionExternalIds(any())).thenReturn(List.of(aCourse()));
       when(moduleService.fetchModulesByCourseIds(any())).thenReturn(List.of(aModule()));
       when(moduleService.fetchModuleByTitleAndCurriculumExternalId(any(), any()))
-          .thenReturn(aModule("Vabaained"));
+          .thenReturn(aModule("Vabaainete moodul"));
 
       var actual =
           plannedCourseService.setPlannedCourses(
@@ -73,10 +74,10 @@ class PlannedCourseServiceTest {
       when(courseService.fetchCoursesByVersionExternalIds(any())).thenReturn(List.of());
       when(courseService.getFromOisAndSaveCourse(
               request.courseExternalId(), request.courseVersionExternalId()))
-          .thenReturn(aCourse());
+          .thenReturn(Optional.of(aCourse()));
       when(moduleService.fetchModulesByCourseIds(any())).thenReturn(List.of());
       when(moduleService.fetchModuleByTitleAndCurriculumExternalId(any(), any()))
-          .thenReturn(aModule("Vabaained"));
+          .thenReturn(aModule("Vabaainete moodul"));
 
       plannedCourseService.setPlannedCourses(A_STUDY_PLAN_EXTERNAL_ID, List.of(request));
 
@@ -98,7 +99,7 @@ class PlannedCourseServiceTest {
       when(courseService.fetchCoursesByVersionExternalIds(any())).thenReturn(List.of(aCourse()));
       when(moduleService.fetchModulesByCourseIds(any())).thenReturn(List.of(aModule()));
       when(moduleService.fetchModuleByTitleAndCurriculumExternalId(any(), any()))
-          .thenReturn(aModule("Vabaained"));
+          .thenReturn(aModule("Vabaainete moodul"));
 
       plannedCourseService.setPlannedCourses(
           A_STUDY_PLAN_EXTERNAL_ID, List.of(aPlannedCourseRequest(CourseStatus.COMPLETED)));
@@ -122,7 +123,7 @@ class PlannedCourseServiceTest {
       when(courseService.fetchCoursesByVersionExternalIds(any())).thenReturn(List.of(aCourse()));
       when(moduleService.fetchModulesByCourseIds(any())).thenReturn(List.of(aModule()));
       when(moduleService.fetchModuleByTitleAndCurriculumExternalId(any(), any()))
-          .thenReturn(aModule("Vabaained"));
+          .thenReturn(aModule("Vabaainete moodul"));
 
       plannedCourseService.setPlannedCourses(
           A_STUDY_PLAN_EXTERNAL_ID, List.of(aPlannedCourseRequest(CourseStatus.COMPLETED)));
@@ -144,7 +145,7 @@ class PlannedCourseServiceTest {
       when(courseService.fetchCoursesByVersionExternalIds(any())).thenReturn(List.of(aCourse()));
       when(moduleService.fetchModulesByCourseIds(any())).thenReturn(List.of(aModule()));
       when(moduleService.fetchModuleByTitleAndCurriculumExternalId(any(), any()))
-          .thenReturn(aModule("Vabaained"));
+          .thenReturn(aModule("Vabaainete moodul"));
 
       plannedCourseService.setPlannedCourses(
           A_STUDY_PLAN_EXTERNAL_ID, List.of(aPlannedCourseRequest(CourseStatus.PLANNED)));

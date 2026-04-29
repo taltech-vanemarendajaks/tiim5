@@ -4,9 +4,8 @@
   justify-content: space-between;
   background-color: var(--color-table-background);
   border-radius: 12px;
-  padding: 10px 16px;
+  padding: 8px 8px;
   gap: 8px;
-  margin-bottom: -30px;
   width: 60%;
 }
 
@@ -21,10 +20,13 @@ input {
 
 input::placeholder {
   color: var(--color-light-text);
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .search__icon {
-  font-size: 14px;
+  font-size: 20px;
   cursor: default;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
 }

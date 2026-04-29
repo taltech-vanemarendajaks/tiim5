@@ -2,7 +2,7 @@
   <aside class="sidebar" [attr.aria-label]="'Nav.AriaLabel' | t">
     <div class="sidebar__brand">
       <h1 class="sidebar__title">{{ 'App.Name' | t }}</h1>
-      <p class="sidebar__user">{{ 'App.UserPlaceholder' | t }}</p>
+      <p class="sidebar__user">{{ user()?.name ?? ('App.UserPlaceholder' | t) }}</p>
     </div>
 
     <nav class="sidebar__nav">
@@ -19,10 +19,21 @@
     </nav>
 
     <div class="sidebar__footer">
-      <a [routerLink]="settingsNav.path" routerLinkActive="is-active" class="sidebar__link">
-        <app-icon [name]="settingsNav.icon" class="sidebar__icon" />
-        <span class="sidebar__label">{{ settingsNav.labelKey | t }}</span>
-      </a>
+      @if (user()) {
+        <a [routerLink]="settingsNav.path" routerLinkActive="is-active" class="sidebar__link">
+          <app-icon [name]="settingsNav.icon" class="sidebar__icon" />
+          <span class="sidebar__label">{{ settingsNav.labelKey | t }}</span>
+        </a>
+        <button (click)="logout()" class="sidebar__link sidebar__link--button">
+          <app-icon name="logout" class="sidebar__icon" />
+          <span class="sidebar__label">{{ 'Nav.Logout' | t }}</span>
+        </button>
+      } @else {
+        <a [routerLink]="registerNav.path" routerLinkActive="is-active" class="sidebar__link">
+          <app-icon [name]="registerNav.icon" class="sidebar__icon" />
+          <span class="sidebar__label">{{ registerNav.labelKey | t }}</span>
+        </a>
+      }
     </div>
   </aside>
 

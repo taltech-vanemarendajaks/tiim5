@@ -35,4 +35,8 @@ public class ModuleService {
     return ModuleMapper.mapToResponseList(
         moduleRepository.findModulesByStudyPlanExternalId(studyPlanExternalId));
   }
+
+  public Module saveModule(Module module) {
+    return moduleRepository.save(module);
+  }
 }

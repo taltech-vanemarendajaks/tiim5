@@ -66,6 +66,137 @@
         }
       }
     },
+    "/api/v1/users/register": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "createNewUser",
+        "parameters": [
+          {
+            "name": "User-External-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/me/study-plans/new": {
+      "post": {
+        "tags": [
+          "Study plan"
+        ],
+        "operationId": "addNewStudyPlan",
+        "parameters": [
+          {
+            "name": "User-External-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNewStudyPlanRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudyPlanResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/me/study-plan/{studyPlanExternalId}/semesters/{semesterType}": {
+      "post": {
+        "tags": [
+          "Study plan"
+        ],
+        "operationId": "addSemester",
+        "parameters": [
+          {
+            "name": "studyPlanExternalId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "semesterType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "SPRING",
+                "AUTUMN"
+              ]
+            }
+          },
+          {
+            "name": "User-External-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudyPlanResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/users": {
       "get": {
         "tags": [
@@ -92,6 +223,36 @@
                   "items": {
                     "$ref": "#/components/schemas/UserResponse"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/me": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "getCurrentUser",
+        "parameters": [
+          {
+            "name": "User-External-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
                 }
               }
             }
@@ -248,6 +409,117 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/CurriculumResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/curriculums": {
+      "get": {
+        "tags": [
+          "Curriculum"
+        ],
+        "operationId": "getAllCurriculums",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 24
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "study_level",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "bachelor"
+            }
+          },
+          {
+            "name": "User-External-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CurriculumResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/curriculums/{curriculumId}/versions": {
+      "get": {
+        "tags": [
+          "Curriculum"
+        ],
+        "operationId": "getVersionsForCurriculum",
+        "parameters": [
+          {
+            "name": "curriculumId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "User-External-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CurriculumVersionResponse"
+                  }
                 }
               }
             }
@@ -460,6 +732,29 @@
           "module"
         ]
       },
+      "RegisterUserRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "studyLevel": {
+            "type": "string"
+          },
+          "curriculumVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "curriculumId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "name",
+          "studyLevel"
+        ]
+      },
       "UserResponse": {
         "type": "object",
         "properties": {
@@ -482,6 +777,19 @@
           "externalId",
           "name"
         ]
+      },
+      "CreateNewStudyPlanRequest": {
+        "type": "object",
+        "properties": {
+          "curriculumVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "curriculumId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
       },
       "CurriculumResponse": {
         "type": "object",
@@ -589,6 +897,23 @@
           "creationDate",
           "externalId",
           "finished",
+          "year"
+        ]
+      },
+      "CurriculumVersionResponse": {
+        "type": "object",
+        "properties": {
+          "externalVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "externalVersionId",
           "year"
         ]
       }

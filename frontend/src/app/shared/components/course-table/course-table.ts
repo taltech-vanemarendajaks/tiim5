@@ -3,12 +3,13 @@ import { CourseResponse } from '@/client';
 import { TPipe } from '@/pipes';
 import { NgTemplateOutlet } from '@angular/common';
 import { SemesterBadge } from '../semester-badge/semester-badge';
+import { Icon } from '../icon/icon';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-course-table',
   standalone: true,
-  imports: [SemesterBadge, TPipe, NgTemplateOutlet],
+  imports: [SemesterBadge, TPipe, NgTemplateOutlet, Icon],
   templateUrl: './course-table.html',
   styleUrl: './course-table.css',
 })

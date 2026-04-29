@@ -1,0 +1,12 @@
+.register-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  max-width: 612px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+}

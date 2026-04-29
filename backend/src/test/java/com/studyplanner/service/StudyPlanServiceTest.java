@@ -3,11 +3,13 @@ package com.studyplanner.service;
 import static com.studyplanner.common.UnitTestFixtures.*;
 import static com.studyplanner.common.UnitTestFixtures.A_STUDY_PLAN_EXTERNAL_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
+import com.studyplanner.entity.*;
 import com.studyplanner.repository.StudyPlanRepository;
 import com.studyplanner.utils.UserRequestContext;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -20,6 +22,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class StudyPlanServiceTest {
 
   @Mock private StudyPlanRepository studyPlanRepository;
+  @Mock private SemesterService semesterService;
+  @Mock private UserService userService;
+  @Mock private CurriculumService curriculumService;
   @InjectMocks private StudyPlanService studyPlanService;
 
   @Test
@@ -47,6 +52,58 @@ class StudyPlanServiceTest {
       var actual = studyPlanService.getStudyPlans();
 
       assertEquals(studyPlanResponse, actual);
+    }
+  }
+
+  @Test
+  void createNewSemesterForStudyPlan_addsSemesterAndSavesStudyPlan() {
+    var studyPlan =
+        StudyPlan.builder()
+            .externalId(A_STUDY_PLAN_EXTERNAL_ID)
+            .completedCredits(36.0)
+            .user(aUser())
+            .curriculum(aCurriculum())
+            .creationDate(A_LOCAL_DATE_TIME)
+            .semesters(new ArrayList<>())
+            .build();
+    var semester = aSemester();
+
+    when(studyPlanRepository.findByExternalId(A_STUDY_PLAN_EXTERNAL_ID))
+        .thenReturn(Optional.of(studyPlan));
+    when(semesterService.createNewSemester(studyPlan, SemesterType.AUTUMN)).thenReturn(semester);
+    when(studyPlanRepository.save(studyPlan)).thenReturn(studyPlan);
+
+    var result =
+        studyPlanService.createNewSemesterForStudyPlan(
+            A_STUDY_PLAN_EXTERNAL_ID, SemesterType.AUTUMN);
+
+    assertEquals(A_STUDY_PLAN_EXTERNAL_ID, result.externalId());
+    verify(semesterService).createNewSemester(studyPlan, SemesterType.AUTUMN);
+    verify(studyPlanRepository).save(studyPlan);
+  }
+
+  @Test
+  void addNewStudyPlanForUserTest() {
+    var studyPlan = aStudyPlan();
+    var studyPlanResponse = aStudyPlanResponse();
+    var user = aUser();
+    var curriculum = aCurriculum();
+
+    try (var mockedRequestContext = mockStatic(UserRequestContext.class)) {
+      mockedRequestContext
+          .when(UserRequestContext::getUserExternalId)
+          .thenReturn(A_USER_EXTERNAL_ID);
+
+      when(userService.getUserByExternalId(A_USER_EXTERNAL_ID)).thenReturn(user);
+      when(curriculumService.initalizeCurriculum(any(), any())).thenReturn(curriculum);
+      when(studyPlanRepository.save(any())).thenReturn(studyPlan);
+
+      var actual =
+          studyPlanService.addNewStudyPlanForUser(
+              A_USER_EXTERNAL_ID, AN_EXTERNAL_ID, A_LATEST_VERSION_UUID);
+
+      assertEquals(studyPlanResponse.externalId(), actual.externalId());
+      verify(semesterService).createSemestersBasedOnCurriculum(any());
     }
   }
 }

@@ -3,6 +3,6 @@ import { appConfig } from './app/app.config';
 import { App } from './app/app';
 import { OpenAPI } from '@/client';
 
-OpenAPI.BASE = 'http://localhost:8080';
+OpenAPI.BASE = '';
 
 bootstrapApplication(App, appConfig).catch((err) => console.error(err));

@@ -30,7 +30,9 @@
               [ngTemplateOutletContext]="{ $implicit: course }"
             />
           } @else {
-            <button type="button" class="add__btn">+</button>
+            <button type="button" class="add__btn">
+              <app-icon [name]="'plus'" class="add__icon" />
+            </button>
           }
         </td>
       </tr>

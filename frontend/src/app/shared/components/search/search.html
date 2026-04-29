@@ -1,4 +1,6 @@
 <div class="search__bar">
-  <span class="search__icon">&#128269;</span>
+  <span class="search__icon">
+    <app-icon [name]="'search'" class="search__icon" />
+  </span>
   <input type="search" [placeholder]="placeholder()" (input)="onInput($event)" />
 </div>

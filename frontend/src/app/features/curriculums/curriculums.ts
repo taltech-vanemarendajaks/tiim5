@@ -5,7 +5,7 @@ import { StudyPlanResponse, StudyPlanService, UserResponse, UserService } from '
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { mapStudyLevel } from '@/utils';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-curriculums',
@@ -18,10 +18,9 @@ export class Curriculums {
   private readonly studyPlanService = inject(StudyPlanService);
   private readonly userService = inject(UserService);
 
-  readonly user: Signal<UserResponse | null> = toSignal(
-    this.userService.getAllUsers().pipe(map((users) => users[0] ?? null)),
-    { initialValue: null },
-  );
+  readonly user: Signal<UserResponse | null> = toSignal(this.userService.getCurrentUser(), {
+    initialValue: null,
+  });
 
   readonly studyPlans: Signal<StudyPlanResponse[]> = toSignal(
     toObservable(this.user).pipe(

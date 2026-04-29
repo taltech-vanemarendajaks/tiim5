@@ -48,6 +48,8 @@ td {
 .badge__center {
   display: flex;
   justify-content: center;
+  justify-self: end;
+  padding-right: 4px;
 }
 
 .col__action {
@@ -59,7 +61,8 @@ td {
 .add__btn {
   background: none;
   border: none;
-  font-size: 20px;
+  height: 32px;
+  width: 32px;
   cursor: pointer;
   padding: 8px;
 }

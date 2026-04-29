@@ -1,8 +1,7 @@
 package com.studyplanner.entity;
 
 import jakarta.persistence.*;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import jdk.jfr.Description;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -27,10 +26,10 @@ public class Module extends BaseEntity {
   private String title;
 
   @Column(nullable = false)
-  private Integer requiredCredits;
+  private Double requiredCredits;
 
   @Column(nullable = false)
-  private Integer optionalCredits;
+  private Double optionalCredits;
 
   @ManyToMany(mappedBy = "modules")
   private List<Curriculum> curriculums;
@@ -40,5 +39,5 @@ public class Module extends BaseEntity {
       name = "module_courses",
       joinColumns = @JoinColumn(name = "module_id"),
       inverseJoinColumns = @JoinColumn(name = "course_id"))
-  private List<Course> courses;
+  private List<Course> courses = new ArrayList<>();
 }
