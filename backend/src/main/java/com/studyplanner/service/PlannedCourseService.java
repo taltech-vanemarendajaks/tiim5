@@ -57,6 +57,7 @@ public class PlannedCourseService {
     plannedCourseRepository.saveAll(plannedCourses);
 
     semestersByExternalId.values().forEach(semesterService::recalculateAndSave);
+    studyPlanService.recalculateAndSave(studyPlan, plannedCourses);
 
     return PlannedCourseMapper.mapToResponseList(plannedCourses);
   }

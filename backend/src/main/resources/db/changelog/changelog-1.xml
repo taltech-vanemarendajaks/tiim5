@@ -145,4 +145,11 @@
             ALTER TABLE semesters DROP CONSTRAINT uq_semester_year_type_plan;
         </sql>
     </changeSet>
+    <changeSet id="28.04.2026" author="kaspar.kinko">
+        <sql>
+            ALTER TABLE study_plans ALTER COLUMN completed_credits TYPE DOUBLE PRECISION;
+            ALTER TABLE study_plans ALTER COLUMN completed_credits SET DEFAULT 0;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

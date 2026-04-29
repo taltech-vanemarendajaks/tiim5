@@ -47,4 +47,9 @@ app-root {
   --color-page-background: #f7fafd;
   --color-sidebar-text: #1f2a44;
   --color-sidebar-subtext: #4b5a76;
+  --color-success-background: #e8f5ed;
+  --color-success-text: #1f6b3a;
+  --color-error-background: #fdecec;
+  --color-error-text: #a92626;
+  --color-overlay-shadow: rgba(0, 0, 0, 0.16);
 }

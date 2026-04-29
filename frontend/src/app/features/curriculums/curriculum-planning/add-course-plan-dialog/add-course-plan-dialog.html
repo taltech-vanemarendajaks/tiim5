@@ -1,0 +1,48 @@
+<div class="dialog">
+  <header class="dialog__header">
+    <span class="dialog__label">{{ 'CurriculumPlanning.Add' | t }}</span>
+    <button
+      type="button"
+      class="dialog__close"
+      (click)="cancel()"
+      [attr.aria-label]="'Common.Close' | t"
+    >
+      ×
+    </button>
+  </header>
+
+  <h2 class="dialog__course-title">{{ data.course.titleEt }}</h2>
+
+  <div class="dialog__field">
+    <label class="dialog__field-label" for="semester-select">
+      {{ 'CurriculumPlanning.IntoSemester' | t }}
+    </label>
+    @if (data.semesters.length === 0) {
+      <span class="dialog__no-options">
+        {{ 'CurriculumPlanning.NoMatchingSemesters' | t }}
+      </span>
+    } @else {
+      <select
+        id="semester-select"
+        class="dialog__select"
+        [value]="selectedSemesterId()"
+        (change)="onSemesterChange($event)"
+      >
+        @for (semester of data.semesters; track semester.externalId) {
+          <option [value]="semester.externalId">
+            {{ semester.year }} {{ getSemesterKey(semester.semesterType ?? '') | t }}
+          </option>
+        }
+      </select>
+    }
+  </div>
+
+  <button
+    type="button"
+    class="dialog__submit"
+    (click)="confirm()"
+    [disabled]="data.semesters.length === 0 || !selectedSemesterId()"
+  >
+    {{ 'CurriculumPlanning.AddToPlan' | t }}
+  </button>
+</div>

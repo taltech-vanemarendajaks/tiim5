@@ -1,0 +1,106 @@
+.dialog {
+  background: var(--color-table-background);
+  border-radius: 12px;
+  padding: 24px;
+  width: 320px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 8px 24px var(--color-overlay-shadow);
+}
+
+.dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dialog__label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-section-title);
+}
+
+.dialog__close {
+  background: none;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--color-light-text);
+  padding: 0;
+}
+
+.dialog__close:hover {
+  color: var(--color-page-title);
+}
+
+.dialog__course-title {
+  font-family: 'Lexend', system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-page-title);
+}
+
+.dialog__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dialog__field-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-light-text);
+}
+
+.dialog__select {
+  padding: 12px 14px;
+  border: 1px solid var(--color-divider);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--color-table-background);
+  cursor: pointer;
+}
+
+.dialog__select:focus {
+  outline: none;
+  border-color: var(--color-button);
+}
+
+.dialog__no-options {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--color-sidebar-background);
+  font-size: 13px;
+  color: var(--color-light-text);
+}
+
+.dialog__submit {
+  background: var(--color-button);
+  color: var(--color-button-text);
+  border: none;
+  border-radius: 8px;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 120ms ease;
+}
+
+.dialog__submit:hover:not(:disabled) {
+  background: var(--color-button-hover);
+}
+
+.dialog__submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -14,19 +14,19 @@ class TestHostComponent {
   semester = CourseResponse.semesterType.SPRING;
 }
 
-it('should display "S" label for SPRING', () => {
+it('should display "K" label for SPRING (kevad)', () => {
   const fixture = TestBed.createComponent(TestHostComponent);
   fixture.detectChanges();
 
   const chip = fixture.nativeElement.querySelector('mat-chip');
-  expect(chip.textContent.trim()).toBe('S');
+  expect(chip.textContent.trim()).toBe('K');
 });
 
-it('should display "K" label for AUTUMN', () => {
+it('should display "S" label for AUTUMN (sügis)', () => {
   const fixture = TestBed.createComponent(TestHostComponent);
   fixture.componentInstance.semester = CourseResponse.semesterType.AUTUMN;
   fixture.detectChanges();
 
   const chip = fixture.nativeElement.querySelector('mat-chip');
-  expect(chip.textContent.trim()).toBe('K');
+  expect(chip.textContent.trim()).toBe('S');
 });
