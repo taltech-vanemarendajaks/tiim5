@@ -44,8 +44,7 @@ public class CourseService {
         oisClient.getCourseByVersionExternalId(courseExternalId, courseVersionExternalId);
 
     if (response.credits() == null) {
-      System.out.println(
-          "Skipping course  — OIS returned null credits");
+      System.out.println("Skipping course  — OIS returned null credits");
       return Optional.empty();
     }
 
