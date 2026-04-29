@@ -40,6 +40,11 @@
   font-weight: 600;
   transition: background-color 120ms ease;
 }
+.curriculum__controls {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0;
+}
 
 .curriculums__edit:hover {
   background: var(--color-button-hover);
@@ -55,6 +60,7 @@
   font-weight: 600;
   transition: background-color 120ms ease;
   text-align: center;
+  width: 144px;
 }
 
 .curriculums__new:hover {

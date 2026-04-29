@@ -48,6 +48,8 @@ td {
 .badge__center {
   display: flex;
   justify-content: center;
+  justify-self: end;
+  padding-right: 4px;
 }
 
 .col__action {
