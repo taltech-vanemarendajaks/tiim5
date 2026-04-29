@@ -104,6 +104,7 @@ export class CurriculumCreation {
         next: () => {
           this.submitted.set(true);
           this.loading.set(false);
+          window.location.href = "/curriculums"
         },
         error: () => {
           this.loading.set(false);
