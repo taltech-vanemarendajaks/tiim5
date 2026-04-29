@@ -37,7 +37,7 @@ public class PlannedCourseService {
 
     Module optionalSubjects =
         moduleService.fetchModuleByTitleAndCurriculumExternalId(
-            "Vabaained", studyPlan.getCurriculum().getExternalId());
+            "Vabaainete moodul", studyPlan.getCurriculum().getExternalId());
     Map<Long, List<Module>> modulesByCourseId = getModulesByCourseId(coursesByVersionId.values());
 
     List<PlannedCourse> plannedCourses = new ArrayList<>();
@@ -115,10 +115,10 @@ public class PlannedCourseService {
 
     for (PlannedCourseRequest request : requests) {
       if (!coursesByVersionId.containsKey(request.courseVersionExternalId())) {
-        Course course =
-            courseService.getFromOisAndSaveCourse(
-                request.courseExternalId(), request.courseVersionExternalId());
-        coursesByVersionId.put(course.getCourseVersionExternalId(), course);
+        courseService
+            .getFromOisAndSaveCourse(request.courseExternalId(), request.courseVersionExternalId())
+            .ifPresent(
+                course -> coursesByVersionId.put(course.getCourseVersionExternalId(), course));
       }
     }
 

@@ -26,10 +26,10 @@ public class Module extends BaseEntity {
   private String title;
 
   @Column(nullable = false)
-  private Integer requiredCredits;
+  private Double requiredCredits;
 
   @Column(nullable = false)
-  private Integer optionalCredits;
+  private Double optionalCredits;
 
   @ManyToMany(mappedBy = "modules")
   private List<Curriculum> curriculums;

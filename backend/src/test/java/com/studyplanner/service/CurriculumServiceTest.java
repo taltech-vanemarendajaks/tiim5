@@ -72,7 +72,7 @@ class CurriculumServiceTest {
             new OisModuleCourseResponse(courseUuid2, false));
     var oisModule =
         new OisModule(
-            new Title("Module", "Moodul"), 12, 0, directCourses, null, A_MODULE_EXTERNAL_ID);
+            new Title("Module", "Moodul"), 12.0, 0.0, directCourses, null, A_MODULE_EXTERNAL_ID);
 
     when(curriculumRepository.findByCurriculumVersionExternalId(A_CURRICULUM_VERSION_UUID))
         .thenReturn(Optional.empty());
@@ -95,14 +95,17 @@ class CurriculumServiceTest {
                     .credits(3.0)
                     .title(new Title("C2", "K2"))
                     .build()));
-    when(courseService.getFromOisAndSaveCourse(courseUuid1, versionUuid1)).thenReturn(aCourse());
-    when(courseService.getFromOisAndSaveCourse(courseUuid2, versionUuid2)).thenReturn(aCourse());
+    when(courseService.getFromOisAndSaveCourse(courseUuid1, versionUuid1))
+        .thenReturn(Optional.of(aCourse()));
+    when(courseService.getFromOisAndSaveCourse(courseUuid2, versionUuid2))
+        .thenReturn(Optional.of(aCourse()));
     when(curriculumRepository.save(any(Curriculum.class))).thenAnswer(inv -> inv.getArgument(0));
 
     curriculumService.initalizeCurriculum(A_CURRICULUM_UUID, A_CURRICULUM_VERSION_UUID);
 
     verify(courseService, times(2)).getFromOisAndSaveCourse(any(), any());
-    verify(moduleService).saveModule(any());
+    // One save for the regular module, one for the synthetic free electives module
+    verify(moduleService, times(2)).saveModule(any());
   }
 
   @Test
@@ -113,14 +116,19 @@ class CurriculumServiceTest {
     var submodule =
         new OisModule(
             new Title("Sub", "Alammoodul"),
-            6,
-            0,
+            6.0,
+            0.0,
             List.of(new OisModuleCourseResponse(courseUuid, true)),
             null,
             UUID.randomUUID());
     var oisModule =
         new OisModule(
-            new Title("Module", "Moodul"), 12, 0, null, List.of(submodule), A_MODULE_EXTERNAL_ID);
+            new Title("Module", "Moodul"),
+            12.0,
+            0.0,
+            null,
+            List.of(submodule),
+            A_MODULE_EXTERNAL_ID);
 
     when(curriculumRepository.findByCurriculumVersionExternalId(A_CURRICULUM_VERSION_UUID))
         .thenReturn(Optional.empty());
@@ -136,19 +144,20 @@ class CurriculumServiceTest {
                     .credits(6.0)
                     .title(new Title("C1", "K1"))
                     .build()));
-    when(courseService.getFromOisAndSaveCourse(courseUuid, versionUuid)).thenReturn(aCourse());
+    when(courseService.getFromOisAndSaveCourse(courseUuid, versionUuid))
+        .thenReturn(Optional.of(aCourse()));
     when(curriculumRepository.save(any(Curriculum.class))).thenAnswer(inv -> inv.getArgument(0));
 
     curriculumService.initalizeCurriculum(A_CURRICULUM_UUID, A_CURRICULUM_VERSION_UUID);
 
     verify(courseService).getFromOisAndSaveCourse(courseUuid, versionUuid);
-    verify(moduleService).saveModule(any());
+    verify(moduleService, times(2)).saveModule(any());
   }
 
   @Test
   void initalizeCurriculum_moduleWithNoCourses_skipsModule() {
     var oisModule =
-        new OisModule(new Title("Empty", "Tühi"), 0, 0, null, null, A_MODULE_EXTERNAL_ID);
+        new OisModule(new Title("Empty", "Tühi"), 0.0, 0.0, null, null, A_MODULE_EXTERNAL_ID);
 
     when(curriculumRepository.findByCurriculumVersionExternalId(A_CURRICULUM_VERSION_UUID))
         .thenReturn(Optional.empty());
@@ -159,7 +168,8 @@ class CurriculumServiceTest {
     curriculumService.initalizeCurriculum(A_CURRICULUM_UUID, A_CURRICULUM_VERSION_UUID);
 
     verify(courseService, never()).getFromOisAndSaveCourse(any(), any());
-    verify(moduleService, never()).saveModule(any());
+    // Synthetic free electives module is always created
+    verify(moduleService).saveModule(any());
   }
 
   @Test
@@ -183,8 +193,8 @@ class CurriculumServiceTest {
     var oisModule =
         new OisModule(
             new Title("Optional courses", "Vabaainete moodul"),
-            6,
-            0,
+            6.0,
+            0.0,
             List.of(new OisModuleCourseResponse(UUID.randomUUID(), false)),
             null,
             A_MODULE_EXTERNAL_ID);
@@ -212,24 +222,24 @@ class CurriculumServiceTest {
     var submodule1 =
         new OisModule(
             new Title("Track sub 1", "Suuna alam 1"),
-            6,
-            0,
+            6.0,
+            0.0,
             List.of(new OisModuleCourseResponse(courseUuid1, true)),
             null,
             UUID.randomUUID());
     var submodule2 =
         new OisModule(
             new Title("Track sub 2", "Suuna alam 2"),
-            6,
-            0,
+            6.0,
+            0.0,
             List.of(new OisModuleCourseResponse(courseUuid2, true)),
             null,
             UUID.randomUUID());
     var suunamodul =
         new OisModule(
             new Title("Narrow field module", "Suunamoodul"),
-            12,
-            0,
+            12.0,
+            0.0,
             null,
             List.of(submodule1, submodule2),
             A_MODULE_EXTERNAL_ID);
@@ -258,14 +268,17 @@ class CurriculumServiceTest {
                     .credits(6.0)
                     .title(new Title("Track Course 2", "Suuna kursus 2"))
                     .build()));
-    when(courseService.getFromOisAndSaveCourse(courseUuid1, versionUuid1)).thenReturn(aCourse());
-    when(courseService.getFromOisAndSaveCourse(courseUuid2, versionUuid2)).thenReturn(aCourse());
+    when(courseService.getFromOisAndSaveCourse(courseUuid1, versionUuid1))
+        .thenReturn(Optional.of(aCourse()));
+    when(courseService.getFromOisAndSaveCourse(courseUuid2, versionUuid2))
+        .thenReturn(Optional.of(aCourse()));
     when(curriculumRepository.save(any(Curriculum.class))).thenAnswer(inv -> inv.getArgument(0));
 
     curriculumService.initalizeCurriculum(A_CURRICULUM_UUID, A_CURRICULUM_VERSION_UUID);
 
-    // All submodule courses are collected but only one Module entity is saved
-    verify(moduleService, times(1)).saveModule(any());
+    // All submodule courses are collected into one module; plus one save for synthetic free
+    // electives
+    verify(moduleService, times(2)).saveModule(any());
     verify(courseService, times(2)).getFromOisAndSaveCourse(any(), any());
   }
 
@@ -280,16 +293,16 @@ class CurriculumServiceTest {
     var suunamodul1 =
         new OisModule(
             new Title("Narrow field module", "Suunamoodul"),
-            12,
-            0,
+            12.0,
+            0.0,
             List.of(new OisModuleCourseResponse(courseUuid1, true)),
             null,
             A_MODULE_EXTERNAL_ID);
     var suunamodul2 =
         new OisModule(
             new Title("Narrow field module", "Suunamoodul"),
-            12,
-            0,
+            12.0,
+            0.0,
             List.of(new OisModuleCourseResponse(courseUuid2, true)),
             null,
             UUID.randomUUID());
@@ -318,14 +331,17 @@ class CurriculumServiceTest {
                     .credits(6.0)
                     .title(new Title("Track 2", "Raja 2"))
                     .build()));
-    when(courseService.getFromOisAndSaveCourse(courseUuid1, versionUuid1)).thenReturn(aCourse());
-    when(courseService.getFromOisAndSaveCourse(courseUuid2, versionUuid2)).thenReturn(aCourse());
+    when(courseService.getFromOisAndSaveCourse(courseUuid1, versionUuid1))
+        .thenReturn(Optional.of(aCourse()));
+    when(courseService.getFromOisAndSaveCourse(courseUuid2, versionUuid2))
+        .thenReturn(Optional.of(aCourse()));
     when(curriculumRepository.save(any(Curriculum.class))).thenAnswer(inv -> inv.getArgument(0));
 
     curriculumService.initalizeCurriculum(A_CURRICULUM_UUID, A_CURRICULUM_VERSION_UUID);
 
-    // Both suunamodul occurrences collapse into one saved module
-    verify(moduleService, times(1)).saveModule(any());
+    // Both suunamodul occurrences collapse into one saved module; plus one for synthetic free
+    // electives
+    verify(moduleService, times(2)).saveModule(any());
     verify(courseService, times(2)).getFromOisAndSaveCourse(any(), any());
   }
 

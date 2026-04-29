@@ -151,5 +151,10 @@
             ALTER TABLE study_plans ALTER COLUMN completed_credits SET DEFAULT 0;
         </sql>
     </changeSet>
-
+    <changeSet id="29.04.2026" author="elina.liibak">
+        <sql>
+            ALTER TABLE Modules ALTER COLUMN required_credits TYPE DOUBLE PRECISION;
+            ALTER TABLE Modules ALTER COLUMN optional_credits TYPE DOUBLE PRECISION;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

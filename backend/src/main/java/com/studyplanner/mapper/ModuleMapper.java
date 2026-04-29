@@ -12,8 +12,10 @@ public class ModuleMapper {
     return ModuleResponse.builder()
         .externalId(module.getExternalId())
         .title(module.getTitle())
-        .requiredCredits(module.getRequiredCredits())
-        .optionalCredits(module.getOptionalCredits())
+        .requiredCredits(
+            module.getRequiredCredits() != null ? module.getRequiredCredits().intValue() : null)
+        .optionalCredits(
+            module.getOptionalCredits() != null ? module.getOptionalCredits().intValue() : null)
         .build();
   }
 
@@ -28,7 +30,7 @@ public class ModuleMapper {
         .title(oisModule.title().et())
         .courses(new ArrayList<>())
         .requiredCredits(oisModule.minCredits())
-        .optionalCredits(0)
+        .optionalCredits(0.0)
         .build();
   }
 }

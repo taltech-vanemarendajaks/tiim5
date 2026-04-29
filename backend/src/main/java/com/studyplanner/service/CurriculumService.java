@@ -36,7 +36,6 @@ public class CurriculumService {
   public List<CurriculumVersionResponse> getVersionsForCurriculum(String curriculumVersionId) {
     List<OisCurriculumVersionPartialResponse> curriculumResponseFromOis =
         oisClient.getAllCurriculumVersions(curriculumVersionId);
-    System.out.println(curriculumResponseFromOis);
     return curriculumResponseFromOis.stream()
         .map(
             curriculumVersion ->
@@ -89,6 +88,26 @@ public class CurriculumService {
     if (suunamodul != null) {
       moduleService.saveModule(suunamodul);
       curriculum.getModules().add(suunamodul);
+    }
+
+    boolean hasFreeElectives =
+        curriculum.getModules().stream()
+            .anyMatch(
+                m ->
+                    FREE_ELECTIVES_ET.equals(m.getTitle())
+                        || FREE_ELECTIVES_EN.equals(m.getTitle()));
+    if (!hasFreeElectives) {
+      Module freeElectives =
+          Module.builder()
+              .externalId(UUID.randomUUID())
+              .moduleExternalId(UUID.randomUUID())
+              .title(FREE_ELECTIVES_ET)
+              .requiredCredits(0.0)
+              .optionalCredits(0.0)
+              .courses(new ArrayList<>())
+              .build();
+      moduleService.saveModule(freeElectives);
+      curriculum.getModules().add(freeElectives);
     }
 
     return curriculumRepository.save(curriculum);
@@ -147,7 +166,9 @@ public class CurriculumService {
             UUID externalId = courseResponse.externalId();
             UUID versionId = courseResponse.latestVersion();
             if (externalId != null && versionId != null) {
-              module.getCourses().add(courseService.getFromOisAndSaveCourse(externalId, versionId));
+              courseService
+                  .getFromOisAndSaveCourse(externalId, versionId)
+                  .ifPresent(module.getCourses()::add);
             }
           });
 
@@ -176,7 +197,9 @@ public class CurriculumService {
             UUID externalId = courseResponse.externalId();
             UUID versionId = courseResponse.latestVersion();
             if (externalId != null && versionId != null) {
-              target.getCourses().add(courseService.getFromOisAndSaveCourse(externalId, versionId));
+              courseService
+                  .getFromOisAndSaveCourse(externalId, versionId)
+                  .ifPresent(target.getCourses()::add);
             }
           });
     }

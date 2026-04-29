@@ -76,7 +76,7 @@ class CourseServiceTest {
 
     var actual = courseService.getFromOisAndSaveCourse(A_COURSE_UUID, A_LATEST_VERSION_UUID);
 
-    assertEquals(course, actual);
+    assertEquals(Optional.of(course), actual);
     verify(courseRepository).save(any());
   }
 
@@ -91,7 +91,7 @@ class CourseServiceTest {
 
     var actual = courseService.getFromOisAndSaveCourse(A_COURSE_UUID, A_LATEST_VERSION_UUID);
 
-    assertEquals(existingCourse, actual);
+    assertEquals(Optional.of(existingCourse), actual);
     verify(courseRepository, never()).save(any());
   }
 }

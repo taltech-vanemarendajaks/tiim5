@@ -11,10 +11,13 @@ import com.studyplanner.repository.CourseRepository;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CourseService {
@@ -35,14 +38,22 @@ public class CourseService {
     return courseRepository.findAllByCourseVersionExternalIdIn(courseVersionExternalIds);
   }
 
-  public Course getFromOisAndSaveCourse(UUID courseExternalId, UUID courseVersionExternalId) {
+  public Optional<Course> getFromOisAndSaveCourse(
+      UUID courseExternalId, UUID courseVersionExternalId) {
     OisCourseFullResponse response =
         oisClient.getCourseByVersionExternalId(courseExternalId, courseVersionExternalId);
 
+    if (response.credits() == null) {
+      System.out.println(
+          "Skipping course  — OIS returned null credits");
+      return Optional.empty();
+    }
+
     Course course = CourseMapper.mapToCourse(response);
-    return courseRepository
-        .findByCourseVersionExternalId(course.getCourseVersionExternalId())
-        .orElseGet(() -> courseRepository.save(course));
+    return Optional.of(
+        courseRepository
+            .findByCourseVersionExternalId(course.getCourseVersionExternalId())
+            .orElseGet(() -> courseRepository.save(course)));
   }
 
   private Map<UUID, List<OisVersionResponse>> getVersionsByCourseUuid(

@@ -32,7 +32,6 @@ public class UserStudyPlanController {
   @PostMapping("/study-plans/new")
   public ResponseEntity<StudyPlanResponse> addNewStudyPlan(
       @RequestBody CreateNewStudyPlanRequest createNewStudyPlanRequest) {
-    System.out.println(createNewStudyPlanRequest);
     return ResponseEntity.ok(
         studyPlanService.addNewStudyPlanForAuthenticatedUser(
             createNewStudyPlanRequest.curriculumId(),

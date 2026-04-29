@@ -64,7 +64,7 @@ function setup() {
     getSemesters: vi.fn().mockReturnValue(of([SEMESTER_AUTUMN, SEMESTER_SPRING])),
   };
   const userService = {
-    getAllUsers: vi.fn().mockReturnValue(of([USER])),
+    getCurrentUser: vi.fn().mockReturnValue(of(USER)),
   };
   const courseService = {
     getAllCourses: vi.fn().mockReturnValue(of([])),

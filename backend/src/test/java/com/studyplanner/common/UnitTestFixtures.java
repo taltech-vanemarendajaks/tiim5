@@ -140,8 +140,8 @@ public class UnitTestFixtures {
         .externalId(AN_EXTERNAL_ID)
         .moduleExternalId(A_MODULE_EXTERNAL_ID)
         .title(A_TITLE_EN)
-        .requiredCredits(12)
-        .optionalCredits(0)
+        .requiredCredits(12.0)
+        .optionalCredits(0.0)
         .courses(List.of(aCourse()))
         .curriculums(List.of(aCurriculum()))
         .build();
@@ -152,8 +152,8 @@ public class UnitTestFixtures {
         .externalId(A_MODULE_EXTERNAL_ID)
         .moduleExternalId(AN_EXTERNAL_ID)
         .title(title)
-        .requiredCredits(18)
-        .optionalCredits(0)
+        .requiredCredits(18.0)
+        .optionalCredits(0.0)
         .courses(List.of(aCourse()))
         .curriculums(List.of(aCurriculum()))
         .build();

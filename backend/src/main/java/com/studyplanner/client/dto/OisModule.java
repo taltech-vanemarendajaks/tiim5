@@ -5,8 +5,8 @@ import java.util.*;
 
 public record OisModule(
     Title title,
-    @JsonProperty("min_credits") Integer minCredits,
-    @JsonProperty("max_credits") Integer maxCredits,
+    @JsonProperty("min_credits") Double minCredits,
+    @JsonProperty("max_credits") Double maxCredits,
     @JsonProperty("courses") List<OisModuleCourseResponse> OisModuleCourseResponse,
     @JsonProperty("submodules") List<OisModule> submodules,
     @JsonProperty("uuid") UUID moduleExternalId) {}
