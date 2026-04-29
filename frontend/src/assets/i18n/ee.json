@@ -10,7 +10,8 @@
     "Curriculums": "Õppekavad",
     "Schedule": "Tunniplaan",
     "Settings": "Seaded",
-    "Register": "Loo konto"
+    "Register": "Loo konto",
+    "Logout": "Logi välja"
   },
   "Common": {
     "WorkInProgress": "Töös",
@@ -37,6 +38,7 @@
   },
   "Curriculums": {
     "Title": "Õppekavad",
+    "Create": "Lisa uus õppekava",
     "Name": "Nimi",
     "Credits": "EAPd",
     "StudyLevel": "Õppeaste",

@@ -35,6 +35,7 @@ import {
   AddCoursePlanDialog,
   AddCoursePlanDialogData,
 } from './add-course-plan-dialog/add-course-plan-dialog';
+import { Icon } from '../../../shared/components/icon/icon';
 
 type CourseWithStatus = CourseResponse & { courseStatus: PlannedCourseResponse.courseStatus };
 
@@ -53,7 +54,7 @@ interface SaveNotification {
 
 @Component({
   selector: 'app-curriculum-planning',
-  imports: [TPipe, CommonModule, Notification, Search, CdkAccordionModule, CourseTable],
+  imports: [TPipe, CommonModule, Notification, Search, CdkAccordionModule, CourseTable, Icon],
   templateUrl: './curriculum-planning.html',
   styleUrl: './curriculum-planning.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -69,10 +70,9 @@ export class CurriculumPlanning {
   private readonly dialog = inject(Dialog);
   private readonly studyPlanExternalId = this.route.snapshot.params['externalId'];
 
-  readonly user: Signal<UserResponse | null> = toSignal(
-    this.userService.getAllUsers().pipe(map((users) => users[0] ?? null)),
-    { initialValue: null },
-  );
+  readonly user: Signal<UserResponse | null> = toSignal(this.userService.getCurrentUser(), {
+    initialValue: null,
+  });
 
   readonly searchTitle = signal<string>('');
   readonly searchTitle$ = toObservable(this.searchTitle);
@@ -118,7 +118,7 @@ export class CurriculumPlanning {
   readonly sortedSemesters = computed(() =>
     [...this.semesters()].sort((a, b) => {
       if (a.year !== b.year) return a.year - b.year;
-      const order: Record<string, number> = { SPRING: 1, AUTUMN: 2 };
+      const order: Record<string, number> = { AUTUMN: 2, SPRING: 1 };
       return (order[a.semesterType ?? ''] ?? 0) - (order[b.semesterType ?? ''] ?? 0);
     }),
   );

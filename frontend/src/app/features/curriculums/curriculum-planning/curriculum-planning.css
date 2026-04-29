@@ -70,7 +70,7 @@
 .planning__sidebar {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 8px;
   min-height: 0;
   padding-bottom: 16px;
 }
@@ -81,7 +81,14 @@
   min-height: 0;
   flex: 1;
   max-height: 400px;
-  padding-right: 10px;
+  padding-right: 21px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-button) var(--color-table-background);
+}
+
+.planning__table-scroll::-webkit-scrollbar {
+  width: 4px;
+  scrollbar-color: var(--color-button) var(--color-table-background);
 }
 
 .planning__content {
@@ -95,7 +102,7 @@
 .planning__section-title {
   font-size: 13px;
   font-weight: 700;
-  margin: 0;
+  margin: 8px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--color-section-title);
@@ -130,6 +137,14 @@
 .planning__accordion-item {
   position: relative;
   border-bottom: 1px solid var(--color-divider);
+}
+
+.icon {
+  height: 24px;
+  width: 24px;
+  display: flex;
+  justify-content: center;
+  --ng-icon__size: 20px;
 }
 
 .planning__accordion-header {
@@ -205,6 +220,33 @@
 
 .planning__credits-unit--done {
   text-decoration: line-through;
+}
+
+.planning__add-semester {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  background-color: var(--color-table-background);
+  border: 2px dashed var(--color-divider);
+  border-radius: 8px;
+  color: var(--color-section-title);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.planning__add-semester:hover {
+  background-color: var(--color-divider);
+  border-color: var(--color-section-title);
+}
+
+.planning__add-semester .icon {
+  width: 18px;
+  height: 18px;
 }
 
 .planning__footer {

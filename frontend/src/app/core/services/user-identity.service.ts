@@ -17,4 +17,9 @@ export class UserIdentityService {
     if (!this.isBrowser) return;
     document.cookie = `${COOKIE_KEY}=${externalId}; path=/; SameSite=Strict`;
   }
+
+  remove(): void {
+    if (!this.isBrowser) return;
+    document.cookie = `${COOKIE_KEY}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Strict`;
+  }
 }

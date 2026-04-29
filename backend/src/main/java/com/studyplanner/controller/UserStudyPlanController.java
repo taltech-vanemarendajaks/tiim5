@@ -28,4 +28,14 @@ public class UserStudyPlanController {
     return ResponseEntity.ok(
         studyPlanService.createNewSemesterForStudyPlan(studyPlanExternalId, semesterType));
   }
+
+  @PostMapping("/study-plans/new")
+  public ResponseEntity<StudyPlanResponse> addNewStudyPlan(
+      @RequestBody CreateNewStudyPlanRequest createNewStudyPlanRequest) {
+    System.out.println(createNewStudyPlanRequest);
+    return ResponseEntity.ok(
+        studyPlanService.addNewStudyPlanForAuthenticatedUser(
+            createNewStudyPlanRequest.curriculumId(),
+            createNewStudyPlanRequest.curriculumVersionId()));
+  }
 }

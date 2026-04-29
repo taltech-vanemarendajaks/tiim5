@@ -75,7 +75,7 @@ public class SemesterService {
               semester.setExternalId(UUID.randomUUID());
 
               // TODO save curriculum metadata for start time
-              int year = LocalDate.now().getYear();
+              int year = LocalDate.now().getYear() + (i + 1) / 2;
 
               if (i % 2 == 0) {
                 semester.setSemesterType(SemesterType.AUTUMN);

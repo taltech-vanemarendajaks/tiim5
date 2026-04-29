@@ -1,4 +1,5 @@
 import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { Icon } from '../icon/icon';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -6,6 +7,7 @@ import { Component, input, output, ChangeDetectionStrategy } from '@angular/core
   standalone: true,
   templateUrl: './search.html',
   styleUrl: './search.css',
+  imports: [Icon],
 })
 export class Search {
   readonly placeholder = input<string>('Search...');

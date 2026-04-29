@@ -1,10 +1,10 @@
 package com.studyplanner.service;
 
+import com.studyplanner.dto.*;
 import com.studyplanner.dto.StudyPlanResponse;
+import com.studyplanner.entity.*;
 import com.studyplanner.entity.PlannedCourse;
 import com.studyplanner.entity.StudyPlan;
-import com.studyplanner.dto.*;
-import com.studyplanner.entity.*;
 import com.studyplanner.exception.ResourceNotFoundException;
 import com.studyplanner.mapper.*;
 import com.studyplanner.repository.*;
@@ -52,7 +52,7 @@ public class StudyPlanService {
     StudyPlan studyPlan = new StudyPlan();
     studyPlan.setName(curriculum.getTitle());
     studyPlan.setCurriculum(curriculum);
-    studyPlan.setCompletedCredits(0);
+    studyPlan.setCompletedCredits(0.0);
     studyPlan.setUser(user);
     studyPlan.setStartDate(LocalDateTime.now());
     studyPlan.setExternalId(UUID.randomUUID());
@@ -82,5 +82,11 @@ public class StudyPlanService {
 
     StudyPlan savedStudyPlan = studyPlanRepository.save(studyPlan);
     return StudyPlanMapper.mapToResponse(savedStudyPlan);
+  }
+
+  public StudyPlanResponse addNewStudyPlanForAuthenticatedUser(
+      UUID curriculumId, UUID curriculumVersionId) {
+    UUID userExternalId = UserRequestContext.getUserExternalId();
+    return this.addNewStudyPlanForUser(userExternalId, curriculumId, curriculumVersionId);
   }
 }

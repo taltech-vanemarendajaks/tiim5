@@ -106,6 +106,46 @@
         }
       }
     },
+    "/api/v1/users/me/study-plans/new": {
+      "post": {
+        "tags": [
+          "Study plan"
+        ],
+        "operationId": "addNewStudyPlan",
+        "parameters": [
+          {
+            "name": "User-External-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNewStudyPlanRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudyPlanResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/users/me/study-plan/{studyPlanExternalId}/semesters/{semesterType}": {
       "post": {
         "tags": [
@@ -737,6 +777,19 @@
           "externalId",
           "name"
         ]
+      },
+      "CreateNewStudyPlanRequest": {
+        "type": "object",
+        "properties": {
+          "curriculumVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "curriculumId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
       },
       "CurriculumResponse": {
         "type": "object",

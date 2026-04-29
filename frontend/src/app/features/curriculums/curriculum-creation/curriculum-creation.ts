@@ -1,29 +1,39 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, Signal } from '@angular/core';
+import { TPipe } from '@/pipes';
+import {
+  CurriculumResponse,
+  CurriculumService,
+  CurriculumVersionResponse,
+  StudyPlanService,
+  UserResponse,
+  UserService,
+} from '@/client';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { filter, switchMap } from 'rxjs/operators';
+import { combineLatest, debounceTime, startWith, tap } from 'rxjs';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { InputText } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 import { Button } from 'primeng/button';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { combineLatest, debounceTime, filter, startWith, switchMap, tap } from 'rxjs';
-import { UserService, CurriculumService } from '@/client';
-import { CurriculumResponse, CurriculumVersionResponse } from '@/client';
-import { TPipe } from '@/pipes';
-import { I18nService, UserIdentityService } from '@/services';
+import { I18nService } from '@/services';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [ReactiveFormsModule, InputText, Select, Button, TPipe],
-  templateUrl: './register.html',
-  styleUrl: './register.css',
+  selector: 'app-curriculum-creation',
+  imports: [TPipe, ReactiveFormsModule, Select, Button],
+  templateUrl: './curriculum-creation.html',
+  styleUrl: './curriculum-creation.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Register {
-  private readonly fb = inject(FormBuilder);
+export class CurriculumCreation {
+  private readonly studyPlanService = inject(StudyPlanService);
   private readonly userService = inject(UserService);
-  private readonly curriculumService = inject(CurriculumService);
-  private readonly userIdentity = inject(UserIdentityService);
   private readonly i18n = inject(I18nService);
+
+  readonly user: Signal<UserResponse | null> = toSignal(this.userService.getCurrentUser(), {
+    initialValue: null,
+  });
+
+  private readonly fb = inject(FormBuilder);
+  private readonly curriculumService = inject(CurriculumService);
 
   readonly loading = signal(false);
   readonly submitted = signal(false);
@@ -46,8 +56,8 @@ export class Register {
       value: CurriculumResponse.studyLevel.DOCTOR,
     },
   ];
+
   readonly form = this.fb.group({
-    name: ['', Validators.required],
     studyLevel: ['', Validators.required],
     curriculumExternalId: ['', Validators.required],
     curriculumVersionExternalId: ['', Validators.required],
@@ -85,19 +95,15 @@ export class Register {
     }
 
     this.loading.set(true);
-    this.userService
-      .createNewUser({
-        name: this.form.value.name!,
-        studyLevel: this.form.value.studyLevel!,
+    this.studyPlanService
+      .addNewStudyPlan({
         curriculumVersionId: this.form.value.curriculumVersionExternalId!,
         curriculumId: this.form.value.curriculumExternalId!,
       })
       .subscribe({
-        next: (response) => {
-          this.userIdentity.set(response.externalId);
+        next: () => {
           this.submitted.set(true);
           this.loading.set(false);
-          window.location.href = '/curriculums';
         },
         error: () => {
           this.loading.set(false);

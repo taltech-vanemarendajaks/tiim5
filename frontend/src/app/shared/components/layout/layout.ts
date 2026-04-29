@@ -1,9 +1,13 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { provideIcons } from '@ng-icons/core';
 import { ICON_SET, IconName } from '../icon/icon-set';
 import { Icon } from '../icon/icon';
 import { TPipe } from '@/pipes';
+import { UserResponse, UserService } from '@/client';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { UserIdentityService } from '@/services';
+import { catchError, of } from 'rxjs';
 
 interface NavItem {
   path: string;
@@ -25,7 +29,6 @@ export class Layout {
     { path: '/studies', labelKey: 'Nav.Studies', icon: 'studies' },
     { path: '/curriculums', labelKey: 'Nav.Curriculums', icon: 'curriculums' },
     { path: '/schedule', labelKey: 'Nav.Schedule', icon: 'schedule' },
-    { path: '/register', labelKey: 'Nav.Register', icon: 'register' },
   ];
 
   protected readonly settingsNav: NavItem = {
@@ -33,4 +36,27 @@ export class Layout {
     labelKey: 'Nav.Settings',
     icon: 'settings',
   };
+
+  protected readonly registerNav: NavItem = {
+    path: '/register',
+    labelKey: 'Nav.Register',
+    icon: 'register',
+  };
+
+  private readonly userService = inject(UserService);
+  private readonly userIdentityService = inject(UserIdentityService);
+
+  readonly user: Signal<UserResponse | null> = toSignal(
+    this.userIdentityService.get()
+      ? this.userService.getCurrentUser().pipe(catchError(() => of(null)))
+      : of(null),
+    {
+      initialValue: null,
+    },
+  );
+
+  logout(): void {
+    this.userIdentityService.remove();
+    window.location.href = '/dashboard';
+  }
 }

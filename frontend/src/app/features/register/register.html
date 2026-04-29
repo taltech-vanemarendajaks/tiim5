@@ -1,9 +1,9 @@
 <div class="register-container">
   @if (submitted()) {
-    <p>Registration successful!</p>
+    <p>Kasutaja loomine oli edukas!</p>
   } @else {
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="register-form">
-      <h2>Registreeri</h2>
+      <h2>Loo konto</h2>
 
       <div class="field">
         <label for="name">Nimi</label>
@@ -88,7 +88,7 @@
         }
       </div>
 
-      <p-button type="submit" label="Register" [loading]="loading()" [disabled]="loading()" />
+      <p-button type="submit" label="Loo konto" [loading]="loading()" [disabled]="loading()" />
     </form>
   }
 </div>
